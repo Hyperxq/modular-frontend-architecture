@@ -1,0 +1,7 @@
+{
+  "root": false,
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["!@mf-types/**/*"]
+  }
+}

@@ -1,0 +1,48 @@
+{
+	"name": "web",
+	"targets": {
+		"prebuild": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run ui-components:build"
+			}
+		},
+		"prebuild:wc": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run shared:build"
+			}
+		},
+		"prebuild:dev": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run ui-components:dev",
+				"readyWhen": "Federated types created correctly"
+			}
+		},
+		"prebuild:mock": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run ui-components:mock",
+				"readyWhen": "Federated types created correctly"
+			}
+		},
+		"dev": {
+			"command": "nx run shell:dev",
+			"dependsOn": ["prebuild:dev"]
+		},
+		"mock": {
+			"command": "nx run shell:mock",
+			"dependsOn": ["prebuild:mock"]
+		},
+		"build": {
+			"command": "nx run shell:build",
+			"dependsOn": ["prebuild"]
+		},
+		"build:wc": {
+			"command": "nx run ui-components:webcomponents",
+			"dependsOn": ["prebuild:wc"]
+		}
+	},
+	"tags": ["type:app"]
+}
