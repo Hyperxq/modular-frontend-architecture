@@ -18,8 +18,6 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "rslib build",
-		"webcomponents": "rslib build --config rslib.config.wc.ts",
 		"dev": "rslib mf-dev",
 		"mock": "rslib mf-dev --env-mode mock",
 		"inspect": "rslib inspect --verbose",
@@ -31,59 +29,46 @@
 		"format": "biome format .",
 		"format:fix": "biome format --write .",
 		"test": "rstest",
-		"shadcn": "shadcn",
-		"build:level1": "set LEVEL_MODE=1 && rslib build",
-		"build:level2": "set LEVEL_MODE=2 && rslib build",
-		"build:level3": "set LEVEL_MODE=3 && rslib build",
-		"build:level4": "set LEVEL_MODE=4 && rslib build"
+
+		"/* --- Base build ---*/": "",
+		"build": "rslib build",
+		"build:wc": "rslib build --config rslib.config.wc.ts",
+		"build:dev": "cross-env rslib build --env-mode development",
+		"build:qa": "cross-env rslib build --env-mode qa",
+		"build:prod": "cross-env rslib build --env-mode qa",
+
+		"/* --- Target: PROD ---*/": "",
+		"build:l1:prod": "cross-env LEVEL_MODE=1 rslib build --env-mode production",
+		"build:l2:prod": "cross-env LEVEL_MODE=2 rslib build --env-mode production",
+		"build:l3:prod": "cross-env LEVEL_MODE=3 rslib build --env-mode production"
 	},
 	"devDependencies": {
+		"@r2wc/react-to-web-component": "2.1.0",
 		"@module-federation/rsbuild-plugin": "0.15.0",
-		"@radix-ui/react-slot": "^1.2.3",
-		"@rsbuild/core": "~1.6.2",
 		"@rsbuild/plugin-react": "^1.4.1",
 		"@rslib/core": "^0.17.1",
 		"@rstest/core": "^0.5.4",
 		"@storybook/addon-docs": "10.1.0",
 		"@storybook/react": "10.1.0",
-		"@types/react": "^19.2.2",
-		"@types/react-dom": "^19.2.2",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
-		"eslint": "^8.0.0",
-		"eslint-config-prettier": "^8.0.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-react": "^7.0.0",
 		"fast-glob": "^3.3.3",
-		"jest": "^29.0.0",
-		"preact": "10.27.2",
-		"prettier": "^2.0.0",
-		"react": "^19.2.0",
-		"react-dom": "^19.2.0",
-		"shadcn": "3.5.0",
-		"shadcn-ui": "0.9.5",
-		"storybook": "10.1.0",
 		"storybook-addon-rslib": "2.1.6",
 		"storybook-builder-rsbuild": "3.1.0",
+		"storybook": "10.1.0",
 		"typescript": "^5.9.3"
-	},
-	"peerDependencies": {
-		"react": ">=16.9.0",
-		"react-dom": ">=16.9.0"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
-		"@radix-ui/react-checkbox": "^1.3.3",
-		"@radix-ui/react-collapsible": "^1.1.12",
-		"@radix-ui/react-dropdown-menu": "^2.1.16",
-		"@radix-ui/react-label": "^2.1.8",
-		"@radix-ui/react-menubar": "^1.1.16",
-		"@radix-ui/react-separator": "^1.1.8",
-		"@radix-ui/react-slot": "^1.2.3",
 		"class-variance-authority": "^0.7.1",
+		"shadcn": "3.5.0",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.553.0",
-		"react-hook-form": "^7.68.0"
+		"react-hook-form": "^7.68.0",
+		"zod": "4.3.4"
+	},
+	"peerDependencies": {
+		"preact": "^10.0.0"
 	},
 	"private": true
 }

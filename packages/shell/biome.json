@@ -1,7 +1,8 @@
 {
-  "root": false,
-  "files": {
-    "ignoreUnknown": false,
-    "includes": ["!@mf-types/**/*"]
-  }
+	"root": false,
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["!@mf-types/**/*", "!public/**/*"]
+	},
+	"extends": "//"
 }

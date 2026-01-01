@@ -1,12 +1,12 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["lib/components", "lib/index.ts"],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/*.story.ts",
-    "**/*.stories.ts",
-    "**/*.story.tsx",
-    "**/*.stories.tsx",
-  ]
+	"extends": "./tsconfig.json",
+	"include": ["lib/components", "lib/index.ts"],
+	"exclude": [
+		"**/*.spec.ts",
+		"**/*.spec.tsx",
+		"**/*.story.ts",
+		"**/*.stories.ts",
+		"**/*.story.tsx",
+		"**/*.stories.tsx"
+	]
 }

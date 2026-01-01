@@ -1,34 +1,34 @@
 {
-  "compilerOptions": {
-    "lib": ["DOM", "ES2020"],
-    "jsx": "react-jsx",
-    "target": "ES2020",
-    "noEmit": true,
-    "skipLibCheck": true,
-    "jsxImportSource": "preact",
-    "useDefineForClassFields": true,
+	"compilerOptions": {
+		"lib": ["DOM", "ES2020"],
+		"jsx": "react-jsx",
+		"target": "ES2020",
+		"noEmit": true,
+		"skipLibCheck": true,
+		"jsxImportSource": "preact",
+		"useDefineForClassFields": true,
 
-    /* modules */
-    "module": "ESNext",
-    "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
-    "noUncheckedSideEffectImports": true,
-    "paths": {
-      "react": ["./node_modules/preact/compat/"],
-      "react-dom": ["./node_modules/preact/compat/"],
-      "*": ["./@mf-types/*"],
-      "@/*": ["./*"],
-      "@root/*": ["../../*"],
-      "@shared/*": ["../libraries/shared/src/*"]
-    },
+		/* modules */
+		"module": "ESNext",
+		"moduleDetection": "force",
+		"moduleResolution": "bundler",
+		"verbatimModuleSyntax": true,
+		"resolveJsonModule": true,
+		"allowImportingTsExtensions": true,
+		"noUncheckedSideEffectImports": true,
+		"paths": {
+			"react": ["./node_modules/preact/compat/"],
+			"react-dom": ["./node_modules/preact/compat/"],
+			"*": ["./@mf-types/*"],
+			"@/*": ["./*"],
+			"@root/*": ["../../*"],
+			"@shared/*": ["../libraries/shared/src/*"]
+		},
 
-    /* type checking */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
-  },
-  "include": ["src", "src/*.d.ts"]
+		/* type checking */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	},
+	"include": ["src", "src/*.d.ts"]
 }

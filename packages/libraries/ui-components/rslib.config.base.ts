@@ -4,8 +4,9 @@ import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import { defineConfig, type RslibConfig } from "@rslib/core";
-import { pluginImportMap } from "./lib/plugins/plugin-importmap/pluginImportMap";
+import { resolve } from "path";
 import { pluginEntries } from "./lib/plugins/pluginEntries";
+import { pluginImportMap } from "./lib/plugins/pluginImportMaps";
 import { createMfConfig } from "./module-federation.config";
 
 type Format = "esm" | "cjs" | "mf";
@@ -34,8 +35,12 @@ const getComponentsPath = () => {
 };
 
 export const COMPONENTS_PATH = [getComponentsPath()];
-
-export const DEV_ENVIRONMENT_URL = process.env.DEV_ENVIRONMENT_URL || "http://localhost:3000/";
+export const ENVIRONMENT_URL = process.env.BUCKET!;
+export const DIST_PATH = resolve(__dirname, "../../../dist/ui-components");
+export const UI_COMPONENTS_BASE_URL = `${ENVIRONMENT_URL}/ui-components`;
+export const MF_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/mf`;
+export const ESM_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/esm`;
+export const CLS_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/cls`;
 
 const shared = {
 	dts: {
@@ -63,6 +68,10 @@ const storybookConfig: RslibConfig = {
 export const baseConfig: RslibConfig = {
 	server: {
 		port: 3001,
+		headers: {
+			"Cache-Control": "public, max-age=31536000, immutable",
+		},
+		publicDir: false,
 	},
 	tools: {
 		rspack: (config, { rspack }) => {
@@ -74,6 +83,9 @@ export const baseConfig: RslibConfig = {
 			);
 			return config;
 		},
+	},
+	dev: {
+		writeToDisk: true,
 	},
 	source: {
 		entry: pluginEntries(COMPONENTS_PATH),
@@ -91,13 +103,14 @@ export const baseConfig: RslibConfig = {
 			},
 			output: {
 				distPath: {
-					root: "./dist/esm",
+					root: `${DIST_PATH}/esm`,
 				},
+				assetPrefix: ESM_UI_COMPONENTS_BASE_URL,
 				filenameHash: true,
 			},
 			plugins: [
 				pluginImportMap({
-					baseUrl: DEV_ENVIRONMENT_URL,
+					baseUrl: ENVIRONMENT_URL,
 					specPrefix: "@ssc/ui-components/",
 					includeCss: true,
 					outFile: "importmap.json",
@@ -115,13 +128,14 @@ export const baseConfig: RslibConfig = {
 			},
 			output: {
 				distPath: {
-					root: "./dist/cjs",
+					root: `${DIST_PATH}/cjs`,
 				},
+				assetPrefix: CLS_UI_COMPONENTS_BASE_URL,
 				filenameHash: true,
 			},
 			plugins: [
 				pluginImportMap({
-					baseUrl: DEV_ENVIRONMENT_URL,
+					baseUrl: ENVIRONMENT_URL,
 					specPrefix: "@ssc/ui-components/",
 					includeCss: true,
 					outFile: "importmap.json",
@@ -138,18 +152,18 @@ export const baseConfig: RslibConfig = {
 				tsconfigPath: "./tsconfig.build.json",
 			},
 			dts: {
-				distPath: "./dist/mf/@mf-types",
+				distPath: `${DIST_PATH}/mf/types`,
 			},
 			output: {
 				distPath: {
-					root: "./dist/mf",
+					root: `${DIST_PATH}/mf`,
 				},
 				filenameHash: true,
 				// for production, add online assetPrefix here
-				assetPrefix: process.env.ASSET_PREFIX ?? "http://localhost:3001/mf",
+				assetPrefix: MF_UI_COMPONENTS_BASE_URL,
 			},
 			dev: {
-				assetPrefix: process.env.ASSET_PREFIX ?? "http://localhost:3001/mf",
+				assetPrefix: MF_UI_COMPONENTS_BASE_URL,
 			},
 		},
 	],

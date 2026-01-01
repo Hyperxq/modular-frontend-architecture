@@ -13,16 +13,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
-    "check": "biome check --write",
-    "dev": "rslib build --watch",
-    "format": "biome format --write"
+    "build": "npm run build:sass && npm run build:tailwind",
+    "build:sass": "npx sass ./src/styles/scss/globals.scss ./src/styles/scss/globals-wc.css",
+    "build:tailwind": "npx @tailwindcss/cli -i ./src/styles/scss/globals-wc.css -o ./src/styles/scss/wc-tailwind.css --minify"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.8",
-    "@rslib/core": "^0.19.0",
-    "@types/node": "^24.10.4",
-    "typescript": "^5.9.3"
+    "@rslib/core": "^0.19.0"
   },
   "private": true
 }

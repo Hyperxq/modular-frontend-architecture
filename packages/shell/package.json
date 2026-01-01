@@ -1,24 +1,29 @@
 {
-  "name": "@modular-frontend/shell",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "rsbuild build",
-    "dev": "rsbuild dev --open",
-    "dev:mock": "rsbuild dev --open --env-mode mock",
-    "preview": "rsbuild preview",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
-    "format": "biome format .",
-    "format:fix": "biome format --write ."
-  },
-  "dependencies": {
-    "react-router": "7.11.0"
-  },
-  "devDependencies": {
-    "@module-federation/enhanced": "0.15.0",
-    "@module-federation/rsbuild-plugin": "0.15.0",
-    "@tanstack/react-router-devtools": "1.144.0"
-  }
+	"name": "@modular-frontend/shell",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "rsbuild build",
+		"build:prod": "rsbuild build --env-mode production",
+		"dev": "rsbuild dev --open",
+		"dev:mock": "rsbuild dev --open --env-mode mock",
+		"preview": "rsbuild preview",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format .",
+		"format:fix": "biome format --write ."
+	},
+	"dependencies": {
+		"@tanstack/react-query": "5.90.15",
+		"react-router": "7.11.0",
+		"zustand": "5.0.9"
+	},
+	"devDependencies": {
+		"@module-federation/enhanced": "0.15.0",
+		"@module-federation/rsbuild-plugin": "0.15.0",
+		"@rsbuild/core": "1.6.15",
+		"@rsbuild/plugin-node-polyfill": "1.4.2",
+		"@tanstack/react-router-devtools": "1.144.0"
+	}
 }
