@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "preact/compat";
+import { lazy, Suspense } from "react";
 import "./App.css";
 
 const Input = lazy(() => import("ui_components/Input"));
