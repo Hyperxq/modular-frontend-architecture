@@ -1,7 +1,8 @@
 import { createModuleFederationConfig } from "@module-federation/rsbuild-plugin";
 
-export const getMFConfig = (remoteUrl: string) =>
-	createModuleFederationConfig({
+export const getMFConfig = (remoteUrl: string) => {
+	console.log("Generating MF config with remote URL:", remoteUrl);
+	return createModuleFederationConfig({
 		name: "host",
 		remotes: {
 			ui_components: `ui_components@${remoteUrl}/mf-manifest.json`,
@@ -25,5 +26,6 @@ export const getMFConfig = (remoteUrl: string) =>
 			},
 		},
 	});
+};
 
 export default getMFConfig;

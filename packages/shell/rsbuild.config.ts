@@ -38,7 +38,7 @@ export default defineConfig(({ envMode }) => {
 		output: {
 			injectStyles: true,
 			cleanDistPath: false,
-			assetPrefix: BUCKET_URL,
+			assetPrefix: envMode === "development" ? "http://localhost:3002" : BUCKET_URL,
 			distPath: {
 				root: `${DIST_PATH}`,
 			},

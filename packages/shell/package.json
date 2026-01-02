@@ -6,8 +6,8 @@
 	"scripts": {
 		"build": "rsbuild build",
 		"build:prod": "rsbuild build --env-mode production",
-		"dev": "rsbuild dev --open",
-		"dev:mock": "rsbuild dev --open --env-mode mock",
+		"dev": "FEDERATION_DEBUG=true rsbuild dev",
+		"dev:mock": "rsbuild dev --env-mode mock",
 		"preview": "rsbuild preview",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",

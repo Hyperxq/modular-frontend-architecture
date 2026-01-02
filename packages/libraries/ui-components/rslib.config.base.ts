@@ -19,10 +19,10 @@ const levels: { [key: string]: string } = {
 };
 
 const getComponentsPath = () => {
-	const baseDirectory = process.env.PUBLIC_BASE_DIRECTORY || "./lib";
-	const baseComponentPath = process.env.PUBLIC_BASE_COMPONENTS_PATH || "/components";
-	const pathWildcard = process.env.PUBLIC_PATH_WILDCARD || "**/*";
-	const fileExtension = process.env.PUBLIC_FILE_EXTENSION || ".tsx";
+	const baseDirectory = process.env.BASE_UI_COMPONENTS_DIRECTORY || "./lib";
+	const baseComponentPath = process.env.BASE_UI_COMPONENTS_COMPONENTS_PATHS || "/components";
+	const pathWildcard = process.env.PATH_WILDCARD || "**/*";
+	const fileExtension = process.env.FILE_EXTENSION || ".tsx";
 
 	if (process.env.LEVEL_MODE) {
 		const levelNumber = Number(process.env.LEVEL_MODE.trim());
@@ -35,7 +35,7 @@ const getComponentsPath = () => {
 };
 
 export const COMPONENTS_PATH = [getComponentsPath()];
-export const ENVIRONMENT_URL = process.env.BUCKET!;
+export const ENVIRONMENT_URL = process.env.BUCKET_URL!;
 export const DIST_PATH = resolve(__dirname, "../../../dist/ui-components");
 export const UI_COMPONENTS_BASE_URL = `${ENVIRONMENT_URL}/ui-components`;
 export const MF_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/mf`;
@@ -72,6 +72,9 @@ export const baseConfig: RslibConfig = {
 			"Cache-Control": "public, max-age=31536000, immutable",
 		},
 		publicDir: false,
+		cors: {
+			origin: [/^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/],
+		},
 	},
 	tools: {
 		rspack: (config, { rspack }) => {
@@ -105,6 +108,7 @@ export const baseConfig: RslibConfig = {
 				distPath: {
 					root: `${DIST_PATH}/esm`,
 				},
+				cleanDistPath: true,
 				assetPrefix: ESM_UI_COMPONENTS_BASE_URL,
 				filenameHash: true,
 			},
@@ -130,6 +134,7 @@ export const baseConfig: RslibConfig = {
 				distPath: {
 					root: `${DIST_PATH}/cjs`,
 				},
+				cleanDistPath: true,
 				assetPrefix: CLS_UI_COMPONENTS_BASE_URL,
 				filenameHash: true,
 			},
@@ -158,6 +163,7 @@ export const baseConfig: RslibConfig = {
 				distPath: {
 					root: `${DIST_PATH}/mf`,
 				},
+				cleanDistPath: true,
 				filenameHash: true,
 				// for production, add online assetPrefix here
 				assetPrefix: MF_UI_COMPONENTS_BASE_URL,

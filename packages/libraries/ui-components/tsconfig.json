@@ -3,6 +3,7 @@
 		"lib": ["DOM", "ES2022"],
 		"module": "ESNext",
 		"jsx": "react-jsx",
+		"jsxImportSource": "preact",
 		"strict": true,
 		"skipLibCheck": true,
 		"isolatedModules": true,
@@ -10,15 +11,16 @@
 		"moduleResolution": "bundler",
 		"useDefineForClassFields": true,
 		"esModuleInterop": true,
-		"ignoreDeprecations": "6.0",
-		"baseUrl": "./lib",
 		"paths": {
 			"@/*": ["./*", "./@mf-types/*"],
 			"@shared/*": ["../shared/*"],
 			"@utils/*": ["./utils/*"],
-			"@components/*": ["./components/*"]
+			"@components/*": ["./components/*"],
+			"react": ["../../../node_modules/preact/compat"],
+			"react-dom": ["../../../node_modules/preact/compat"],
+			"react/jsx-runtime": ["../../../node_modules/preact/jsx-runtime"]
 		}
 	},
-	"include": ["lib", "lib/**/*.ts", "lib/**/*.tsx", "lib/index.ts"],
+	"include": ["lib", "lib/**/*.ts", "lib/**/*.tsx", "lib/index.ts", "../shared/src/interfaces"],
 	"exclude": ["dist", "**/*.test.tsx", "lib/plugins/*", "lib/utils/*"]
 }

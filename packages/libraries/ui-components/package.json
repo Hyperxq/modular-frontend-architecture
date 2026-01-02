@@ -37,6 +37,11 @@
 		"build:qa": "cross-env rslib build --env-mode qa",
 		"build:prod": "cross-env rslib build --env-mode qa",
 
+		"/* --- Target: Local ---*/": "",
+		"build:l1": "cross-env LEVEL_MODE=1 rslib build",
+		"build:l2": "cross-env LEVEL_MODE=2 rslib build",
+		"build:l3": "cross-env LEVEL_MODE=3 rslib build",
+		
 		"/* --- Target: PROD ---*/": "",
 		"build:l1:prod": "cross-env LEVEL_MODE=1 rslib build --env-mode production",
 		"build:l2:prod": "cross-env LEVEL_MODE=2 rslib build --env-mode production",
