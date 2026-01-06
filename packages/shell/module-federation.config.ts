@@ -18,6 +18,7 @@ const dts = (remoteUrl: string, isLocalEnv: boolean) =>
 export const getMFConfig = (remoteUrl: string, isLocalEnv: boolean) => {
 	return createModuleFederationConfig({
 		name: "host",
+		manifest: false,
 		remotes: {
 			ui_components: `ui_components@${remoteUrl}/mf-manifest.json`,
 		},

@@ -16,8 +16,8 @@ export default defineConfig(({ envMode }) => {
 	const env = loadEnvFile(root, envFile) || {};
 	const PUBLIC_BUCKET_URL = env.PUBLIC_BUCKET_URL;
 	const isLocalEnvMode = isLocalEnv(envMode);
-	console.log("isLocalEnvMode", isLocalEnvMode);
 	const remoteUrl = isLocalEnvMode ? PUBLIC_BUCKET_URL : `${PUBLIC_BUCKET_URL}/ui-components/mf`;
+	const nm = /[\\/]node_modules[\\/](?:\.pnpm[\\/][^\\/]+[\\/]node_modules[\\/])?/;
 
 	return {
 		server: {
@@ -62,15 +62,13 @@ export default defineConfig(({ envMode }) => {
 				root: `${DIST_PATH}`,
 			},
 		},
-		//TODO we are on packages/shell check if that node_modules is from the root or this.
 		performance: {
 			chunkSplit: {
 				strategy: "split-by-experience",
 				forceSplitting: {
-					"react-router": /node_modules[\\/]react-router/,
-					preact: /node_modules[\\/]preact/,
-					axios: /node_modules[\\/]axios/,
-					"auth0-js": /node_modules[\\/]auth0-js/,
+					"react-router": new RegExp(`${nm.source}react-router[\\/]`),
+					preact: new RegExp(`${nm.source}preact[\\/]`),
+					axios: new RegExp(`${nm.source}axios[\\/]`),
 				},
 			},
 		},
