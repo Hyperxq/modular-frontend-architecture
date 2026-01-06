@@ -20,7 +20,7 @@
     "packages/libraries/**"
   ],
   "dependencies": {
-    "preact": "^10.28.1",
+    "preact": "10.28.1",
     "tailwindcss": "4.1.18"
   },
   "devDependencies": {
