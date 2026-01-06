@@ -18,11 +18,11 @@
 		"dist"
 	],
 	"scripts": {
-		"dev": "rslib mf-dev",
-		"mock": "rslib mf-dev --env-mode mock",
+		"dev": "rslib mf-dev --env-mode development.local",
+		"mock": "rslib mf-dev --env-mode mock --env-mode development.local",
 		"inspect": "rslib inspect --verbose",
-		"build:watch": "rslib build --watch",
-		"build:storybook": "storybook build",
+		"build:watch": "rslib build --watch --env-mode development.local",
+		"build:storybook": "storybook build --env-mode development.local",
 		"storybook": "set STORYBOOK_MODE=true && storybook dev",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
@@ -34,14 +34,13 @@
 		"build": "rslib build",
 		"build:wc": "rslib build --config rslib.config.wc.ts",
 		"build:dev": "cross-env rslib build --env-mode development",
-		"build:qa": "cross-env rslib build --env-mode qa",
 		"build:prod": "cross-env rslib build --env-mode qa",
 
 		"/* --- Target: Local ---*/": "",
-		"build:l1": "cross-env LEVEL_MODE=1 rslib build",
-		"build:l2": "cross-env LEVEL_MODE=2 rslib build",
-		"build:l3": "cross-env LEVEL_MODE=3 rslib build",
-		
+		"build:l1": "cross-env LEVEL_MODE=1 rslib build --env-mode development",
+		"build:l2": "cross-env LEVEL_MODE=2 rslib build --env-mode development",
+		"build:l3": "cross-env LEVEL_MODE=3 rslib build --env-mode development",
+
 		"/* --- Target: PROD ---*/": "",
 		"build:l1:prod": "cross-env LEVEL_MODE=1 rslib build --env-mode production",
 		"build:l2:prod": "cross-env LEVEL_MODE=2 rslib build --env-mode production",
@@ -60,7 +59,7 @@
 		"fast-glob": "^3.3.3",
 		"storybook-addon-rslib": "2.1.6",
 		"storybook-builder-rsbuild": "3.1.0",
-		"storybook": "10.1.0",
+		"storybook": "10.1.11",
 		"typescript": "^5.9.3"
 	},
 	"dependencies": {

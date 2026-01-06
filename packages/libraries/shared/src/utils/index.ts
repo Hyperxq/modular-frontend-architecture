@@ -1,0 +1,2 @@
+export { isLocalEnv } from './isLocalEnv';
+

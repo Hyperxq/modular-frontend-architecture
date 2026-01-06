@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "rsbuild build",
 		"build:prod": "rsbuild build --env-mode production",
-		"dev": "FEDERATION_DEBUG=true rsbuild dev",
+		"dev": "rsbuild dev --env-mode development.local",
 		"dev:mock": "rsbuild dev --env-mode mock",
 		"preview": "rsbuild preview",
 		"lint": "biome check .",
@@ -24,6 +24,7 @@
 		"@module-federation/rsbuild-plugin": "0.15.0",
 		"@rsbuild/core": "1.6.15",
 		"@rsbuild/plugin-node-polyfill": "1.4.2",
-		"@tanstack/react-router-devtools": "1.144.0"
+		"@tanstack/react-router-devtools": "1.144.0",
+		"compression-webpack-plugin": "^11.1.0"
 	}
 }

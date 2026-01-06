@@ -2,7 +2,6 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "modular-frontend",
   "useInferencePlugins": true,
-  "plugins": ["@nx/js"],
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",

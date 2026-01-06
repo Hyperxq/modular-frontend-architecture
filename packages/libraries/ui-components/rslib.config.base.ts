@@ -1,15 +1,31 @@
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
+import { SourceMap } from "@rsbuild/core";
 import { pluginNodePolyfill } from "@rsbuild/plugin-node-polyfill";
 import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import { defineConfig, type RslibConfig } from "@rslib/core";
 import { resolve } from "path";
+import { isLocalEnv } from "../shared/src/utils/isLocalEnv";
 import { pluginEntries } from "./lib/plugins/pluginEntries";
-import { pluginImportMap } from "./lib/plugins/pluginImportMaps";
 import { createMfConfig } from "./module-federation.config";
 
+type Shared = {
+	dts:
+		| boolean
+		| {
+				bundle: boolean;
+		  };
+};
+
 type Format = "esm" | "cjs" | "mf";
+
+type BaseConfig = (
+	isLocalEnvMode: boolean,
+	shared: Shared,
+	sourceMapConfig: boolean | SourceMap,
+) => RslibConfig;
+type StorybookConfig = (isLocalEnvMode: boolean) => RslibConfig;
 
 const levels: { [key: string]: string } = {
 	1: "atoms",
@@ -19,10 +35,10 @@ const levels: { [key: string]: string } = {
 };
 
 const getComponentsPath = () => {
-	const baseDirectory = process.env.BASE_UI_COMPONENTS_DIRECTORY || "./lib";
-	const baseComponentPath = process.env.BASE_UI_COMPONENTS_COMPONENTS_PATHS || "/components";
-	const pathWildcard = process.env.PATH_WILDCARD || "**/*";
-	const fileExtension = process.env.FILE_EXTENSION || ".tsx";
+	const baseDirectory = process.env.PUBLIC_BASE_UI_COMPONENTS_DIRECTORY || "./lib";
+	const baseComponentPath = process.env.PUBLIC_BASE_UI_COMPONENTS_COMPONENTS_PATHS || "/components";
+	const pathWildcard = process.env.PUBLIC_PATH_WILDCARD || "**/*";
+	const fileExtension = process.env.PUBLIC_FILE_EXTENSION || ".tsx";
 
 	if (process.env.LEVEL_MODE) {
 		const levelNumber = Number(process.env.LEVEL_MODE.trim());
@@ -35,27 +51,16 @@ const getComponentsPath = () => {
 };
 
 export const COMPONENTS_PATH = [getComponentsPath()];
-export const ENVIRONMENT_URL = process.env.BUCKET_URL!;
-export const DIST_PATH = resolve(__dirname, "../../../dist/ui-components");
-export const UI_COMPONENTS_BASE_URL = `${ENVIRONMENT_URL}/ui-components`;
-export const MF_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/mf`;
-export const ESM_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/esm`;
-export const CLS_UI_COMPONENTS_BASE_URL = `${UI_COMPONENTS_BASE_URL}/cls`;
+export const DIST_PATH = resolve(__dirname, "./dist/ui-components");
 
-const shared = {
-	dts: {
-		bundle: false,
-	},
-};
-
-const storybookConfig: RslibConfig = {
+const storybookConfig: StorybookConfig = (isLocalEnv) => ({
 	source: {
 		entry: pluginEntries(COMPONENTS_PATH),
 	},
 	lib: [
 		{
 			bundle: false,
-			dts: true,
+			dts: isLocalEnv,
 			format: "esm" as Format, // Use the restricted type here
 		},
 	],
@@ -63,11 +68,14 @@ const storybookConfig: RslibConfig = {
 		target: "web",
 	},
 	plugins: [pluginReact()],
-};
+});
 
-export const baseConfig: RslibConfig = {
+export const baseConfig: BaseConfig = (isLocalEnv, shared, sourceMapConfig) => ({
 	server: {
 		port: 3001,
+		compress: {
+			level: 6,
+		},
 		headers: {
 			"Cache-Control": "public, max-age=31536000, immutable",
 		},
@@ -96,58 +104,58 @@ export const baseConfig: RslibConfig = {
 		tsconfigPath: "./tsconfig.build.json",
 	},
 	lib: [
-		{
-			...shared,
-			format: "esm",
-			source: {
-				entry: pluginEntries(COMPONENTS_PATH),
-				exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
-				tsconfigPath: "./tsconfig.build.json",
-			},
-			output: {
-				distPath: {
-					root: `${DIST_PATH}/esm`,
-				},
-				cleanDistPath: true,
-				assetPrefix: ESM_UI_COMPONENTS_BASE_URL,
-				filenameHash: true,
-			},
-			plugins: [
-				pluginImportMap({
-					baseUrl: ENVIRONMENT_URL,
-					specPrefix: "@ssc/ui-components/",
-					includeCss: true,
-					outFile: "importmap.json",
-					componentPath: COMPONENTS_PATH,
-				}),
-			],
-		},
-		{
-			...shared,
-			format: "cjs",
-			source: {
-				entry: pluginEntries(COMPONENTS_PATH),
-				exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
-				tsconfigPath: "./tsconfig.build.json",
-			},
-			output: {
-				distPath: {
-					root: `${DIST_PATH}/cjs`,
-				},
-				cleanDistPath: true,
-				assetPrefix: CLS_UI_COMPONENTS_BASE_URL,
-				filenameHash: true,
-			},
-			plugins: [
-				pluginImportMap({
-					baseUrl: ENVIRONMENT_URL,
-					specPrefix: "@ssc/ui-components/",
-					includeCss: true,
-					outFile: "importmap.json",
-					componentPath: COMPONENTS_PATH,
-				}),
-			],
-		},
+		// {
+		// 	...shared,
+		// 	format: "esm",
+		// 	source: {
+		// 		entry: pluginEntries(COMPONENTS_PATH),
+		// 		exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
+		// 		tsconfigPath: "./tsconfig.build.json",
+		// 	},
+		// 	output: {
+		// 		distPath: {
+		// 			root: `${DIST_PATH}/esm`,
+		// 		},
+		// 		cleanDistPath: true,
+		// 		assetPrefix: ESM_UI_COMPONENTS_BASE_URL,
+		// 		filenameHash: true,
+		// 	},
+		// 	plugins: [
+		// 		pluginImportMap({
+		// 			baseUrl: ENVIRONMENT_URL,
+		// 			specPrefix: "@ssc/ui-components/",
+		// 			includeCss: true,
+		// 			outFile: "importmap.json",
+		// 			componentPath: COMPONENTS_PATH,
+		// 		}),
+		// 	],
+		// },
+		// {
+		// 	...shared,
+		// 	format: "cjs",
+		// 	source: {
+		// 		entry: pluginEntries(COMPONENTS_PATH),
+		// 		exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
+		// 		tsconfigPath: "./tsconfig.build.json",
+		// 	},
+		// 	output: {
+		// 		distPath: {
+		// 			root: `${DIST_PATH}/cjs`,
+		// 		},
+		// 		cleanDistPath: true,
+		// 		assetPrefix: CLS_UI_COMPONENTS_BASE_URL,
+		// 		filenameHash: true,
+		// 	},
+		// 	plugins: [
+		// 		pluginImportMap({
+		// 			baseUrl: ENVIRONMENT_URL,
+		// 			specPrefix: "@ssc/ui-components/",
+		// 			includeCss: true,
+		// 			outFile: "importmap.json",
+		// 			componentPath: COMPONENTS_PATH,
+		// 		}),
+		// 	],
+		// },
 		{
 			...shared,
 			format: "mf",
@@ -156,20 +164,19 @@ export const baseConfig: RslibConfig = {
 				exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
 				tsconfigPath: "./tsconfig.build.json",
 			},
-			dts: {
-				distPath: `${DIST_PATH}/mf/types`,
-			},
+			dts: isLocalEnv
+				? {
+						distPath: `${DIST_PATH}/mf/@mf-types`,
+					}
+				: false,
 			output: {
 				distPath: {
 					root: `${DIST_PATH}/mf`,
 				},
 				cleanDistPath: true,
 				filenameHash: true,
-				// for production, add online assetPrefix here
-				assetPrefix: MF_UI_COMPONENTS_BASE_URL,
-			},
-			dev: {
-				assetPrefix: MF_UI_COMPONENTS_BASE_URL,
+				sourceMap: sourceMapConfig,
+				assetPrefix: "ui-components/mf",
 			},
 		},
 	],
@@ -177,14 +184,26 @@ export const baseConfig: RslibConfig = {
 		pluginPreact(),
 		pluginSass(),
 		pluginNodePolyfill(),
-		pluginModuleFederation(createMfConfig(COMPONENTS_PATH)),
+		pluginModuleFederation(createMfConfig(COMPONENTS_PATH, isLocalEnv)),
 	],
+});
+
+const config = ({ envMode = "development.local" }) => {
+	const isLocalEnvMode = isLocalEnv(envMode);
+	const shared = {
+		dts: {
+			bundle: false,
+		},
+	};
+	const sourceMapConfig: boolean | SourceMap = isLocalEnvMode
+		? {
+				js: "cheap-module-source-map",
+			}
+		: false;
+
+	return (process.env.STORYBOOK_MODE?.trim() ?? "").trim()
+		? storybookConfig(isLocalEnvMode)
+		: baseConfig(isLocalEnvMode, shared, sourceMapConfig);
 };
 
-const comparison: string = "true";
-const configuration: RslibConfig =
-	(process.env.STORYBOOK_MODE?.trim() ?? "").trim() === comparison.trim()
-		? storybookConfig
-		: baseConfig;
-
-export default defineConfig(configuration);
+export default defineConfig(config);
