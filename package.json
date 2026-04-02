@@ -19,11 +19,16 @@
 		"lint": "bunx biome check .",
 		"lint:fix": "bunx biome check --write .",
 		"format": "bunx biome format .",
-		"format:fix": "bunx biome format --write ."
+		"format:fix": "bunx biome format --write .",
+		"e2e": "bun run --cwd automation_test e2e",
+		"e2e:ui": "bun run --cwd automation_test e2e:ui",
+		"e2e:debug": "bun run --cwd automation_test e2e:debug",
+		"e2e:report": "bun run --cwd automation_test e2e:report"
 	},
 	"workspaces": [
 		"packages/**",
-		"packages/libraries/**"
+		"packages/libraries/**",
+		"automation_test"
 	],
 	"dependencies": {
 		"preact": "10.28.1",

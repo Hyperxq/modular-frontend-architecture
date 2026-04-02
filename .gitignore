@@ -2,3 +2,5 @@ node_modules/
 .nx/
 dist/
 fix
+automation_test/playwright-report/
+automation_test/test-results/
