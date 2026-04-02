@@ -1,48 +1,36 @@
 {
 	"name": "web",
+	"$schema": "./node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"tags": ["type:app", "scope:root"],
 	"targets": {
-		"prebuild": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "nx run ui-components:build"
-			}
-		},
-		"prebuild:wc": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "nx run shared:build"
-			}
-		},
-		"prebuild:dev": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "nx run ui-components:dev",
-				"readyWhen": "Rslib"
-			}
-		},
-		"prebuild:mock": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "nx run ui-components:mock",
-				"readyWhen": "Rslib"
-			}
-		},
 		"dev": {
-			"command": "nx run shell:dev",
-			"dependsOn": ["prebuild:dev"]
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run @modular-frontend/shell:dev"
+			}
 		},
 		"mock": {
-			"command": "nx run shell:mock",
-			"dependsOn": ["prebuild:mock"]
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run @modular-frontend/shell:mock"
+			}
 		},
 		"build": {
-			"command": "nx run shell:build",
-			"dependsOn": ["prebuild"]
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					"nx run @modular-frontend/ui-components:build",
+					"nx run @modular-frontend/shell:build"
+				],
+				"parallel": false
+			}
 		},
 		"build:wc": {
-			"command": "nx run ui-components:webcomponents",
-			"dependsOn": ["prebuild:wc"]
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run @modular-frontend/ui-components:build"
+			}
 		}
-	},
-	"tags": ["type:app"]
+	}
 }

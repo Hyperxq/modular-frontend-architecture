@@ -10,8 +10,8 @@
 		"rspack"
 	],
 	"scripts": {
-		"dev": "nx run web:dev",
-		"dev:mock": "nx run web:mock",
+		"dev": "nx run-many --target=dev --projects=ui-components,shell --parallel --output-style=stream",
+		"dev:mock": "nx run-many --target=mock --projects=ui-components,shell --parallel --output-style=stream",
 		"test": "rstest",
 		"build": "nx run build",
 		"build:prod": "nx run web:build --configuration=production",
@@ -24,6 +24,10 @@
 		"e2e:ui": "bun run --cwd automation_test e2e:ui",
 		"e2e:debug": "bun run --cwd automation_test e2e:debug",
 		"e2e:report": "bun run --cwd automation_test e2e:report"
+	},
+	"overrides": {
+		"@rsbuild/core": "1.7.5",
+		"@rspack/core": "1.7.11"
 	},
 	"workspaces": [
 		"packages/**",
@@ -39,7 +43,7 @@
 		"@commitlint/cli": "20.3.0",
 		"@commitlint/config-conventional": "20.3.0",
 		"@rsbuild/plugin-node-polyfill": "^1.4.2",
-		"@rsbuild/plugin-preact": "1.6.0",
+		"@rsbuild/plugin-preact": "1.7.2",
 		"@rsbuild/plugin-sass": "1.4.0",
 		"@rstest/core": "0.7.7",
 		"@tailwindcss/cli": "4.1.18",

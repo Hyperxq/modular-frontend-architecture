@@ -1,0 +1,67 @@
+{
+	"name": "@modular-frontend/ui-components",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "library",
+	"sourceRoot": "packages/libraries/ui-components/lib",
+	"tags": ["type:lib", "scope:ui"],
+	"targets": {
+		"dev": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rslib mf-dev --env-mode development.local",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"mock": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rslib mf-dev --env-mode mock",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"build": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rslib build",
+				"cwd": "packages/libraries/ui-components"
+			},
+			"cache": true
+		},
+		"lint": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome check .",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"lint:fix": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome check --write .",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"format": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome format .",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"format:fix": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome format --write .",
+				"cwd": "packages/libraries/ui-components"
+			}
+		},
+		"test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rstest",
+				"cwd": "packages/libraries/ui-components"
+			},
+			"cache": true
+		}
+	}
+}

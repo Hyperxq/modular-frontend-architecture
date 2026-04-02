@@ -20,9 +20,9 @@
 		"zustand": "5.0.9"
 	},
 	"devDependencies": {
-		"@module-federation/enhanced": "0.15.0",
-		"@module-federation/rsbuild-plugin": "0.15.0",
-		"@rsbuild/core": "1.6.15",
+		"@module-federation/enhanced": "0.24.1",
+		"@module-federation/rsbuild-plugin": "0.24.1",
+		"@rsbuild/core": "1.7.5",
 		"@rsbuild/plugin-node-polyfill": "1.4.2",
 		"@tanstack/react-router-devtools": "1.144.0",
 		"compression-webpack-plugin": "^11.1.0"

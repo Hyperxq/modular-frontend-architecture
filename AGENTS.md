@@ -19,7 +19,8 @@ You are working on **modular-frontend-architecture** — a Preact micro-frontend
 | Testing | Rstest + @testing-library/preact + MSW 2 |
 | Linting | Biome 2 (strict) |
 | Git hooks | Lefthook + commitlint (Conventional Commits) |
-| MF | @module-federation/enhanced 0.15 |
+| MF | @module-federation/enhanced 0.24 |
+| Preact plugin | @rsbuild/plugin-preact 1.7.2 + @swc/plugin-prefresh 12.7.0 |
 
 ## Packages
 
@@ -106,7 +107,7 @@ Load the relevant skill BEFORE writing any code for that context:
 
 ```bash
 # Dev
-bun run dev           # ui-components MF dev + shell dev (full orchestration)
+bun run dev           # ui-components MF dev + shell dev (streamed output)
 bun run dev:mock      # same but with MSW browser mocking
 
 # Build
@@ -127,6 +128,11 @@ nx run ui-components:build              # library only
 nx run-many --target=test --all         # test all
 nx reset                                # clear Nx cache
 nx graph                                # visualize task dependencies
+
+# Dependency troubleshooting — full clean reinstall
+rm -rf node_modules packages/shell/node_modules packages/libraries/ui-components/node_modules
+bun install
+ls node_modules/.bun/ | grep rspack+core  # must show exactly one entry
 ```
 
 ## Architecture
@@ -171,6 +177,16 @@ lib/components/
 Component path: `lib/components/{level}/{Name}/{Name}.tsx`
 Auto-exposed via `fast-glob` — zero manual registration.
 
+### Nx Output Style
+
+`bun run dev` and `bun run dev:mock` use `--output-style=stream` so each process streams stdout directly — no buffering, no truncation. This is intentional for debugging in terminals like WezTerm.
+
+If you need to run a single package instead of both in parallel:
+```bash
+nx run @modular-frontend/ui-components:dev
+nx run @modular-frontend/shell:dev
+```
+
 ### Environment Modes
 
 | `--env-mode` | Meaning |
@@ -185,6 +201,85 @@ Auto-exposed via `fast-glob` — zero manual registration.
 - Browser: `mocks/init-mocking.ts` → `setupWorker` (lazy import from `msw/browser`)
 - Tests: `mocks/setup-test-mocking.ts` → `setupServer` from `msw/node`
 - Handler factory: `mocks/create-handler.ts` — wraps `http.*` with passthrough logic
+
+## Dependency Management
+
+### The Rspack toolchain version coupling problem
+
+This monorepo uses three tools that all depend on `@rspack/core` internally:
+
+| Tool | Declared in |
+| --- | --- |
+| `@rsbuild/core` | `packages/shell/` |
+| `@rslib/core` | `packages/libraries/ui-components/` |
+| `@rstest/core` | root `package.json` |
+
+Each tool pins its own version of `@rspack/core`. If they resolve to **different versions**, Bun installs multiple copies in `node_modules/.bun/`. This causes two classes of runtime crash:
+
+**1. `@rspack/binding` version mismatch**
+`@rspack/core` ships a native binding (`@rspack/binding`) that must match exactly. If two copies of `@rspack/core` with different versions exist in the same process, you get:
+```
+Unmatched version @rspack/core@X and @rspack/binding@Y.
+The expected version of @rspack/core to the current binding is Y.
+```
+
+**2. SWC Wasm plugin ABI mismatch**
+SWC plugins (e.g. `@swc/plugin-prefresh`) are native Wasm binaries compiled against a specific version of `swc_core`. If the plugin's compiled `swc_core` doesn't match the one embedded in `@rspack/binding`, you get:
+```
+failed to invoke plugin on 'Some(...)'
+The version of the SWC Wasm plugin you're using might not be compatible with builtin:swc-loader.
+The swc_core version of the current rspack_core is X.
+```
+This is a **binary ABI contract** — no JS shim can fix it.
+
+### How to fix version mismatches
+
+**Step 1 — Align all tools to the same `@rsbuild/core` version.**
+`@rslib/core` and `@rstest/core` declare a specific `@rsbuild/core` range internally. Pick the highest stable `@rsbuild/core` that satisfies all of them and set it everywhere.
+
+**Step 2 — Add `overrides` in root `package.json` to enforce deduplication.**
+Bun respects `overrides` across the entire workspace tree:
+```json
+"overrides": {
+  "@rsbuild/core": "1.7.5",
+  "@rspack/core": "1.7.11"
+}
+```
+This collapses all nested copies into a single instance.
+
+**Step 3 — Align `@rslib/core` version across all workspace packages.**
+If `ui-components` declares `^0.17.x` but `shared` declares `^0.19.x`, Bun installs two copies of `@rslib/core` each dragging its own `@rsbuild/core`. Pin both to the same range.
+
+**Step 4 — Fix SWC plugin compatibility.**
+After changing `@rspack/core`, check which `swc_core` version it embeds:
+```
+The swc_core version of the current rspack_core is X.
+```
+Then find the `@swc/plugin-prefresh` (or any other SWC plugin) major version compiled against that `swc_core`. This is done by upgrading the plugin's parent — in this project `@rsbuild/plugin-preact` — to a version that declares a compatible `@swc/plugin-prefresh` range.
+
+**Step 5 — Delete all `node_modules` and reinstall.**
+Bun's `node_modules/.bun/` directory caches symlinks. Old versioned copies survive a plain `bun install` because the lockfile entries were removed but the physical directories remain. Always do a full clean when resolving toolchain version conflicts:
+```bash
+rm -rf node_modules packages/shell/node_modules packages/libraries/ui-components/node_modules
+bun install
+```
+Verify only one copy exists after install:
+```bash
+ls node_modules/.bun/ | grep rspack+core
+# must show exactly one entry
+```
+
+### Current pinned versions
+
+| Package | Version | Reason |
+| --- | --- | --- |
+| `@rsbuild/core` | `1.7.5` | Latest stable; satisfies `@rslib/core@0.19.x` (`~1.7.0`) |
+| `@rspack/core` | `1.7.11` | Bundled by `@rsbuild/core@1.7.5` (`~1.7.10`) |
+| `@rslib/core` | `0.19.1` | Requires `@rsbuild/core ~1.7.0` — must be aligned across ui-components AND shared |
+| `@module-federation/enhanced` | `0.24.1` | Last version before the 2.x breaking rewrite |
+| `@rsbuild/plugin-preact` | `1.7.2` | Brings `@swc/plugin-prefresh@^12.7.0` compatible with `swc_core@59.x` |
+
+> **Rule:** when upgrading any tool in this chain, always upgrade ALL of them together and verify with `ls node_modules/.bun/ | grep rspack+core` that a single copy exists.
 
 ## Commit Convention
 

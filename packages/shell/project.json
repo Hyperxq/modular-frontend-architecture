@@ -1,0 +1,82 @@
+{
+	"name": "@modular-frontend/shell",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"sourceRoot": "packages/shell/src",
+	"tags": ["type:app", "scope:shell"],
+	"implicitDependencies": ["@modular-frontend/ui-components"],
+	"targets": {
+		"dev": {
+			"executor": "nx:run-commands",
+			"dependsOn": [
+				{
+					"projects": ["@modular-frontend/ui-components"],
+					"target": "dev",
+					"params": "forward"
+				}
+			],
+			"options": {
+				"command": "bunx rsbuild dev --env-mode development.local",
+				"cwd": "packages/shell"
+			}
+		},
+		"mock": {
+			"executor": "nx:run-commands",
+			"dependsOn": [
+				{
+					"projects": ["@modular-frontend/ui-components"],
+					"target": "mock",
+					"params": "forward"
+				}
+			],
+			"options": {
+				"command": "bunx rsbuild dev --env-mode mock",
+				"cwd": "packages/shell"
+			}
+		},
+		"build": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rsbuild build",
+				"cwd": "packages/shell"
+			},
+			"cache": true
+		},
+		"build:prod": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rsbuild build --env-mode production",
+				"cwd": "packages/shell"
+			},
+			"cache": true
+		},
+		"lint": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome check .",
+				"cwd": "packages/shell"
+			}
+		},
+		"lint:fix": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome check --write .",
+				"cwd": "packages/shell"
+			}
+		},
+		"format": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome format .",
+				"cwd": "packages/shell"
+			}
+		},
+		"format:fix": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx biome format --write .",
+				"cwd": "packages/shell"
+			}
+		}
+	}
+}
