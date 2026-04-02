@@ -1,13 +1,13 @@
-import { basename } from "node:path";
 import { sync } from "fast-glob";
 import type { ComponentEntry } from "./interfaces/ComponentEntry";
 
 const createExposeEntry = (file: string): ComponentEntry | null => {
 	const componentFile = file.replace(/\\/g, "/");
-	const fileName = basename(file, ".tsx");
+	// Expose as ./atoms/Button/Button (relative to lib/components/)
+	const exposedKey = componentFile.replace(/^\.\/lib\/components\//, "").replace(/\.tsx$/, "");
 
 	return {
-		[`./${fileName}`]: componentFile,
+		[`./${exposedKey}`]: componentFile,
 	};
 };
 
