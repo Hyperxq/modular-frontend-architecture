@@ -18,6 +18,30 @@ metadata:
 - Using `forwardRef` or any compat bridge
 - Reviewing or fixing JSX transform issues
 
+## Architecture Rules (READ BEFORE WRITING ANY COMPONENT)
+
+This project has a strict separation between `shell` (smart) and `ui-components` (dumb).
+
+### `ui-components` — display only
+- **NEVER** import or create Zustand stores
+- **NEVER** add business logic, auth, routing, or A/B testing
+- **MAY** consume React Context — but the Provider ALWAYS lives in `shell`
+- Receives ALL data and callbacks via **props** or **context from shell**
+- All dependencies are `peerDependencies` — the component output bundles NOTHING
+
+### `shell` — smart layer
+- Owns Zustand stores, Context providers, auth, routing, business logic
+- Reads from Zustand, passes data DOWN to `ui-components` via props or context
+- Never lets `ui-components` reach back up for data
+
+### State decision tree
+```
+Need global app state?          → Zustand store in shell, passed as prop to component
+Need to share across subtree?   → Context provider in shell, useContext in component
+Need local UI state?            → useState / useReducer inside the component (fine in ui-components)
+Need to trigger app logic?      → Callback prop passed from shell to component
+```
+
 ---
 
 ## Critical Patterns

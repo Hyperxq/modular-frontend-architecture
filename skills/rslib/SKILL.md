@@ -27,10 +27,29 @@ Rslib is a library build tool built on top of Rspack (Rust-based bundler). It re
 - ALWAYS use `tsconfig.build.json` (not the root `tsconfig.json`) for library builds — avoids pulling in test types and dev-only paths
 - `dts` generation MUST be conditional on `isLocalEnv` — skipping it in CI cuts build time significantly
 - `format: "mf"` is required for Module Federation remote builds
+- **ALL dependencies MUST be `peerDependencies`** — the output bundles ZERO runtime code. Shell provides everything at runtime via MF shared config
+- **NEVER create a barrel `index.ts`** that re-exports all components — each component is its own independent entry
+- **Output must be fully flat and light** — one file per component, no shared chunks between components
 
 ---
 
-## Output Formats
+## Output Targets (ui-components specific)
+
+`ui-components` has THREE output targets, each for a different consumer:
+
+| Output | Format | Consumer | How |
+|--------|--------|----------|-----|
+| Module Federation | `mf` | `shell` at runtime | MF remote URL, Preact singleton shared |
+| Import Maps | `esm` | Browsers with native import maps | `<script type="importmap">` |
+| Web Components | custom | Any framework or vanilla HTML | `@r2wc/react-to-web-component` wrapper |
+
+Each component is its own independent entry — importing ONE component loads NOTHING else:
+```ts
+// ✅ Only Button is loaded — zero side effects on other components
+import Button from "ui_components/atoms/Button/Button"
+```
+
+## Output Formats (general)
 
 | Format | Use case |
 |--------|----------|

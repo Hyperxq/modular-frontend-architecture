@@ -25,9 +25,46 @@ You are working on **modular-frontend-architecture** — a Preact micro-frontend
 
 | Name | Path | Role |
 | --- | --- | --- |
-| `shell` | `packages/shell/` | Rsbuild app — MF host (:3002) |
-| `ui-components` | `packages/libraries/ui-components/` | Rslib MF remote (:3001) — Atomic Design |
-| `shared` | `packages/libraries/shared/` | Shared utilities (`isLocalEnv`, etc.) |
+| `shell` | `packages/shell/` | Rsbuild app — MF host (:3002) — business logic, auth, routing, A/B testing |
+| `ui-components` | `packages/libraries/ui-components/` | Rslib MF remote (:3001) — Atomic Design, display only |
+| `shared` | `packages/libraries/shared/` | Source-only utilities — no build step, imported directly |
+
+## Package Responsibilities
+
+### `shell` — the smart layer
+- Owns ALL business logic, security, auth, A/B testing, routing
+- Manages state via **Zustand** stores and **Context API** providers
+- Consumes `ui-components` as a dumb rendering layer
+- Passes data and callbacks DOWN to components via props or context
+- Never delegates logic decisions to `ui-components`
+
+### `ui-components` — the display layer
+- **Display only** — no business logic, no auth, no routing, no state stores
+- Receives everything it needs via **props** or **context provided by shell**
+- Assumes shell will provide ALL runtime dependencies (Preact, Zustand, etc.)
+- Three outputs: **Module Federation**, **Import Maps**, **Web Components**
+- Every component is an **independent entry** — flat, tree-shakeable, no shared barrel
+- Output must be **fully flat and light** — zero bundled dependencies, all are peerDependencies
+
+### `shared` — source-level utilities
+- No build step, no `dist/` — consumed directly from source
+- Only contains what is needed by BOTH `shell` AND `ui-components`
+- Pure utilities, shared interfaces/types, constants
+- Imported as: `import { x } from "../libraries/shared/src"`
+
+## State Management Architecture
+
+| Layer | Technology | Where |
+| --- | --- | --- |
+| Global app state | Zustand 5 | `shell` only |
+| UI local state | `useState` / `useReducer` | `ui-components` components |
+| Cross-component state | Context API | Provider in `shell`, consumer in `ui-components` |
+
+**Rules:**
+- `ui-components` components NEVER create or import Zustand stores
+- `ui-components` components MAY consume React Context — but the **Provider always lives in shell**
+- Shell reads from Zustand and passes data to components via props or context values
+- This works safely because Preact is singleton across the MF boundary
 
 ## Non-Negotiable Rules
 
@@ -42,6 +79,9 @@ You are working on **modular-frontend-architecture** — a Preact micro-frontend
 - Test imports ALWAYS from `@rstest/core`, NEVER from `vitest` or `jest`
 - Test rendering ALWAYS from `@testing-library/preact`, NEVER from `@testing-library/react`
 - NEVER build after making changes
+- NEVER add business logic, state stores, or auth to `ui-components`
+- NEVER bundle dependencies into `ui-components` output — all deps are peerDependencies
+- NEVER create barrel `index.ts` that re-exports all components — each component is its own entry
 
 ## Skills
 
@@ -103,6 +143,21 @@ shell (host :3002)  ←──── ui_components (remote :3001)
 - Remote name: `ui_components` (underscore — JS identifier)
 - DTS generation gated on `isLocalEnv(envMode)` — skipped in CI
 - Preact shared as singleton on both sides
+- Shell provides ALL shared dependencies at runtime — `ui-components` bundles nothing
+
+### `ui-components` Output Targets
+
+| Output | Format | Consumer |
+| --- | --- | --- |
+| Module Federation | `mf` | shell at runtime via MF remote |
+| Import Maps | `esm` | browsers using native import maps |
+| Web Components | custom build | any framework or vanilla HTML |
+
+Each component is its own independent entry — consumers import only what they need:
+```ts
+// ✅ imports ONLY Button — nothing else loaded
+import Button from "ui_components/atoms/Button/Button"
+```
 
 ### Atomic Design
 
