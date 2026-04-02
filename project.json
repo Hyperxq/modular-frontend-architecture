@@ -17,14 +17,14 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"command": "nx run ui-components:dev",
-				"readyWhen": "Federated types created correctly"
+				"readyWhen": "Rslib"
 			}
 		},
 		"prebuild:mock": {
 			"executor": "nx:run-commands",
 			"options": {
 				"command": "nx run ui-components:mock",
-				"readyWhen": "Federated types created correctly"
+				"readyWhen": "Rslib"
 			}
 		},
 		"dev": {

@@ -9,9 +9,10 @@ import { COMPONENTS_PATH, DIST_ROOT } from "../env";
 // Exposes each component independently — no shared barrel
 // ---------------------------------------------------------------------------
 
-export const mfOutput = (isLocal: boolean, sourceMap: boolean | SourceMap): LibConfig => ({
+export const mfOutput = (_isLocal: boolean, sourceMap: boolean | SourceMap): LibConfig => ({
 	format: "mf",
-	dts: isLocal ? { distPath: `${DIST_ROOT}/mf/@mf-types` } : false,
+	// DTS disabled until MF connection is verified — re-enable once dev server is stable
+	dts: false,
 	source: {
 		entry: pluginEntries(COMPONENTS_PATH),
 		exclude: [/\.spec\.(ts|tsx|js|jsx)$/],

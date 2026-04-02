@@ -1,1 +1,1 @@
-export * from './utils/isLocalEnv';
+export * from "./utils/isLocalEnv";

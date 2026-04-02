@@ -7,8 +7,7 @@
 // Data generators
 // ---------------------------------------------------------------------------
 
-export const generateUniqueEmail = (): string =>
-	`test.${Date.now()}@example.com`;
+export const generateUniqueEmail = (): string => `test.${Date.now()}@example.com`;
 
 export const generateTestUser = () => ({
 	name: "Test User",

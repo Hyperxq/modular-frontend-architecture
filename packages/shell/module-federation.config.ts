@@ -1,6 +1,6 @@
 import { createModuleFederationConfig } from "@module-federation/rsbuild-plugin";
 
-const dts = (remoteUrl: string, isLocalEnv: boolean) =>
+const _dts = (remoteUrl: string, isLocalEnv: boolean) =>
 	isLocalEnv
 		? {
 				consumeTypes: {
@@ -15,14 +15,15 @@ const dts = (remoteUrl: string, isLocalEnv: boolean) =>
 			}
 		: false;
 
-export const getMFConfig = (remoteUrl: string, isLocalEnv: boolean) => {
+export const getMFConfig = (remoteUrl: string, _isLocalEnv: boolean) => {
 	return createModuleFederationConfig({
 		name: "host",
 		manifest: false,
 		remotes: {
 			ui_components: `ui_components@${remoteUrl}/mf-manifest.json`,
 		},
-		dts: dts(remoteUrl, isLocalEnv),
+		// DTS disabled until MF connection is verified — re-enable once dev server is stable
+		dts: false,
 		shared: {
 			preact: {
 				singleton: true,

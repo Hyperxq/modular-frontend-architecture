@@ -1,5 +1,5 @@
+import { resolve } from "node:path";
 import type { SourceMap } from "@rsbuild/core";
-import { resolve } from "path";
 import { isLocalEnv } from "../../shared/src/utils/isLocalEnv";
 
 // ---------------------------------------------------------------------------

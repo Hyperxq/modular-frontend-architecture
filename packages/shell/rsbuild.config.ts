@@ -1,9 +1,9 @@
+import path, { resolve } from "node:path";
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 import { defineConfig } from "@rsbuild/core";
 import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import CompressionPlugin from "compression-webpack-plugin";
-import path, { resolve } from "path";
 import loadEnvFile from "../.././helpers/envLoaderHelper";
 import { isLocalEnv } from "../libraries/shared/src";
 import mfConfig from "./module-federation.config";

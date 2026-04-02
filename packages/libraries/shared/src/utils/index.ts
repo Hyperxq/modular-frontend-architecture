@@ -1,2 +1,1 @@
-export { isLocalEnv } from './isLocalEnv';
-
+export { isLocalEnv } from "./isLocalEnv";

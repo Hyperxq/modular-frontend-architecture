@@ -1,7 +1,7 @@
+import { resolve } from "node:path";
 import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import { defineConfig } from "@rstest/core";
-import { resolve } from "path";
 
 export default defineConfig({
 	globals: true,

@@ -1,5 +1,5 @@
+import { dirname, relative } from "node:path";
 import { sync } from "fast-glob";
-import { dirname, relative } from "path";
 import type { ComponentEntry } from "./interfaces/ComponentEntry";
 
 export const createComponentEntry = (filePath: string): ComponentEntry | null => {

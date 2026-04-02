@@ -24,7 +24,7 @@
 			"*": ["./@mf-types/*"],
 			"@/*": ["./*"],
 			"@root/*": ["../../*"],
-			"@shared/*": ["../libraries/shared/src/*"],
+			"@shared/*": ["../libraries/shared/src/*"]
 		},
 
 		/* type checking */
