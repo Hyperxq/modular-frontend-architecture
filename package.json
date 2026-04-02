@@ -10,8 +10,8 @@
 		"rspack"
 	],
 	"scripts": {
-		"dev": "nx run-many --target=dev --projects=ui-components,shell --parallel --output-style=stream",
-		"dev:mock": "nx run-many --target=mock --projects=ui-components,shell --parallel --output-style=stream",
+		"dev": "nx run web:dev --output-style=stream",
+		"dev:mock": "nx run web:mock --output-style=stream",
 		"test": "rstest",
 		"build": "nx run build",
 		"build:prod": "nx run web:build --configuration=production",

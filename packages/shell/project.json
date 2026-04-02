@@ -8,13 +8,6 @@
 	"targets": {
 		"dev": {
 			"executor": "nx:run-commands",
-			"dependsOn": [
-				{
-					"projects": ["@modular-frontend/ui-components"],
-					"target": "dev",
-					"params": "forward"
-				}
-			],
 			"options": {
 				"command": "bunx rsbuild dev --env-mode development.local",
 				"cwd": "packages/shell"
@@ -22,13 +15,6 @@
 		},
 		"mock": {
 			"executor": "nx:run-commands",
-			"dependsOn": [
-				{
-					"projects": ["@modular-frontend/ui-components"],
-					"target": "mock",
-					"params": "forward"
-				}
-			],
 			"options": {
 				"command": "bunx rsbuild dev --env-mode mock",
 				"cwd": "packages/shell"

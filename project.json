@@ -4,17 +4,33 @@
 	"projectType": "application",
 	"tags": ["type:app", "scope:root"],
 	"targets": {
+		"dev:remote": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run @modular-frontend/ui-components:dev",
+				"readyWhen": "Federated types created correctly"
+			}
+		},
 		"dev": {
 			"executor": "nx:run-commands",
 			"options": {
 				"command": "nx run @modular-frontend/shell:dev"
+			},
+			"dependsOn": ["dev:remote"]
+		},
+		"mock:remote": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "nx run @modular-frontend/ui-components:mock",
+				"readyWhen": "Federated types created correctly"
 			}
 		},
 		"mock": {
 			"executor": "nx:run-commands",
 			"options": {
 				"command": "nx run @modular-frontend/shell:mock"
-			}
+			},
+			"dependsOn": ["mock:remote"]
 		},
 		"build": {
 			"executor": "nx:run-commands",

@@ -98,6 +98,7 @@ Load the relevant skill BEFORE writing any code for that context:
 | nx.json, project.json, nx run | `skills/nx/SKILL.md` |
 | biome.json, lint errors, formatting | `skills/biome/SKILL.md` |
 | lefthook.yml, commit messages, git hooks | `skills/lefthook/SKILL.md` |
+| E2E tests, Playwright, automation_test/ | `skills/playwright/SKILL.md` |
 | TypeScript types, interfaces, generics | `~/.claude/skills/typescript/SKILL.md` |
 | Tailwind classes, styling | `~/.claude/skills/tailwind-4/SKILL.md` |
 | Zod schemas, validation | `~/.claude/skills/zod-4/SKILL.md` |

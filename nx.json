@@ -11,6 +11,14 @@
 			}
 		}
 	},
+	"targetDefaults": {
+		"dev": {
+			"dependsOn": []
+		},
+		"mock": {
+			"dependsOn": []
+		}
+	},
 	"namedInputs": {
 		"default": ["{projectRoot}/**/*", "!{projectRoot}/dist/**", "!{projectRoot}/build/**"]
 	}
