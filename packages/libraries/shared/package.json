@@ -1,24 +1,28 @@
 {
-  "name": "@modular-frontend/shared",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "npm run build:sass && npm run build:tailwind",
-    "build:sass": "npx sass ./src/styles/scss/globals.scss ./src/styles/scss/globals-wc.css",
-    "build:tailwind": "npx @tailwindcss/cli -i ./src/styles/scss/globals-wc.css -o ./src/styles/scss/wc-tailwind.css --minify"
-  },
-  "devDependencies": {
-    "@rslib/core": "^0.19.0"
-  },
-  "private": true
+	"name": "@modular-frontend/shared",
+	"version": "1.0.0",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "npm run build:sass && npm run build:tailwind",
+		"build:sass": "npx sass ./src/styles/scss/globals.scss ./src/styles/scss/globals-wc.css",
+		"build:tailwind": "npx @tailwindcss/cli -i ./src/styles/scss/globals-wc.css -o ./src/styles/scss/wc-tailwind.css --minify",
+		"lint": "bunx biome check .",
+		"lint:fix": "bunx biome check --write .",
+		"format": "bunx biome format .",
+		"format:fix": "bunx biome format --write ."
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.19.0"
+	},
+	"private": true
 }

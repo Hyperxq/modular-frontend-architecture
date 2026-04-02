@@ -1,9 +1,9 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": false
+		"useIgnoreFile": true
 	},
 	"files": {
 		"ignoreUnknown": false,
@@ -24,7 +24,7 @@
 			"!packages/*/package.json",
 			"!packages/*/*/package.json",
 			"!packages/*/*/tsconfig.ts",
-			"!!packages/shell/@mf-types/**"
+			"!packages/shell/@mf-types"
 		]
 	},
 	"formatter": {
@@ -34,13 +34,99 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
-		}
+			"quoteStyle": "double",
+			"jsxQuoteStyle": "double",
+			"trailingCommas": "all",
+			"semicolons": "always",
+			"arrowParentheses": "always"
+		},
+		"globals": ["h", "Fragment"]
 	},
 	"linter": {
 		"enabled": true,
+		"domains": {
+			"react": "recommended"
+		},
 		"rules": {
-			"recommended": false
+			"recommended": true,
+			"complexity": {
+				"noArguments": "error",
+				"noAdjacentSpacesInRegex": "error",
+				"noExtraBooleanCast": "error",
+				"noUselessCatch": "error",
+				"noUselessEscapeInRegex": "error",
+				"noUselessThisAlias": "error",
+				"noUselessTypeConstraint": "error"
+			},
+			"correctness": {
+				"noConstAssign": "error",
+				"noConstantCondition": "error",
+				"noEmptyCharacterClassInRegex": "error",
+				"noEmptyPattern": "error",
+				"noGlobalObjectCalls": "error",
+				"noInvalidBuiltinInstantiation": "error",
+				"noInvalidConstructorSuper": "error",
+				"noNonoctalDecimalEscape": "error",
+				"noPrecisionLoss": "error",
+				"noSelfAssign": "error",
+				"noSetterReturn": "error",
+				"noSwitchDeclarations": "error",
+				"noUndeclaredVariables": "error",
+				"noUnreachable": "error",
+				"noUnreachableSuper": "error",
+				"noUnsafeFinally": "error",
+				"noUnsafeOptionalChaining": "error",
+				"noUnusedLabels": "error",
+				"noUnusedPrivateClassMembers": "error",
+				"noUnusedVariables": "error",
+				"useIsNan": "error",
+				"useValidForDirection": "error",
+				"useValidTypeof": "error",
+				"useYield": "error",
+				"useExhaustiveDependencies": "warn",
+				"useHookAtTopLevel": "error"
+			},
+			"style": {
+				"useConst": "error",
+				"noCommonJs": "error",
+				"noNamespace": "error",
+				"useArrayLiterals": "error",
+				"useAsConstAssertion": "error",
+				"useComponentExportOnlyModules": "error",
+				"useImportType": "error",
+				"noNonNullAssertion": "warn"
+			},
+			"suspicious": {
+				"noAsyncPromiseExecutor": "error",
+				"noCatchAssign": "error",
+				"noClassAssign": "error",
+				"noCompareNegZero": "error",
+				"noControlCharactersInRegex": "error",
+				"noDebugger": "error",
+				"noDuplicateCase": "error",
+				"noDuplicateClassMembers": "error",
+				"noDuplicateElseIf": "error",
+				"noDuplicateObjectKeys": "error",
+				"noDuplicateParameters": "error",
+				"noEmptyBlockStatements": "error",
+				"noFallthroughSwitchClause": "error",
+				"noFunctionAssign": "error",
+				"noGlobalAssign": "error",
+				"noImportAssign": "error",
+				"noIrregularWhitespace": "error",
+				"noMisleadingCharacterClass": "error",
+				"noPrototypeBuiltins": "error",
+				"noRedeclare": "error",
+				"noShadowRestrictedNames": "error",
+				"noSparseArray": "error",
+				"noUnsafeNegation": "error",
+				"noUnsafeDeclarationMerging": "error",
+				"noExplicitAny": "error",
+				"noExtraNonNullAssertion": "error",
+				"noMisleadingInstantiator": "error",
+				"useGetterReturn": "error",
+				"noArrayIndexKey": "warn"
+			}
 		}
 	},
 	"assist": {
@@ -52,83 +138,14 @@
 	},
 	"overrides": [
 		{
-			"includes": ["**/*.{js,jsx,ts,tsx}"],
+			"includes": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
 			"linter": {
 				"rules": {
-					"complexity": {
-						"noArguments": "error",
-						"noAdjacentSpacesInRegex": "error",
-						"noExtraBooleanCast": "error",
-						"noUselessCatch": "error",
-						"noUselessEscapeInRegex": "error",
-						"noUselessThisAlias": "error",
-						"noUselessTypeConstraint": "error"
-					},
-					"correctness": {
-						"noConstAssign": "error",
-						"noConstantCondition": "error",
-						"noEmptyCharacterClassInRegex": "error",
-						"noEmptyPattern": "error",
-						"noGlobalObjectCalls": "error",
-						"noInvalidBuiltinInstantiation": "error",
-						"noInvalidConstructorSuper": "error",
-						"noNonoctalDecimalEscape": "error",
-						"noPrecisionLoss": "error",
-						"noSelfAssign": "error",
-						"noSetterReturn": "error",
-						"noSwitchDeclarations": "error",
-						"noUndeclaredVariables": "error",
-						"noUnreachable": "error",
-						"noUnreachableSuper": "error",
-						"noUnsafeFinally": "error",
-						"noUnsafeOptionalChaining": "error",
-						"noUnusedLabels": "error",
-						"noUnusedPrivateClassMembers": "error",
-						"noUnusedVariables": "error",
-						"useIsNan": "error",
-						"useValidForDirection": "error",
-						"useValidTypeof": "error",
-						"useYield": "error",
-						"useExhaustiveDependencies": "warn",
-						"useHookAtTopLevel": "error"
-					},
 					"style": {
-						"useConst": "error",
-						"noCommonJs": "error",
-						"noNamespace": "error",
-						"useArrayLiterals": "error",
-						"useAsConstAssertion": "error",
-						"useComponentExportOnlyModules": "error"
+						"useComponentExportOnlyModules": "off"
 					},
 					"suspicious": {
-						"noAsyncPromiseExecutor": "error",
-						"noCatchAssign": "error",
-						"noClassAssign": "error",
-						"noCompareNegZero": "error",
-						"noControlCharactersInRegex": "error",
-						"noDebugger": "error",
-						"noDuplicateCase": "error",
-						"noDuplicateClassMembers": "error",
-						"noDuplicateElseIf": "error",
-						"noDuplicateObjectKeys": "error",
-						"noDuplicateParameters": "error",
-						"noEmptyBlockStatements": "error",
-						"noFallthroughSwitchClause": "error",
-						"noFunctionAssign": "error",
-						"noGlobalAssign": "error",
-						"noImportAssign": "error",
-						"noIrregularWhitespace": "error",
-						"noMisleadingCharacterClass": "error",
-						"noPrototypeBuiltins": "error",
-						"noRedeclare": "error",
-						"noShadowRestrictedNames": "error",
-						"noSparseArray": "error",
-						"noUnsafeNegation": "error",
-						"noUnsafeDeclarationMerging": "error",
-						"noExplicitAny": "error",
-						"noExtraNonNullAssertion": "error",
-						"noMisleadingInstantiator": "error",
-						"useGetterReturn": "error"
+						"noExplicitAny": "warn"
 					}
 				}
 			}

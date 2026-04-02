@@ -9,10 +9,10 @@
 		"dev": "rsbuild dev --env-mode development.local",
 		"dev:mock": "rsbuild dev --env-mode mock",
 		"preview": "rsbuild preview",
-		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
-		"format": "biome format .",
-		"format:fix": "biome format --write ."
+		"lint": "bunx biome check .",
+		"lint:fix": "bunx biome check --write .",
+		"format": "bunx biome format .",
+		"format:fix": "bunx biome format --write ."
 	},
 	"dependencies": {
 		"@tanstack/react-query": "5.90.15",
