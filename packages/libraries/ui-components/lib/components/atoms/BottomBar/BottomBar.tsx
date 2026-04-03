@@ -1,27 +1,43 @@
-import type { ComponentChildren, FunctionalComponent } from "preact";
+import type { FunctionalComponent } from "preact";
 import "./BottomBar.css";
+import type { BottomBarProps } from "./BottomBar.types";
 
-interface BottomBarProps {
-	currentSlideIndex: number;
-	totalSlides: number;
-	children?: ComponentChildren;
+function pad(n: number): string {
+	return String(n).padStart(2, "0");
+}
+
+function buildSlideDots(current: number, total: number): string {
+	return Array.from({ length: total }, (_, i) => (i === current ? "●" : "○")).join("");
 }
 
 const BottomBar: FunctionalComponent<BottomBarProps> = ({
 	currentSlideIndex,
 	totalSlides,
-	children,
+	currentSectionIndex,
+	totalSections,
 }) => (
 	<footer class="bottom-bar">
-		{/* biome-ignore lint/a11y/useSemanticElements: <output> causes jsdom hangs in tests */}
-		<div
-			class="bottom-bar__counter"
-			role="status"
-			aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}
-		>
-			{currentSlideIndex + 1} / {totalSlides}
+		<div class="bottom-bar__hint">
+			<span class="bottom-bar__keys">←→</span>
+			<span>TO NAVIGATE</span>
 		</div>
-		{children && <div class="bottom-bar__actions">{children}</div>}
+		<div class="bottom-bar__center">
+			<span class="bottom-bar__slide-label">
+				SLIDE {currentSlideIndex + 1} / {totalSlides}
+			</span>
+			{totalSlides > 0 && (
+				<span
+					class="bottom-bar__dots"
+					role="img"
+					aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}
+				>
+					{buildSlideDots(currentSlideIndex, totalSlides)}
+				</span>
+			)}
+		</div>
+		<div class="bottom-bar__section">
+			SECTION {pad(currentSectionIndex + 1)} / {pad(totalSections)}
+		</div>
 	</footer>
 );
 

@@ -1,36 +1,50 @@
 import { describe, expect, it } from "@rstest/core";
-import { render, screen } from "@testing-library/preact";
+import { render } from "@testing-library/preact";
 import BottomBar from "./BottomBar";
 
 describe("BottomBar", () => {
-	it("renders 1-indexed slide counter", () => {
-		render(<BottomBar currentSlideIndex={2} totalSlides={15} />);
-		expect(screen.getByText("3 / 15")).toBeInTheDocument();
-	});
-
-	it("renders first slide correctly", () => {
-		render(<BottomBar currentSlideIndex={0} totalSlides={10} />);
-		expect(screen.getByText("1 / 10")).toBeInTheDocument();
-	});
-
-	it("renders a footer element", () => {
-		const { container } = render(<BottomBar currentSlideIndex={0} totalSlides={5} />);
-		const footer = container.querySelector("footer");
-		expect(footer).not.toBeNull();
-	});
-
-	it("has accessible label on counter", () => {
-		const { container } = render(<BottomBar currentSlideIndex={0} totalSlides={5} />);
-		const counter = container.querySelector(".bottom-bar__counter");
-		expect(counter?.getAttribute("aria-label")).toBe("Slide 1 of 5");
-	});
-
-	it("renders children inside footer", () => {
-		render(
-			<BottomBar currentSlideIndex={0} totalSlides={5}>
-				<span data-testid="child">arrows</span>
-			</BottomBar>,
+	it("renders navigation hint with TO NAVIGATE", () => {
+		const { container } = render(
+			<BottomBar currentSlideIndex={0} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
 		);
-		expect(screen.getByTestId("child")).toBeInTheDocument();
+		const hint = container.querySelector(".bottom-bar__hint");
+		expect(hint?.textContent).toContain("TO NAVIGATE");
+	});
+
+	it("renders slide counter in primary color", () => {
+		const { container } = render(
+			<BottomBar currentSlideIndex={1} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
+		);
+		const label = container.querySelector(".bottom-bar__slide-label");
+		expect(label?.textContent).toContain("SLIDE 2 / 5");
+	});
+
+	it("renders slide dots with current position filled", () => {
+		const { container } = render(
+			<BottomBar currentSlideIndex={1} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
+		);
+		const dots = container.querySelector(".bottom-bar__dots");
+		expect(dots?.textContent).toBe("○●○○○");
+	});
+
+	it("renders zero-padded section counter", () => {
+		const { container } = render(
+			<BottomBar currentSlideIndex={0} totalSlides={5} currentSectionIndex={0} totalSections={9} />,
+		);
+		const section = container.querySelector(".bottom-bar__section");
+		expect(section?.textContent).toContain("SECTION 01 / 09");
+	});
+
+	it("renders double-digit sections without extra padding", () => {
+		const { container } = render(
+			<BottomBar
+				currentSlideIndex={0}
+				totalSlides={5}
+				currentSectionIndex={11}
+				totalSections={15}
+			/>,
+		);
+		const section = container.querySelector(".bottom-bar__section");
+		expect(section?.textContent).toContain("SECTION 12 / 15");
 	});
 });
