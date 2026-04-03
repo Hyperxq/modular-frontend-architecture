@@ -48,6 +48,7 @@ export default defineConfig(({ envMode }) => {
 		},
 		dev: {
 			writeToDisk: true,
+			hmr: false,
 		},
 		output: {
 			injectStyles: !isLocalEnvMode,

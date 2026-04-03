@@ -24,9 +24,39 @@ interface Section {
 	slides: Slide[];
 }
 
-/* ─── Data — starts empty, content added in Phase 2 ─── */
+/* ─── Sample data — replace with real content later ─── */
 
-const sections: Section[] = [];
+const sections: Section[] = [
+	{
+		id: "intro",
+		title: "Overview",
+		description: "Introduction to the architecture",
+		slides: [
+			{ title: "The Monolith Problem", type: "concept", content: "Traditional monoliths create tightly coupled systems." },
+			{ title: "Structural Analysis", type: "diagram", content: "How monoliths fail at scale.", diagram: "monolith-diagram" },
+			{ title: "Why Micro-Frontends?", type: "concept", content: "Independent deployment, team autonomy, technology freedom." },
+		],
+	},
+	{
+		id: "architecture",
+		title: "Architecture",
+		description: "Deep dive into MFE patterns",
+		slides: [
+			{ title: "Module Federation", type: "concept", content: "Webpack/Rspack runtime module sharing." },
+			{ title: "Host & Remote", type: "diagram", content: "How host loads remote modules.", diagram: "host-remote-diagram" },
+			{ title: "Shared Dependencies", type: "code", content: "Singleton pattern for shared libraries." },
+		],
+	},
+	{
+		id: "stack",
+		title: "Stack & Tooling",
+		description: "The tools we use",
+		slides: [
+			{ title: "Rspack Ecosystem", type: "concept", content: "Rsbuild, Rslib, Rstest — unified toolchain." },
+			{ title: "Preact + Signals", type: "concept", content: "3KB runtime, React compatibility via aliases." },
+		],
+	},
+];
 
 /* ─── Helpers ─── */
 

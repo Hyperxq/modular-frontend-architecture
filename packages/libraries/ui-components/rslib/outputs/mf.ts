@@ -9,7 +9,7 @@ import { COMPONENTS_PATH, DIST_ROOT } from "../env";
 // Exposes each component independently — no shared barrel
 // ---------------------------------------------------------------------------
 
-export const mfOutput = (_isLocal: boolean, sourceMap: boolean | SourceMap): LibConfig => ({
+export const mfOutput = (isLocal: boolean, sourceMap: boolean | SourceMap): LibConfig => ({
 	format: "mf",
 	// DTS disabled until MF connection is verified — re-enable once dev server is stable
 	dts: false,
@@ -21,7 +21,7 @@ export const mfOutput = (_isLocal: boolean, sourceMap: boolean | SourceMap): Lib
 	output: {
 		distPath: { root: `${DIST_ROOT}/mf` },
 		cleanDistPath: true,
-		filenameHash: true,
+		filenameHash: !isLocal,
 		sourceMap,
 	},
 });
