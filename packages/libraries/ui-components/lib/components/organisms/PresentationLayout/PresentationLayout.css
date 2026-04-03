@@ -80,7 +80,7 @@
 	color: var(--text-secondary);
 	background: var(--surface-container);
 	border: 1px solid var(--border-ghost);
-	border-radius: var(--radius);
+	border-radius: 50%;
 	cursor: pointer;
 	transition:
 		color var(--duration-fast) var(--ease-default),
