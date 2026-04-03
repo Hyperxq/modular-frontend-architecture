@@ -49,18 +49,53 @@
 	grid-area: bottom;
 }
 
-.presentation-layout__nav-prev {
+.presentation-layout__nav-prev,
+.presentation-layout__nav-next {
 	position: absolute;
-	left: var(--space-2);
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: var(--z-controls);
 }
 
+.presentation-layout__nav-prev {
+	left: var(--space-4);
+}
+
 .presentation-layout__nav-next {
-	position: absolute;
-	right: var(--space-2);
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: var(--z-controls);
+	right: var(--space-4);
+}
+
+/* ─── Nav arrow button styling (rendered inline by container) ─── */
+.presentation-layout__nav-prev > button,
+.presentation-layout__nav-next > button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	font-family: var(--font-sans);
+	font-size: 2rem;
+	font-weight: var(--weight-normal);
+	line-height: 1;
+	color: var(--text-secondary);
+	background: var(--surface-container);
+	border: 1px solid var(--border-ghost);
+	border-radius: var(--radius);
+	cursor: pointer;
+	transition:
+		color var(--duration-fast) var(--ease-default),
+		background var(--duration-fast) var(--ease-default);
+}
+
+.presentation-layout__nav-prev > button:hover:not(:disabled),
+.presentation-layout__nav-next > button:hover:not(:disabled) {
+	color: var(--primary);
+	background: var(--surface-container-high);
+}
+
+.presentation-layout__nav-prev > button:disabled,
+.presentation-layout__nav-next > button:disabled {
+	color: var(--text-muted);
+	opacity: 0.4;
+	cursor: default;
 }

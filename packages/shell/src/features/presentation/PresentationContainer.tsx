@@ -34,7 +34,6 @@ const PresentationContainer: FunctionalComponent = () => {
 				navPrev={
 					<button
 						type="button"
-						class="nav-arrows__btn"
 						onClick={data.goPrev}
 						disabled={!data.canGoPrev}
 						aria-label="Previous slide"
@@ -45,7 +44,6 @@ const PresentationContainer: FunctionalComponent = () => {
 				navNext={
 					<button
 						type="button"
-						class="nav-arrows__btn"
 						onClick={data.goNext}
 						disabled={!data.canGoNext}
 						aria-label="Next slide"

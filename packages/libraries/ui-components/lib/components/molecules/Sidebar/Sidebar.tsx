@@ -2,10 +2,6 @@ import type { FunctionalComponent } from "preact";
 import "./Sidebar.css";
 import type { SidebarProps } from "./Sidebar.types";
 
-function buildDots(visited: number, total: number): string {
-	return Array.from({ length: total }, (_, i) => (i < visited ? "●" : "○")).join("");
-}
-
 const Sidebar: FunctionalComponent<SidebarProps> = ({
 	sections,
 	activeSectionId,
@@ -37,7 +33,12 @@ const Sidebar: FunctionalComponent<SidebarProps> = ({
 								role="img"
 								aria-label={`${section.visitedCount} of ${section.slideCount} slides visited`}
 							>
-								{buildDots(section.visitedCount, section.slideCount)}
+								{Array.from({ length: section.slideCount }, (_, i) => (
+									<span
+										key={i}
+										class={`sidebar__dot${i < section.visitedCount ? " sidebar__dot--visited" : ""}`}
+									/>
+								))}
 							</span>
 						</button>
 					</li>

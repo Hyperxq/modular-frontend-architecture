@@ -6,10 +6,6 @@ function pad(n: number): string {
 	return String(n).padStart(2, "0");
 }
 
-function buildSlideDots(current: number, total: number): string {
-	return Array.from({ length: total }, (_, i) => (i === current ? "●" : "○")).join("");
-}
-
 const BottomBar: FunctionalComponent<BottomBarProps> = ({
 	currentSlideIndex,
 	totalSlides,
@@ -31,7 +27,12 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 					role="img"
 					aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}
 				>
-					{buildSlideDots(currentSlideIndex, totalSlides)}
+					{Array.from({ length: totalSlides }, (_, i) => (
+						<span
+							key={i}
+							class={`bottom-bar__dot${i === currentSlideIndex ? " bottom-bar__dot--active" : ""}`}
+						/>
+					))}
 				</span>
 			)}
 		</div>

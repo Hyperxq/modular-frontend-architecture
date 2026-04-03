@@ -40,13 +40,16 @@ describe("Sidebar", () => {
 		expect(container.querySelector(".sidebar__brand")).toBeNull();
 	});
 
-	it("renders dot indicators instead of numbers", () => {
+	it("renders dot indicators with visited/unvisited states", () => {
 		const { container } = render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		const dots = container.querySelectorAll(".sidebar__dots");
-		expect(dots[0]?.textContent).toBe("●●○");
-		expect(dots[1]?.textContent).toBe("○○○○○");
+		const firstDots = container.querySelectorAll(".sidebar__dots")[0];
+		expect(firstDots?.querySelectorAll(".sidebar__dot")).toHaveLength(3);
+		expect(firstDots?.querySelectorAll(".sidebar__dot--visited")).toHaveLength(2);
+		const secondDots = container.querySelectorAll(".sidebar__dots")[1];
+		expect(secondDots?.querySelectorAll(".sidebar__dot")).toHaveLength(5);
+		expect(secondDots?.querySelectorAll(".sidebar__dot--visited")).toHaveLength(0);
 	});
 
 	it("marks active section with aria-current and active class", () => {

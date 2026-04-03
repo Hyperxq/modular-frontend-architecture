@@ -73,8 +73,17 @@
 }
 
 .sidebar__dots {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
-	color: var(--text-muted);
-	letter-spacing: 0.15em;
+	display: flex;
+	gap: 4px;
+}
+
+.sidebar__dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--text-muted);
+}
+
+.sidebar__dot--visited {
+	background: var(--primary);
 }

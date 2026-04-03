@@ -40,10 +40,20 @@
 }
 
 .bottom-bar__dots {
-	font-family: var(--font-mono);
-	font-size: var(--text-label-sm);
-	color: var(--text-muted);
-	letter-spacing: 0.15em;
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+}
+
+.bottom-bar__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--text-muted);
+}
+
+.bottom-bar__dot--active {
+	background: var(--primary);
 }
 
 .bottom-bar__section {

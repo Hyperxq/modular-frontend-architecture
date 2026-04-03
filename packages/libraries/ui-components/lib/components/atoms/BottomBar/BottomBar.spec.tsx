@@ -19,12 +19,14 @@ describe("BottomBar", () => {
 		expect(label?.textContent).toContain("SLIDE 2 / 5");
 	});
 
-	it("renders slide dots with current position filled", () => {
+	it("renders slide dots with active position highlighted", () => {
 		const { container } = render(
 			<BottomBar currentSlideIndex={1} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
 		);
-		const dots = container.querySelector(".bottom-bar__dots");
-		expect(dots?.textContent).toBe("○●○○○");
+		const dots = container.querySelectorAll(".bottom-bar__dot");
+		expect(dots).toHaveLength(5);
+		expect(dots[1]?.classList.contains("bottom-bar__dot--active")).toBe(true);
+		expect(dots[0]?.classList.contains("bottom-bar__dot--active")).toBe(false);
 	});
 
 	it("renders zero-padded section counter", () => {
