@@ -282,6 +282,66 @@ ls node_modules/.bun/ | grep rspack+core
 
 > **Rule:** when upgrading any tool in this chain, always upgrade ALL of them together and verify with `ls node_modules/.bun/ | grep rspack+core` that a single copy exists.
 
+## Spec-Driven Development (OpenSpec)
+
+This project uses [OpenSpec](https://openspec.dev/) for spec-driven development.
+
+### Artifact Store
+
+| Mode | Location |
+| --- | --- |
+| **openspec** | `openspec/` directory in repo (checked in) |
+
+> Artifacts live in the codebase. Commit them alongside code changes.
+
+### Directory Structure
+
+```
+openspec/
+├── specs/                  # Living specs — source of truth for system behavior
+│   └── <domain>/
+│       └── spec.md
+└── changes/                # One folder per in-progress change
+    └── <change-name>/
+        ├── proposal.md     # Intent + scope
+        ├── design.md       # Technical approach
+        ├── tasks.md        # Implementation checklist
+        └── specs/          # Delta specs (what changes in this PR)
+            └── <domain>/
+                └── spec.md
+```
+
+### Slash Commands (OpenCode)
+
+| Command | Action |
+| --- | --- |
+| `/opsx:propose <name>` | Create proposal + full artifacts in one shot |
+| `/opsx:new <name>` | Start a new change (proposal only) |
+| `/opsx:ff <name>` | Fast-forward: create specs, design, tasks from proposal |
+| `/opsx:continue <name>` | Create next artifact in the chain |
+| `/opsx:apply` | Implement tasks from the current change |
+| `/opsx:verify` | Validate implementation against specs and tasks |
+| `/opsx:archive` | Merge delta specs into `openspec/specs/` and archive change |
+| `/opsx:explore <topic>` | Research a topic before committing to a change |
+| `/opsx:sync` | Sync all pending delta specs into main specs |
+| `/opsx:bulk-archive` | Archive multiple completed changes at once |
+| `/opsx:onboard` | Generate onboarding context from existing specs |
+
+### Workflow
+
+```
+/opsx:propose ──► /opsx:apply ──► /opsx:archive        (quick path)
+
+/opsx:new ──► /opsx:ff ──► /opsx:apply ──► /opsx:verify ──► /opsx:archive  (full path)
+```
+
+### Rules
+
+- ALWAYS commit `openspec/` changes alongside implementation code
+- Delta specs in `openspec/changes/<name>/specs/` are NOT the main specs — they are merged on archive
+- NEVER manually edit `openspec/specs/` directly — only `/opsx:archive` or `/opsx:sync` should do that
+- When starting a new feature, check `openspec list` first to see active changes
+
 ## Commit Convention
 
 ```
