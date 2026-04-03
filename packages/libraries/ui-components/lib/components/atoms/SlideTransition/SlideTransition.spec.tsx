@@ -29,7 +29,7 @@ describe("SlideTransition", () => {
 			</SlideTransition>,
 		);
 		const wrapper = container.querySelector(".slide-transition");
-		expect(wrapper).not.toHaveClass("slide-transition--entering");
+		expect(wrapper?.classList.contains("slide-transition--entering")).toBe(false);
 	});
 
 	it("does not unmount children on key change", () => {
