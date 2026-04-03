@@ -1,3 +1,4 @@
+import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
 
 interface ButtonProps {
@@ -9,8 +10,9 @@ interface ButtonProps {
 }
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
-	primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-	secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400",
+	primary: "bg-primary text-on-primary hover:bg-primary-dim focus:ring-primary",
+	secondary:
+		"bg-surface-container-high text-fg-primary hover:bg-surface-bright focus:ring-outline-variant",
 	danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
 };
 
@@ -24,7 +26,10 @@ const Button: FunctionalComponent<ButtonProps> = ({
 	return (
 		<button
 			type={type}
-			class={`inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${variantClasses[variant]}`}
+			class={cn(
+				"inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-sm transition-colors duration-fast ease-default focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed",
+				variantClasses[variant],
+			)}
 			onClick={onClick}
 			disabled={disabled}
 		>

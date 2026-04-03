@@ -37,7 +37,10 @@ export default defineConfig(({ envMode = "development.local" }) => {
 		},
 
 		source: {
-			entry: pluginEntries(COMPONENTS_PATH),
+			entry: {
+				...pluginEntries(COMPONENTS_PATH),
+				"styles/tailwind": "./lib/styles/entry.css",
+			},
 			exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
 			tsconfigPath: "./tsconfig.build.json",
 		},

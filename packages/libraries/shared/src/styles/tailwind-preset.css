@@ -1,0 +1,154 @@
+@theme {
+	/* ─── Surfaces — Tonal Layering ─── */
+	--color-surface: #0c0e14;
+	--color-surface-container-low: #11131a;
+	--color-surface-container: #171921;
+	--color-surface-container-high: #1d2029;
+	--color-surface-container-highest: #23262e;
+	--color-surface-bright: #2a2d36;
+	--color-surface-overlay: rgba(12, 14, 20, 0.6);
+
+	/* ─── Brand — Functional Color Hierarchy ─── */
+	--color-primary: #6dddff;
+	--color-primary-dim: #4fb8d9;
+	--color-on-primary: #0c0e14;
+	--color-secondary: #af88ff;
+	--color-tertiary: #a1ffef;
+	--color-amber: #ffb74d;
+	--color-outline-variant: #46484f;
+
+	/* ─── Text (fg- prefix to avoid text-text-* double prefix) ─── */
+	--color-fg-primary: #e6e6eb;
+	--color-fg-secondary: #a0a3b5;
+	--color-fg-muted: #6b6e80;
+	--color-fg-inverse: #0c0e14;
+	--color-fg-brand: #6dddff;
+
+	/* ─── Borders — Ghost Border ─── */
+	--color-border-ghost: rgba(70, 72, 79, 0.15);
+	--color-border-ghost-hover: rgba(70, 72, 79, 0.2);
+	--color-border-focus: #6dddff;
+
+	/* ─── Spacing — Power of 3.5 (0.35rem unit) ─── */
+	--spacing-0: 0;
+	--spacing-1: 0.35rem;
+	--spacing-2: 0.7rem;
+	--spacing-3: 1.05rem;
+	--spacing-4: 1.4rem;
+	--spacing-5: 1.75rem;
+	--spacing-6: 2.1rem;
+	--spacing-7: 2.45rem;
+	--spacing-8: 2.8rem;
+	--spacing-9: 3.15rem;
+	--spacing-10: 3.5rem;
+	--spacing-12: 4rem;
+	--spacing-16: 5.6rem;
+	--spacing-20: 7rem;
+
+	/* ─── Typography — Font Families ─── */
+	--font-sans: "Inter", system-ui, -apple-system, sans-serif;
+	--font-label: "Space Grotesk", "Inter", system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+
+	/* ─── Typography — Font Sizes ─── */
+	--text-display-lg: 3.5rem;
+	--text-xl: 1.25rem;
+	--text-lg: 1.125rem;
+	--text-base: 1rem;
+	--text-body-md: 0.875rem;
+	--text-label-md: 0.75rem;
+	--text-label-sm: 0.625rem;
+
+	/* ─── Typography — Line Heights ─── */
+	--leading-tight: 1.2;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.6;
+
+	/* ─── Typography — Letter Spacing ─── */
+	--tracking-display: -0.04em;
+	--tracking-normal: 0;
+
+	/* ─── Typography — Font Weights ─── */
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	/* ─── Radius ─── */
+	--radius: 0px;
+
+	/* ─── Transitions — Durations ─── */
+	--duration-instant: 0ms;
+	--duration-fast: 100ms;
+	--duration-normal: 200ms;
+	--duration-slow: 400ms;
+
+	/* ─── Transitions — Easings ─── */
+	--ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+	--ease-in: cubic-bezier(0.4, 0, 1, 1);
+	--ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+	/* ─── Blur ─── */
+	--blur-glass: 12px;
+
+	/* ─── Z-index ─── */
+	--z-base: 0;
+	--z-sidebar: 10;
+	--z-header: 20;
+	--z-controls: 30;
+	--z-overlay: 40;
+	--z-modal: 50;
+
+	/* ─── Layout — Sidebar Width (percentage for responsive readiness) ─── */
+	--width-sidebar: 15%;
+
+	/* ─── Animations ─── */
+	--animate-slide-enter: slide-enter 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+/* ─── Keyframes ─── */
+@keyframes slide-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.7rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ─── Grid Layout Utilities ─── */
+@utility layout-grid-full {
+	grid-template-columns: var(--width-sidebar) 1fr 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		"sidebar header  header"
+		"sidebar center  diagram"
+		"sidebar bottom  bottom";
+}
+
+@utility layout-grid-no-diagram {
+	grid-template-columns: var(--width-sidebar) 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		"sidebar header"
+		"sidebar center"
+		"sidebar bottom";
+}
+
+@utility grid-area-header {
+	grid-area: header;
+}
+@utility grid-area-sidebar {
+	grid-area: sidebar;
+}
+@utility grid-area-center {
+	grid-area: center;
+}
+@utility grid-area-diagram {
+	grid-area: diagram;
+}
+@utility grid-area-bottom {
+	grid-area: bottom;
+}

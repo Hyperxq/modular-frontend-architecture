@@ -22,7 +22,7 @@ describe("PresentationLayout", () => {
 	});
 
 	it("has presentation aria-label", () => {
-		const { container } = render(
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -31,12 +31,12 @@ describe("PresentationLayout", () => {
 				bottom={null}
 			/>,
 		);
-		const root = container.querySelector(".presentation-layout");
-		expect(root?.getAttribute("aria-label")).toBe("Presentation");
+		const root = screen.getByRole("application");
+		expect(root.getAttribute("aria-label")).toBe("Presentation");
 	});
 
-	it("applies no-diagram class when showDiagram is false", () => {
-		const { container } = render(
+	it("applies no-diagram layout class when showDiagram is false", () => {
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -45,15 +45,29 @@ describe("PresentationLayout", () => {
 				bottom={null}
 			/>,
 		);
-		expect(
-			container
-				.querySelector(".presentation-layout")
-				?.classList.contains("presentation-layout--no-diagram"),
-		).toBe(true);
+		const root = screen.getByRole("application");
+		expect(root.classList.contains("layout-grid-no-diagram")).toBe(true);
+		expect(root.classList.contains("layout-grid-full")).toBe(false);
+	});
+
+	it("applies full layout class when showDiagram is true", () => {
+		render(
+			<PresentationLayout
+				header={null}
+				sidebar={null}
+				center={null}
+				diagram={<span>diagram</span>}
+				bottom={null}
+				showDiagram
+			/>,
+		);
+		const root = screen.getByRole("application");
+		expect(root.classList.contains("layout-grid-full")).toBe(true);
+		expect(root.classList.contains("layout-grid-no-diagram")).toBe(false);
 	});
 
 	it("renders navPrev as grid-level sibling", () => {
-		const { container } = render(
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -67,14 +81,14 @@ describe("PresentationLayout", () => {
 				}
 			/>,
 		);
-		const grid = container.querySelector(".presentation-layout");
-		const wrapper = grid?.querySelector(":scope > .presentation-layout__nav-prev");
+		const root = screen.getByRole("application");
+		const wrapper = root.querySelector(':scope > [data-testid="nav-prev-wrapper"]');
 		expect(wrapper).not.toBeNull();
 		expect(screen.getByTestId("prev")).toBeInTheDocument();
 	});
 
-	it("renders navNext without diagram modifier when showDiagram is false", () => {
-		const { container } = render(
+	it("renders navNext with grid-col-[2] when showDiagram is false", () => {
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -89,14 +103,15 @@ describe("PresentationLayout", () => {
 				showDiagram={false}
 			/>,
 		);
-		const wrapper = container.querySelector(".presentation-layout__nav-next");
+		const wrapper = screen.getByTestId("nav-next-wrapper");
 		expect(wrapper).not.toBeNull();
-		expect(wrapper?.classList.contains("presentation-layout__nav-next--diagram")).toBe(false);
+		expect(wrapper.classList.contains("grid-col-[3]")).toBe(false);
+		expect(wrapper.classList.contains("grid-col-[2]")).toBe(true);
 		expect(screen.getByTestId("next")).toBeInTheDocument();
 	});
 
-	it("renders navNext with diagram modifier when showDiagram is true", () => {
-		const { container } = render(
+	it("renders navNext with grid-col-[3] when showDiagram is true", () => {
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -111,12 +126,12 @@ describe("PresentationLayout", () => {
 				showDiagram
 			/>,
 		);
-		const wrapper = container.querySelector(".presentation-layout__nav-next");
-		expect(wrapper?.classList.contains("presentation-layout__nav-next--diagram")).toBe(true);
+		const wrapper = screen.getByTestId("nav-next-wrapper");
+		expect(wrapper.classList.contains("grid-col-[3]")).toBe(true);
 	});
 
 	it("omits nav wrappers when not provided", () => {
-		const { container } = render(
+		render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
@@ -125,7 +140,7 @@ describe("PresentationLayout", () => {
 				bottom={null}
 			/>,
 		);
-		expect(container.querySelector(".presentation-layout__nav-prev")).toBeNull();
-		expect(container.querySelector(".presentation-layout__nav-next")).toBeNull();
+		expect(screen.queryByTestId("nav-prev-wrapper")).toBeNull();
+		expect(screen.queryByTestId("nav-next-wrapper")).toBeNull();
 	});
 });

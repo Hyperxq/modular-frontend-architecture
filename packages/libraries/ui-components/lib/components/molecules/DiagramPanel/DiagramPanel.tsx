@@ -1,5 +1,4 @@
 import type { FunctionalComponent } from "preact";
-import "./DiagramPanel.css";
 import type { DiagramPanelProps } from "./DiagramPanel.types";
 
 const DiagramPanel: FunctionalComponent<DiagramPanelProps> = ({
@@ -7,15 +6,20 @@ const DiagramPanel: FunctionalComponent<DiagramPanelProps> = ({
 	metadata,
 	children,
 }) => (
-	<aside class="diagram-panel" aria-label="Diagram panel">
-		{panelTitle && <div class="diagram-panel__title">{panelTitle}</div>}
-		<div class="diagram-panel__content">{children}</div>
+	<aside
+		class="flex flex-col bg-surface-container p-4 overflow-auto min-h-0"
+		aria-label="Diagram panel"
+	>
+		{panelTitle && (
+			<div class="font-label text-label-md text-fg-muted uppercase mb-4">{panelTitle}</div>
+		)}
+		<div class="flex-1 min-h-0 overflow-auto">{children}</div>
 		{metadata && metadata.length > 0 && (
-			<div class="diagram-panel__metadata">
+			<div class="flex gap-4 pt-4 border-t border-border-ghost">
 				{metadata.map((item) => (
-					<div key={item.label} class="diagram-panel__meta-item">
-						<span class="diagram-panel__meta-label">{item.label}</span>
-						<span class="diagram-panel__meta-value">{item.value}</span>
+					<div key={item.label} class="flex flex-col gap-1">
+						<span class="font-label text-label-sm text-fg-muted uppercase">{item.label}</span>
+						<span class="font-mono text-label-md text-fg-secondary">{item.value}</span>
 					</div>
 				))}
 			</div>

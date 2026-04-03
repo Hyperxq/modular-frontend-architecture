@@ -27,6 +27,15 @@
 			"!packages/shell/@mf-types"
 		]
 	},
+	"css": {
+		"parser": {
+			"cssModules": false,
+			"tailwindDirectives": true
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",

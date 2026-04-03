@@ -1,5 +1,5 @@
+import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
-import "./BottomBar.css";
 import type { BottomBarProps } from "./BottomBar.types";
 
 function pad(n: number): string {
@@ -12,31 +12,34 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 	currentSectionIndex,
 	totalSections,
 }) => (
-	<footer class="bottom-bar">
-		<div class="bottom-bar__hint">
-			<span class="bottom-bar__keys">←→</span>
+	<footer class="flex items-center justify-between px-4 py-2 bg-surface-container-highest/40 backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)] rounded-[--radius] z-controls">
+		<div class="flex items-center gap-2 font-label text-label-sm text-fg-muted uppercase">
+			<span class="font-mono text-label-md">←→</span>
 			<span>TO NAVIGATE</span>
 		</div>
-		<div class="bottom-bar__center">
-			<span class="bottom-bar__slide-label">
+		<div class="flex flex-col items-center gap-1">
+			<span class="font-label text-label-md text-primary uppercase">
 				SLIDE {currentSlideIndex + 1} / {totalSlides}
 			</span>
 			{totalSlides > 0 && (
 				<span
-					class="bottom-bar__dots"
+					class="flex gap-[6px] justify-center"
 					role="img"
 					aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}
 				>
 					{Array.from({ length: totalSlides }, (_, i) => (
 						<span
-							key={i}
-							class={`bottom-bar__dot${i === currentSlideIndex ? " bottom-bar__dot--active" : ""}`}
+							key={`dot-${i}`}
+							class={cn(
+								"w-2 h-2 rounded-full",
+								i === currentSlideIndex ? "bg-primary" : "bg-fg-muted",
+							)}
 						/>
 					))}
 				</span>
 			)}
 		</div>
-		<div class="bottom-bar__section">
+		<div class="font-mono text-label-md text-fg-secondary">
 			SECTION {pad(currentSectionIndex + 1)} / {pad(totalSections)}
 		</div>
 	</footer>

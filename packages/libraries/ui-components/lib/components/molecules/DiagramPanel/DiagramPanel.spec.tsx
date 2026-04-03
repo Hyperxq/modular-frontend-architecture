@@ -4,13 +4,12 @@ import DiagramPanel from "./DiagramPanel";
 
 describe("DiagramPanel", () => {
 	it("renders panel title", () => {
-		const { container } = render(
+		render(
 			<DiagramPanel panelTitle="DIAGRAM :: STRUCTURAL ANALYSIS">
 				<p>content</p>
 			</DiagramPanel>,
 		);
-		const title = container.querySelector(".diagram-panel__title");
-		expect(title?.textContent).toBe("DIAGRAM :: STRUCTURAL ANALYSIS");
+		expect(screen.getByText("DIAGRAM :: STRUCTURAL ANALYSIS")).toBeInTheDocument();
 	});
 
 	it("renders children inside content area", () => {
@@ -23,7 +22,7 @@ describe("DiagramPanel", () => {
 	});
 
 	it("renders metadata with labels and values", () => {
-		const { container } = render(
+		render(
 			<DiagramPanel
 				metadata={[
 					{ label: "IMPACT RADIUS", value: "Global System Outage" },
@@ -33,11 +32,10 @@ describe("DiagramPanel", () => {
 				<p>content</p>
 			</DiagramPanel>,
 		);
-		const labels = container.querySelectorAll(".diagram-panel__meta-label");
-		const values = container.querySelectorAll(".diagram-panel__meta-value");
-		expect(labels).toHaveLength(2);
-		expect(labels[0]?.textContent).toBe("IMPACT RADIUS");
-		expect(values[0]?.textContent).toBe("Global System Outage");
+		expect(screen.getByText("IMPACT RADIUS")).toBeInTheDocument();
+		expect(screen.getByText("Global System Outage")).toBeInTheDocument();
+		expect(screen.getByText("VELOCITY")).toBeInTheDocument();
+		expect(screen.getByText("-45% Efficiency")).toBeInTheDocument();
 	});
 
 	it("omits metadata when not provided", () => {
@@ -46,7 +44,8 @@ describe("DiagramPanel", () => {
 				<p>content</p>
 			</DiagramPanel>,
 		);
-		expect(container.querySelector(".diagram-panel__metadata")).toBeNull();
+		// Only the aside > content div should exist (no metadata border-t div)
+		expect(container.querySelector("[class*='border-t']")).toBeNull();
 	});
 
 	it("omits title when not provided", () => {
@@ -55,6 +54,8 @@ describe("DiagramPanel", () => {
 				<p>content</p>
 			</DiagramPanel>,
 		);
-		expect(container.querySelector(".diagram-panel__title")).toBeNull();
+		// aside has 1 child: the content div only
+		const aside = container.querySelector("aside");
+		expect(aside?.children).toHaveLength(1);
 	});
 });

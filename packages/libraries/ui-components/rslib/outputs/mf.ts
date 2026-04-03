@@ -14,7 +14,10 @@ export const mfOutput = (isLocal: boolean, sourceMap: boolean | SourceMap): LibC
 	// DTS disabled until MF connection is verified — re-enable once dev server is stable
 	dts: false,
 	source: {
-		entry: pluginEntries(COMPONENTS_PATH),
+		entry: {
+			...pluginEntries(COMPONENTS_PATH),
+			"styles/tailwind": "./lib/styles/entry.css",
+		},
 		exclude: [/\.spec\.(ts|tsx|js|jsx)$/],
 		tsconfigPath: "./tsconfig.build.json",
 	},

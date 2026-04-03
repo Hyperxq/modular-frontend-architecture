@@ -22,7 +22,9 @@
 		"@module-federation/rsbuild-plugin": "0.24.1",
 		"@rsbuild/core": "1.7.5",
 		"@rsbuild/plugin-node-polyfill": "1.4.2",
-		"compression-webpack-plugin": "^11.1.0"
+		"@tailwindcss/postcss": "^4.1.18",
+		"compression-webpack-plugin": "^11.1.0",
+		"tailwindcss": "^4.1.18"
 	},
 	"peerDependencies": {
 		"@module-federation/enhanced": "^0.24.0"

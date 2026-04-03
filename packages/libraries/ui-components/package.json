@@ -57,12 +57,10 @@
 		"storybook": "10.1.11",
 		"typescript": "^5.9.3"
 	},
-	"dependencies": {
-		"clsx": "^2.1.1",
-		"tailwind-merge": "3.4.0"
-	},
 	"peerDependencies": {
-		"preact": "^10.0.0"
+		"clsx": "^2.1.1",
+		"preact": "^10.0.0",
+		"tailwind-merge": "^3.3.0"
 	},
 	"private": true
 }

@@ -4,32 +4,29 @@ import Header from "./Header";
 
 describe("Header", () => {
 	it("renders centered title as h1", () => {
-		const { container } = render(<Header title="MICROFRONTEND ARCHITECTURE" />);
-		const h1 = container.querySelector(".header__title");
+		render(<Header title="MICROFRONTEND ARCHITECTURE" />);
+		const h1 = screen.getByRole("heading", { level: 1 });
 		expect(h1).not.toBeNull();
-		expect(h1?.textContent).toBe("MICROFRONTEND ARCHITECTURE");
-		expect(h1?.tagName).toBe("H1");
+		expect(h1.textContent).toBe("MICROFRONTEND ARCHITECTURE");
 	});
 
 	it("renders external link when linkText and linkUrl are provided", () => {
-		const { container } = render(
-			<Header title="Test" linkText="GITHUB ↗" linkUrl="https://github.com/example" />,
-		);
-		const link = container.querySelector(".header__link");
+		render(<Header title="Test" linkText="GITHUB ↗" linkUrl="https://github.com/example" />);
+		const link = screen.getByRole("link");
 		expect(link).not.toBeNull();
-		expect(link?.textContent).toBe("GITHUB ↗");
-		expect(link?.getAttribute("href")).toBe("https://github.com/example");
-		expect(link?.getAttribute("target")).toBe("_blank");
-		expect(link?.getAttribute("rel")).toBe("noopener noreferrer");
+		expect(link.textContent).toBe("GITHUB ↗");
+		expect(link.getAttribute("href")).toBe("https://github.com/example");
+		expect(link.getAttribute("target")).toBe("_blank");
+		expect(link.getAttribute("rel")).toBe("noopener noreferrer");
 	});
 
 	it("omits link when props are absent", () => {
 		const { container } = render(<Header title="Test" />);
-		expect(container.querySelector(".header__link")).toBeNull();
+		expect(container.querySelector("a")).toBeNull();
 	});
 
 	it("does not render a counter element", () => {
 		const { container } = render(<Header title="Test" />);
-		expect(container.querySelector(".header__counter")).toBeNull();
+		expect(container.querySelectorAll("*")).toHaveLength(2); // header + h1 only
 	});
 });

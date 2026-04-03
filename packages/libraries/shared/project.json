@@ -5,6 +5,13 @@
 	"sourceRoot": "packages/libraries/shared/src",
 	"tags": ["type:lib", "scope:shared"],
 	"targets": {
+		"test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "rstest",
+				"cwd": "packages/libraries/shared"
+			}
+		},
 		"lint": {
 			"executor": "nx:run-commands",
 			"options": {

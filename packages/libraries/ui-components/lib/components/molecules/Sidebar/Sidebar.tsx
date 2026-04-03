@@ -1,5 +1,5 @@
+import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
-import "./Sidebar.css";
 import type { SidebarProps } from "./Sidebar.types";
 
 const Sidebar: FunctionalComponent<SidebarProps> = ({
@@ -9,34 +9,42 @@ const Sidebar: FunctionalComponent<SidebarProps> = ({
 	appName,
 	version,
 }) => (
-	<nav class="sidebar" aria-label="Presentation sections">
+	<nav class="bg-surface z-sidebar px-3 py-4 overflow-y-auto" aria-label="Presentation sections">
 		{appName && (
-			<div class="sidebar__brand">
-				<span class="sidebar__app-name">{appName}</span>
-				{version && <span class="sidebar__version">{version}</span>}
+			<div class="flex flex-col px-4 mb-8">
+				<span class="font-sans text-lg font-bold text-primary">{appName}</span>
+				{version && <span class="font-mono text-label-sm text-fg-muted mt-1">{version}</span>}
 			</div>
 		)}
-		<ul class="sidebar__list">
+		<ul class="list-none flex flex-col gap-4">
 			{sections.map((section) => {
 				const isActive = section.id === activeSectionId;
 				return (
-					<li key={section.id} class="sidebar__item">
+					<li key={section.id} class="m-0">
 						<button
 							type="button"
-							class={`sidebar__btn${isActive ? " sidebar__btn--active" : ""}`}
+							class={cn(
+								"flex flex-col items-start gap-1 w-full px-4 py-3 bg-transparent border-none rounded-[--radius] text-fg-secondary cursor-pointer transition-colors duration-fast ease-default text-left",
+								isActive
+									? "bg-surface-container-high text-primary hover:bg-surface-container-high"
+									: "hover:bg-surface-bright",
+							)}
 							onClick={() => onSectionClick(section.id)}
 							aria-current={isActive ? "true" : undefined}
 						>
-							<span class="sidebar__title">{section.title}</span>
+							<span class="font-label text-label-md uppercase">{section.title}</span>
 							<span
-								class="sidebar__dots"
+								class="flex gap-[4px]"
 								role="img"
 								aria-label={`${section.visitedCount} of ${section.slideCount} slides visited`}
 							>
 								{Array.from({ length: section.slideCount }, (_, i) => (
 									<span
 										key={i}
-										class={`sidebar__dot${i < section.visitedCount ? " sidebar__dot--visited" : ""}`}
+										class={cn(
+											"w-1.5 h-1.5 rounded-full bg-fg-muted",
+											i < section.visitedCount && "bg-primary",
+										)}
 									/>
 								))}
 							</span>

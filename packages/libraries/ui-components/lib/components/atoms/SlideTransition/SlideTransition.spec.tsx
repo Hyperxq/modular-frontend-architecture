@@ -18,18 +18,28 @@ describe("SlideTransition", () => {
 				<p>Content</p>
 			</SlideTransition>,
 		);
-		const wrapper = container.querySelector(".slide-transition");
+		const wrapper = container.firstElementChild;
 		expect(wrapper).toHaveAttribute("aria-atomic", "true");
 	});
 
-	it("does not have entering class on initial render", () => {
+	it("applies will-change class on initial render", () => {
 		const { container } = render(
 			<SlideTransition transitionKey="intro-0">
 				<p>Content</p>
 			</SlideTransition>,
 		);
-		const wrapper = container.querySelector(".slide-transition");
-		expect(wrapper?.classList.contains("slide-transition--entering")).toBe(false);
+		const wrapper = container.firstElementChild;
+		expect(wrapper?.className).toContain("will-change-[opacity,transform]");
+	});
+
+	it("does not have entering animation on initial render", () => {
+		const { container } = render(
+			<SlideTransition transitionKey="intro-0">
+				<p>Content</p>
+			</SlideTransition>,
+		);
+		const wrapper = container.firstElementChild;
+		expect(wrapper?.className).not.toContain("animate-slide-enter");
 	});
 
 	it("does not unmount children on key change", () => {

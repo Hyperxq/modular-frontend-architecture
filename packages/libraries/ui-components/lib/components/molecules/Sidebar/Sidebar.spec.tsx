@@ -20,7 +20,7 @@ describe("Sidebar", () => {
 	});
 
 	it("renders branding block with appName and version", () => {
-		const { container } = render(
+		render(
 			<Sidebar
 				sections={mockSections}
 				activeSectionId="intro"
@@ -29,36 +29,45 @@ describe("Sidebar", () => {
 				version="v2.4.0-stable"
 			/>,
 		);
-		expect(container.querySelector(".sidebar__app-name")?.textContent).toBe("SYSTEM DESIGN");
-		expect(container.querySelector(".sidebar__version")?.textContent).toBe("v2.4.0-stable");
+		expect(screen.getByText("SYSTEM DESIGN")).toBeInTheDocument();
+		expect(screen.getByText("v2.4.0-stable")).toBeInTheDocument();
 	});
 
 	it("omits branding when appName is absent", () => {
 		const { container } = render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		expect(container.querySelector(".sidebar__brand")).toBeNull();
+		// nav > ul only (no brand div)
+		const nav = container.querySelector("nav");
+		expect(nav?.children).toHaveLength(1);
 	});
 
 	it("renders dot indicators with visited/unvisited states", () => {
-		const { container } = render(
+		render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		const firstDots = container.querySelectorAll(".sidebar__dots")[0];
-		expect(firstDots?.querySelectorAll(".sidebar__dot")).toHaveLength(3);
-		expect(firstDots?.querySelectorAll(".sidebar__dot--visited")).toHaveLength(2);
-		const secondDots = container.querySelectorAll(".sidebar__dots")[1];
-		expect(secondDots?.querySelectorAll(".sidebar__dot")).toHaveLength(5);
-		expect(secondDots?.querySelectorAll(".sidebar__dot--visited")).toHaveLength(0);
+		// First section: 3 dots, 2 visited
+		const dotContainers = screen.getAllByRole("img");
+		const firstDots = dotContainers[0]?.querySelectorAll("span");
+		expect(firstDots).toHaveLength(3);
+		// Visited dots have bg-primary class
+		const firstVisited = dotContainers[0]?.querySelectorAll("[class*='bg-primary']");
+		expect(firstVisited).toHaveLength(2);
+		// Second section: 5 dots, 0 visited
+		const secondDots = dotContainers[1]?.querySelectorAll("span");
+		expect(secondDots).toHaveLength(5);
+		const secondVisited = dotContainers[1]?.querySelectorAll("[class*='bg-primary']");
+		expect(secondVisited).toHaveLength(0);
 	});
 
-	it("marks active section with aria-current and active class", () => {
-		const { container } = render(
+	it("marks active section with aria-current", () => {
+		render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		const activeBtn = container.querySelector(".sidebar__btn--active");
-		expect(activeBtn).not.toBeNull();
+		const activeBtn = screen.getByText("Introduction").closest("button");
 		expect(activeBtn?.getAttribute("aria-current")).toBe("true");
+		const inactiveBtn = screen.getByText("Architecture").closest("button");
+		expect(inactiveBtn?.getAttribute("aria-current")).toBeNull();
 	});
 
 	it("calls onSectionClick with correct id", () => {
@@ -69,12 +78,11 @@ describe("Sidebar", () => {
 		expect(clickedId).toBe("arch");
 	});
 
-	it("section titles use sidebar__title class", () => {
-		const { container } = render(
+	it("renders section titles", () => {
+		render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		const titles = container.querySelectorAll(".sidebar__title");
-		expect(titles).toHaveLength(2);
-		expect(titles[0]?.textContent).toBe("Introduction");
+		expect(screen.getByText("Introduction")).toBeInTheDocument();
+		expect(screen.getByText("Architecture")).toBeInTheDocument();
 	});
 });

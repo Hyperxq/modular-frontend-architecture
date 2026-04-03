@@ -1,6 +1,6 @@
+import { cn } from "@modular-frontend/shared";
 import type { ComponentChildren, FunctionalComponent } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
-import "./SlideTransition.css";
 
 interface SlideTransitionProps {
 	transitionKey: string;
@@ -29,7 +29,10 @@ const SlideTransition: FunctionalComponent<SlideTransitionProps> = ({
 
 	return (
 		<div
-			class={`slide-transition${entering ? " slide-transition--entering" : ""}`}
+			class={cn(
+				"will-change-[opacity,transform]",
+				entering && "animate-slide-enter motion-reduce:animate-none",
+			)}
 			aria-atomic="true"
 		>
 			{children}

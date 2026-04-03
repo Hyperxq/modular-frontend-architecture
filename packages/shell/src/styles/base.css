@@ -1,156 +1,116 @@
-@import "./tokens.css";
+@import "tailwindcss";
+@import "../../../libraries/shared/src/styles/tailwind-preset.css";
 
-/* ─── Reset ─── */
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
+@layer base {
+	/* ─── Viewport lock ─── */
+	html,
+	body,
+	#root {
+		height: 100dvh;
+		width: 100%;
+		overflow: hidden;
+	}
 
-/* ─── Viewport lock ─── */
-html,
-body,
-#root {
-	height: 100dvh;
-	width: 100%;
-	overflow: hidden;
-}
+	/* ─── Font rendering ─── */
+	html {
+		font-size: 16px;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
 
-/* ─── Base styles ─── */
-html {
-	font-size: 16px;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizeLegibility;
-}
+	/* ─── Body defaults ─── */
+	body {
+		@apply font-sans text-body-md font-normal leading-relaxed text-fg-primary bg-surface;
+	}
 
-body {
-	font-family: var(--font-sans);
-	font-size: var(--text-body-md);
-	font-weight: var(--weight-normal);
-	line-height: var(--leading-relaxed);
-	color: var(--text-primary);
-	background-color: var(--surface);
-}
+	/* ─── Typography defaults ─── */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-bold leading-tight text-fg-primary tracking-display;
+	}
 
-/* ─── Typography defaults ─── */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: var(--weight-bold);
-	line-height: var(--leading-tight);
-	color: var(--text-primary);
-	letter-spacing: var(--tracking-display);
-}
+	h1 {
+		@apply text-display-lg;
+	}
+	h2 {
+		@apply text-xl;
+	}
+	h3 {
+		@apply text-lg;
+	}
+	h4 {
+		@apply text-base;
+	}
 
-h1 {
-	font-size: var(--text-display-lg);
-}
-h2 {
-	font-size: var(--text-xl);
-}
-h3 {
-	font-size: var(--text-lg);
-}
-h4 {
-	font-size: var(--text-base);
-}
+	p {
+		@apply text-fg-secondary leading-relaxed;
+	}
 
-p {
-	color: var(--text-secondary);
-	line-height: var(--leading-relaxed);
-}
+	/* ─── Labels — Space Grotesk ─── */
+	label,
+	figcaption,
+	.label {
+		@apply font-label text-label-md text-fg-muted;
+	}
 
-/* ─── Labels — Space Grotesk ─── */
-label,
-figcaption,
-.label {
-	font-family: var(--font-label);
-	font-size: var(--text-label-md);
-	color: var(--text-muted);
-}
+	/* ─── Code — JetBrains Mono ─── */
+	code,
+	pre {
+		@apply font-mono text-body-md;
+	}
 
-/* ─── Code — JetBrains Mono ─── */
-code,
-pre {
-	font-family: var(--font-mono);
-	font-size: var(--text-body-md);
-}
+	pre {
+		@apply bg-surface-container-low p-4 overflow-x-auto;
+	}
 
-pre {
-	background-color: var(--surface-container-low);
-	border-radius: var(--radius);
-	padding: var(--space-4);
-	overflow-x: auto;
-}
+	code {
+		@apply bg-surface-container px-[0.4em] py-[0.15em];
+	}
 
-code {
-	background-color: var(--surface-container);
-	border-radius: var(--radius);
-	padding: 0.15em 0.4em;
-}
+	pre code {
+		@apply bg-transparent p-0;
+	}
 
-pre code {
-	background: none;
-	padding: 0;
-}
+	/* ─── Links ─── */
+	a {
+		@apply text-primary no-underline transition-colors duration-instant;
+	}
 
-/* ─── Links ─── */
-a {
-	color: var(--primary);
-	text-decoration: none;
-	transition: color var(--duration-instant);
-}
+	a:hover {
+		@apply text-primary-dim;
+	}
 
-a:hover {
-	color: var(--primary-dim);
-}
+	/* ─── Selection ─── */
+	::selection {
+		@apply bg-secondary text-fg-primary;
+	}
 
-/* ─── Selection ─── */
-::selection {
-	background-color: var(--secondary);
-	color: var(--text-primary);
-}
+	/* ─── Scrollbar ─── */
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar {
-	width: 6px;
-	height: 6px;
-}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
 
-::-webkit-scrollbar-track {
-	background: transparent;
-}
+	::-webkit-scrollbar-thumb {
+		background: var(--color-outline-variant);
+		border-radius: var(--radius);
+	}
 
-::-webkit-scrollbar-thumb {
-	background: var(--outline-variant);
-	border-radius: var(--radius);
-}
+	::-webkit-scrollbar-thumb:hover {
+		background: var(--color-fg-muted);
+	}
 
-::-webkit-scrollbar-thumb:hover {
-	background: var(--text-muted);
-}
-
-/* ─── Focus visible ─── */
-:focus-visible {
-	outline: 2px solid var(--border-focus);
-	outline-offset: 2px;
-}
-
-/* ─── Utility: hidden but accessible ─── */
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
+	/* ─── Focus visible ─── */
+	:focus-visible {
+		@apply outline-2 outline-border-focus outline-offset-2;
+	}
 }
