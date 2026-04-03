@@ -1,0 +1,22 @@
+.bottom-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--space-2) var(--space-4);
+	background: rgba(35, 38, 46, 0.4);
+	backdrop-filter: var(--blur-glass);
+	-webkit-backdrop-filter: var(--blur-glass);
+	border-radius: var(--radius);
+	z-index: var(--z-controls);
+}
+
+.bottom-bar__counter {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-md);
+	color: var(--text-secondary);
+}
+
+.bottom-bar__actions {
+	display: flex;
+	align-items: center;
+}

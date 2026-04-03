@@ -1,0 +1,27 @@
+.nav-arrows {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.nav-arrows__btn {
+	background: transparent;
+	border: none;
+	border-radius: var(--radius);
+	color: var(--text-primary);
+	font-family: var(--font-mono);
+	font-size: var(--text-xl);
+	line-height: 1;
+	padding: var(--space-1) var(--space-2);
+	cursor: pointer;
+	transition: color var(--duration-fast) var(--ease-default);
+}
+
+.nav-arrows__btn:hover:not(:disabled) {
+	color: var(--primary);
+}
+
+.nav-arrows__btn:disabled {
+	color: var(--text-muted);
+	cursor: default;
+}
