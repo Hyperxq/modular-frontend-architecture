@@ -52,7 +52,7 @@ describe("PresentationLayout", () => {
 		).toBe(true);
 	});
 
-	it("renders navPrev in overlay wrapper inside center", () => {
+	it("renders navPrev as grid-level sibling", () => {
 		const { container } = render(
 			<PresentationLayout
 				header={null}
@@ -67,12 +67,13 @@ describe("PresentationLayout", () => {
 				}
 			/>,
 		);
-		const wrapper = container.querySelector(".presentation-layout__nav-prev");
+		const grid = container.querySelector(".presentation-layout");
+		const wrapper = grid?.querySelector(":scope > .presentation-layout__nav-prev");
 		expect(wrapper).not.toBeNull();
 		expect(screen.getByTestId("prev")).toBeInTheDocument();
 	});
 
-	it("renders navNext inside center when showDiagram is false", () => {
+	it("renders navNext without diagram modifier when showDiagram is false", () => {
 		const { container } = render(
 			<PresentationLayout
 				header={null}
@@ -88,13 +89,13 @@ describe("PresentationLayout", () => {
 				showDiagram={false}
 			/>,
 		);
-		const centerCell = container.querySelector(".presentation-layout__center");
-		const nextWrapper = centerCell?.querySelector(".presentation-layout__nav-next");
-		expect(nextWrapper).not.toBeNull();
+		const wrapper = container.querySelector(".presentation-layout__nav-next");
+		expect(wrapper).not.toBeNull();
+		expect(wrapper?.classList.contains("presentation-layout__nav-next--diagram")).toBe(false);
 		expect(screen.getByTestId("next")).toBeInTheDocument();
 	});
 
-	it("renders navNext inside diagram when showDiagram is true", () => {
+	it("renders navNext with diagram modifier when showDiagram is true", () => {
 		const { container } = render(
 			<PresentationLayout
 				header={null}
@@ -110,9 +111,8 @@ describe("PresentationLayout", () => {
 				showDiagram
 			/>,
 		);
-		const diagramCell = container.querySelector(".presentation-layout__diagram");
-		const nextWrapper = diagramCell?.querySelector(".presentation-layout__nav-next");
-		expect(nextWrapper).not.toBeNull();
+		const wrapper = container.querySelector(".presentation-layout__nav-next");
+		expect(wrapper?.classList.contains("presentation-layout__nav-next--diagram")).toBe(true);
 	});
 
 	it("omits nav wrappers when not provided", () => {

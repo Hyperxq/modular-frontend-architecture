@@ -19,15 +19,16 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 	>
 		<div class="presentation-layout__header">{header}</div>
 		<div class="presentation-layout__sidebar">{sidebar}</div>
-		<div class="presentation-layout__center">
-			{navPrev && <div class="presentation-layout__nav-prev">{navPrev}</div>}
-			{center}
-			{!showDiagram && navNext && <div class="presentation-layout__nav-next">{navNext}</div>}
-		</div>
+		<div class="presentation-layout__center">{center}</div>
 		{showDiagram && (
-			<div class="presentation-layout__diagram">
-				{diagram}
-				{navNext && <div class="presentation-layout__nav-next">{navNext}</div>}
+			<div class="presentation-layout__diagram">{diagram}</div>
+		)}
+		{navPrev && <div class="presentation-layout__nav-prev">{navPrev}</div>}
+		{navNext && (
+			<div
+				class={`presentation-layout__nav-next${showDiagram ? " presentation-layout__nav-next--diagram" : ""}`}
+			>
+				{navNext}
 			</div>
 		)}
 		<div class="presentation-layout__bottom">{bottom}</div>

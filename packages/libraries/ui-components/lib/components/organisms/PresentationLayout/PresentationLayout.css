@@ -33,14 +33,12 @@
 
 .presentation-layout__center {
 	grid-area: center;
-	position: relative;
 	min-height: 0;
 	overflow: hidden;
 }
 
 .presentation-layout__diagram {
 	grid-area: diagram;
-	position: relative;
 	min-height: 0;
 	overflow: hidden;
 }
@@ -51,19 +49,26 @@
 
 .presentation-layout__nav-prev,
 .presentation-layout__nav-next {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+	grid-row: 2;
+	align-self: center;
 	z-index: var(--z-controls);
 	pointer-events: none;
 }
 
 .presentation-layout__nav-prev {
-	left: var(--space-4);
+	grid-column: 2;
+	justify-self: start;
+	padding-left: var(--space-4);
 }
 
 .presentation-layout__nav-next {
-	right: var(--space-4);
+	grid-column: 2;
+	justify-self: end;
+	padding-right: var(--space-4);
+}
+
+.presentation-layout__nav-next--diagram {
+	grid-column: 3;
 }
 
 /* ─── Nav arrow button styling (rendered inline by container) ─── */
