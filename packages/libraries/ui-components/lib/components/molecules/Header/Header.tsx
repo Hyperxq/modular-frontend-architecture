@@ -1,22 +1,15 @@
 import type { FunctionalComponent } from "preact";
 import "./Header.css";
+import type { HeaderProps } from "./Header.types";
 
-interface HeaderProps {
-	title: string;
-	currentSectionIndex: number;
-	totalSections: number;
-}
-
-const Header: FunctionalComponent<HeaderProps> = ({
-	title,
-	currentSectionIndex,
-	totalSections,
-}) => (
+const Header: FunctionalComponent<HeaderProps> = ({ title, linkText, linkUrl }) => (
 	<header class="header">
 		<h1 class="header__title">{title}</h1>
-		<span class="header__counter">
-			{currentSectionIndex + 1} / {totalSections}
-		</span>
+		{linkText && linkUrl && (
+			<a class="header__link" href={linkUrl} target="_blank" rel="noopener noreferrer">
+				{linkText}
+			</a>
+		)}
 	</header>
 );
 
