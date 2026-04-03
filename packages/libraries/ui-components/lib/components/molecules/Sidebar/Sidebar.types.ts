@@ -10,6 +10,8 @@ interface SidebarProps {
 	sections: SidebarSection[];
 	activeSectionId: string;
 	onSectionClick: (sectionId: string) => void;
+	appName?: string;
+	version?: string;
 }
 
 export type { SidebarProps, SidebarSection };

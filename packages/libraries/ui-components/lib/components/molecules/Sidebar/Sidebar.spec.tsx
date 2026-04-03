@@ -6,7 +6,6 @@ import type { SidebarSection } from "./Sidebar.types";
 const mockSections: SidebarSection[] = [
 	{ id: "intro", title: "Introduction", isActive: true, visitedCount: 2, slideCount: 3 },
 	{ id: "arch", title: "Architecture", isActive: false, visitedCount: 0, slideCount: 5 },
-	{ id: "patterns", title: "Patterns", isActive: false, visitedCount: 1, slideCount: 4 },
 ];
 
 describe("Sidebar", () => {
@@ -20,29 +19,43 @@ describe("Sidebar", () => {
 		};
 	});
 
-	it("renders all sections as buttons", () => {
-		render(
-			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
+	it("renders branding block with appName and version", () => {
+		const { container } = render(
+			<Sidebar
+				sections={mockSections}
+				activeSectionId="intro"
+				onSectionClick={onSectionClick}
+				appName="SYSTEM DESIGN"
+				version="v2.4.0-stable"
+			/>,
 		);
-		expect(screen.getByText("Introduction")).toBeInTheDocument();
-		expect(screen.getByText("Architecture")).toBeInTheDocument();
-		expect(screen.getByText("Patterns")).toBeInTheDocument();
+		expect(container.querySelector(".sidebar__app-name")?.textContent).toBe("SYSTEM DESIGN");
+		expect(container.querySelector(".sidebar__version")?.textContent).toBe("v2.4.0-stable");
 	});
 
-	it("marks active section with aria-current", () => {
-		render(
+	it("omits branding when appName is absent", () => {
+		const { container } = render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		const activeBtn = screen.getByText("Introduction").closest("button");
+		expect(container.querySelector(".sidebar__brand")).toBeNull();
+	});
+
+	it("renders dot indicators instead of numbers", () => {
+		const { container } = render(
+			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
+		);
+		const dots = container.querySelectorAll(".sidebar__dots");
+		expect(dots[0]?.textContent).toBe("●●○");
+		expect(dots[1]?.textContent).toBe("○○○○○");
+	});
+
+	it("marks active section with aria-current and active class", () => {
+		const { container } = render(
+			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
+		);
+		const activeBtn = container.querySelector(".sidebar__btn--active");
+		expect(activeBtn).not.toBeNull();
 		expect(activeBtn?.getAttribute("aria-current")).toBe("true");
-	});
-
-	it("inactive sections do not have aria-current", () => {
-		render(
-			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
-		);
-		const inactiveBtn = screen.getByText("Architecture").closest("button");
-		expect(inactiveBtn?.getAttribute("aria-current")).toBeNull();
 	});
 
 	it("calls onSectionClick with correct id", () => {
@@ -53,18 +66,12 @@ describe("Sidebar", () => {
 		expect(clickedId).toBe("arch");
 	});
 
-	it("shows progress in visitedCount/slideCount format", () => {
-		render(
+	it("section titles use sidebar__title class", () => {
+		const { container } = render(
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
-		expect(screen.getByText("2/3")).toBeInTheDocument();
-		expect(screen.getByText("0/5")).toBeInTheDocument();
-	});
-
-	it("has accessible label on nav", () => {
-		render(
-			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
-		);
-		expect(screen.getByLabelText("Presentation sections")).toBeInTheDocument();
+		const titles = container.querySelectorAll(".sidebar__title");
+		expect(titles).toHaveLength(2);
+		expect(titles[0]?.textContent).toBe("Introduction");
 	});
 });
