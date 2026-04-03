@@ -20,10 +20,10 @@ const createMfConfig = (isLocal: boolean) =>
 		exposes: pluginExposes(COMPONENTS_PATH),
 		dts: isLocal,
 		shared: {
-			preact: { singleton: true, requiredVersion: false },
-			"preact/hooks": { singleton: true, requiredVersion: false },
-			"preact/compat": { singleton: true, requiredVersion: false },
-			"preact/jsx-runtime": { singleton: true, requiredVersion: false },
+			preact: { singleton: true, eager: true, requiredVersion: false },
+			"preact/hooks": { singleton: true, eager: true, requiredVersion: false },
+			"preact/compat": { singleton: true, eager: true, requiredVersion: false },
+			"preact/jsx-runtime": { singleton: true, eager: true, requiredVersion: false },
 		},
 	});
 

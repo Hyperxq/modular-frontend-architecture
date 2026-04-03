@@ -25,11 +25,10 @@ export const getMFConfig = (remoteUrl: string, _isLocalEnv: boolean) => {
 		// DTS disabled until MF connection is verified — re-enable once dev server is stable
 		dts: false,
 		shared: {
-			preact: {
-				singleton: true,
-				eager: true,
-				requiredVersion: false,
-			},
+			preact: { singleton: true, eager: true, requiredVersion: false },
+			"preact/hooks": { singleton: true, eager: true, requiredVersion: false },
+			"preact/compat": { singleton: true, eager: true, requiredVersion: false },
+			"preact/jsx-runtime": { singleton: true, eager: true, requiredVersion: false },
 		},
 	});
 };

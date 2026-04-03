@@ -51,7 +51,7 @@ export default defineConfig(({ envMode }) => {
 		},
 		output: {
 			injectStyles: !isLocalEnvMode,
-			cleanDistPath: true,
+			// cleanDistPath: true,
 			assetPrefix: isLocalEnvMode ? "http://localhost:3002" : PUBLIC_BUCKET_URL,
 			distPath: {
 				root: `${DIST_PATH}`,
