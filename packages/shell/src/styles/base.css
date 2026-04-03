@@ -1,0 +1,147 @@
+@import "./tokens.css";
+
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+/* ─── Viewport lock ─── */
+html,
+body,
+#root {
+	height: 100dvh;
+	width: 100%;
+	overflow: hidden;
+}
+
+/* ─── Base styles ─── */
+html {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	font-family: var(--font-sans);
+	font-size: var(--text-base);
+	font-weight: var(--weight-normal);
+	line-height: var(--leading-normal);
+	color: var(--text-primary);
+	background-color: var(--surface-bg);
+}
+
+/* ─── Typography defaults ─── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: var(--weight-bold);
+	line-height: var(--leading-tight);
+	color: var(--text-primary);
+}
+
+h1 {
+	font-size: var(--text-4xl);
+}
+h2 {
+	font-size: var(--text-3xl);
+}
+h3 {
+	font-size: var(--text-2xl);
+}
+h4 {
+	font-size: var(--text-xl);
+}
+
+p {
+	color: var(--text-secondary);
+	line-height: var(--leading-relaxed);
+}
+
+code,
+pre {
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+}
+
+pre {
+	background-color: var(--surface-card);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-md);
+	padding: var(--space-4);
+	overflow-x: auto;
+}
+
+code {
+	background-color: var(--surface-elevated);
+	border-radius: var(--radius-sm);
+	padding: 0.15em 0.4em;
+}
+
+pre code {
+	background: none;
+	padding: 0;
+	border-radius: 0;
+}
+
+/* ─── Links ─── */
+a {
+	color: var(--brand-accent);
+	text-decoration: none;
+	transition: color var(--duration-fast) var(--ease-default);
+}
+
+a:hover {
+	color: var(--brand-accent-light);
+}
+
+/* ─── Selection ─── */
+::selection {
+	background-color: var(--brand-primary);
+	color: var(--text-primary);
+}
+
+/* ─── Scrollbar (for overflow panels) ─── */
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--border-default);
+	border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--text-muted);
+}
+
+/* ─── Focus visible ─── */
+:focus-visible {
+	outline: 2px solid var(--border-focus);
+	outline-offset: 2px;
+}
+
+/* ─── Utility: hidden but accessible ─── */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}

@@ -2,7 +2,6 @@ import path, { resolve } from "node:path";
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 import { defineConfig } from "@rsbuild/core";
 import { pluginPreact } from "@rsbuild/plugin-preact";
-import { pluginSass } from "@rsbuild/plugin-sass";
 import CompressionPlugin from "compression-webpack-plugin";
 import loadEnvFile from "../.././helpers/envLoaderHelper";
 import { isLocalEnv } from "../libraries/shared/src";
@@ -41,11 +40,7 @@ export default defineConfig(({ envMode }) => {
 				plugins: [new CompressionPlugin()],
 			},
 		},
-		plugins: [
-			pluginPreact(),
-			pluginModuleFederation(mfConfig(remoteUrl, isLocalEnvMode)),
-			pluginSass(),
-		],
+		plugins: [pluginPreact(), pluginModuleFederation(mfConfig(remoteUrl, isLocalEnvMode))],
 		source: {
 			define: Object.fromEntries(
 				Object.entries(env).map(([key, val]) => [`import.meta.env.${key}`, JSON.stringify(val)]),
@@ -68,7 +63,7 @@ export default defineConfig(({ envMode }) => {
 				forceSplitting: {
 					"react-router": new RegExp(`${nm.source}react-router[\\/]`),
 					preact: new RegExp(`${nm.source}preact[\\/]`),
-					axios: new RegExp(`${nm.source}axios[\\/]`),
+					zustand: new RegExp(`${nm.source}zustand[\\/]`),
 				},
 			},
 		},
