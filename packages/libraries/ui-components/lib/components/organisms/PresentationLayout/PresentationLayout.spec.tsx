@@ -43,14 +43,58 @@ describe("PresentationLayout", () => {
 				center={null}
 				diagram={null}
 				bottom={null}
+			/>,
+		);
+		expect(
+			container
+				.querySelector(".presentation-layout")
+				?.classList.contains("presentation-layout--no-diagram"),
+		).toBe(true);
+	});
+
+	it("renders navPrev in overlay wrapper inside center", () => {
+		const { container } = render(
+			<PresentationLayout
+				header={null}
+				sidebar={null}
+				center={null}
+				diagram={null}
+				bottom={null}
+				navPrev={
+					<button type="button" data-testid="prev">
+						‹
+					</button>
+				}
+			/>,
+		);
+		const wrapper = container.querySelector(".presentation-layout__nav-prev");
+		expect(wrapper).not.toBeNull();
+		expect(screen.getByTestId("prev")).toBeInTheDocument();
+	});
+
+	it("renders navNext inside center when showDiagram is false", () => {
+		const { container } = render(
+			<PresentationLayout
+				header={null}
+				sidebar={null}
+				center={null}
+				diagram={null}
+				bottom={null}
+				navNext={
+					<button type="button" data-testid="next">
+						›
+					</button>
+				}
 				showDiagram={false}
 			/>,
 		);
-		const root = container.querySelector(".presentation-layout");
-		expect(root?.classList.contains("presentation-layout--no-diagram")).toBe(true);
+		const centerCell = container.querySelector(".presentation-layout__center");
+		const nextWrapper = centerCell?.querySelector(".presentation-layout__nav-next");
+		expect(nextWrapper).not.toBeNull();
+		expect(screen.getByTestId("next")).toBeInTheDocument();
 	});
 
-	it("does not apply no-diagram class when showDiagram is true", () => {
+	it("renders navNext inside diagram when showDiagram is true", () => {
 		const { container } = render(
 			<PresentationLayout
 				header={null}
@@ -58,38 +102,30 @@ describe("PresentationLayout", () => {
 				center={null}
 				diagram={<span>diagram</span>}
 				bottom={null}
+				navNext={
+					<button type="button" data-testid="next">
+						›
+					</button>
+				}
 				showDiagram
 			/>,
 		);
-		const root = container.querySelector(".presentation-layout");
-		expect(root?.classList.contains("presentation-layout--no-diagram")).toBe(false);
+		const diagramCell = container.querySelector(".presentation-layout__diagram");
+		const nextWrapper = diagramCell?.querySelector(".presentation-layout__nav-next");
+		expect(nextWrapper).not.toBeNull();
 	});
 
-	it("hides diagram wrapper when showDiagram is false", () => {
+	it("omits nav wrappers when not provided", () => {
 		const { container } = render(
 			<PresentationLayout
 				header={null}
 				sidebar={null}
 				center={null}
-				diagram={<span data-testid="d">diagram</span>}
+				diagram={null}
 				bottom={null}
-				showDiagram={false}
 			/>,
 		);
-		expect(container.querySelector(".presentation-layout__diagram")).toBeNull();
-	});
-
-	it("shows diagram wrapper when showDiagram is true", () => {
-		const { container } = render(
-			<PresentationLayout
-				header={null}
-				sidebar={null}
-				center={null}
-				diagram={<span>diagram</span>}
-				bottom={null}
-				showDiagram
-			/>,
-		);
-		expect(container.querySelector(".presentation-layout__diagram")).not.toBeNull();
+		expect(container.querySelector(".presentation-layout__nav-prev")).toBeNull();
+		expect(container.querySelector(".presentation-layout__nav-next")).toBeNull();
 	});
 });

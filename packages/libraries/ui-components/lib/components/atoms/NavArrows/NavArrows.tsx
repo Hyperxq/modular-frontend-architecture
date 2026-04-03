@@ -1,12 +1,6 @@
 import type { FunctionalComponent } from "preact";
 import "./NavArrows.css";
-
-interface NavArrowsProps {
-	onNext: () => void;
-	onPrev: () => void;
-	canGoNext: boolean;
-	canGoPrev: boolean;
-}
+import type { NavArrowsProps } from "./NavArrows.types";
 
 const NavArrows: FunctionalComponent<NavArrowsProps> = ({
 	onNext,

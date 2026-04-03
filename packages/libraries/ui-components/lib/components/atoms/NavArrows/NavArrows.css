@@ -1,18 +1,16 @@
 .nav-arrows {
-	display: flex;
-	align-items: center;
-	gap: var(--space-2);
+	display: contents;
 }
 
 .nav-arrows__btn {
+	font-family: var(--font-mono);
+	font-size: var(--text-display-lg);
+	line-height: 1;
+	color: var(--text-muted);
 	background: transparent;
 	border: none;
 	border-radius: var(--radius);
-	color: var(--text-primary);
-	font-family: var(--font-mono);
-	font-size: var(--text-xl);
-	line-height: 1;
-	padding: var(--space-1) var(--space-2);
+	padding: var(--space-2);
 	cursor: pointer;
 	transition: color var(--duration-fast) var(--ease-default);
 }
@@ -22,6 +20,6 @@
 }
 
 .nav-arrows__btn:disabled {
-	color: var(--text-muted);
+	opacity: 0.3;
 	cursor: default;
 }

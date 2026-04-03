@@ -33,16 +33,34 @@
 
 .presentation-layout__center {
 	grid-area: center;
+	position: relative;
 	min-height: 0;
 	overflow: hidden;
 }
 
 .presentation-layout__diagram {
 	grid-area: diagram;
+	position: relative;
 	min-height: 0;
 	overflow: hidden;
 }
 
 .presentation-layout__bottom {
 	grid-area: bottom;
+}
+
+.presentation-layout__nav-prev {
+	position: absolute;
+	left: var(--space-2);
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: var(--z-controls);
+}
+
+.presentation-layout__nav-next {
+	position: absolute;
+	right: var(--space-2);
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: var(--z-controls);
 }

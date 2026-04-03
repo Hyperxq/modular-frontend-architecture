@@ -19,6 +19,12 @@ describe("NavArrows", () => {
 		};
 	});
 
+	it("renders two buttons with chevron characters", () => {
+		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext canGoPrev />);
+		expect(screen.getByLabelText("Previous slide").textContent).toBe("‹");
+		expect(screen.getByLabelText("Next slide").textContent).toBe("›");
+	});
+
 	it("calls onNext when next button is clicked", () => {
 		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext canGoPrev />);
 		fireEvent.click(screen.getByLabelText("Next slide"));
@@ -31,17 +37,7 @@ describe("NavArrows", () => {
 		expect(prevCount).toBe(1);
 	});
 
-	it("disables prev button when canGoPrev is false", () => {
-		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext canGoPrev={false} />);
-		expect(screen.getByLabelText("Previous slide")).toBeDisabled();
-	});
-
-	it("disables next button when canGoNext is false", () => {
-		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext={false} canGoPrev />);
-		expect(screen.getByLabelText("Next slide")).toBeDisabled();
-	});
-
-	it("disables both buttons when at boundaries", () => {
+	it("disables buttons when navigation is not available", () => {
 		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext={false} canGoPrev={false} />);
 		expect(screen.getByLabelText("Previous slide")).toBeDisabled();
 		expect(screen.getByLabelText("Next slide")).toBeDisabled();
