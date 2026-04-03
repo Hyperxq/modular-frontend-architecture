@@ -1,6 +1,7 @@
 import type { FunctionalComponent } from "preact";
 import { useEffect } from "preact/hooks";
 import { Navigate, useParams } from "react-router";
+import { PresentationContainer } from "../../features/presentation/PresentationContainer";
 import { getSectionById, sections } from "../domain/slides";
 import { useProgressStore } from "../store/progress.store";
 
@@ -18,16 +19,15 @@ const SlideRoute: FunctionalComponent = () => {
 		}
 	}, [sectionId, slideIndex, isValid, navigate]);
 
-	if (!isValid) {
-		return <Navigate to="/intro/0" replace />;
+	if (sections.length === 0) {
+		return <PresentationContainer />;
 	}
 
-	return (
-		<div data-testid="slide-route">
-			<p>{section.title}</p>
-			<p>{section.slides[slideIndex].title}</p>
-		</div>
-	);
+	if (!isValid) {
+		return <Navigate to={`/${sections[0].id}/0`} replace />;
+	}
+
+	return <PresentationContainer />;
 };
 
 export { SlideRoute };
