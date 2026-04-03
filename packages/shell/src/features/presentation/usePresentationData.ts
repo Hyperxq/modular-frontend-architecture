@@ -4,7 +4,6 @@ import {
 	getSectionById,
 	getSectionIndex,
 	getSlide,
-	getTotalSlides,
 	sections,
 } from "../../core/domain/slides";
 import { useNavigation } from "../../core/hooks/useNavigation";
@@ -32,7 +31,7 @@ function usePresentationData() {
 		? getSlide(sections, nav.currentSectionId, nav.currentSlideIndex)
 		: undefined;
 	const sectionIndex = getSectionIndex(sections, nav.currentSectionId);
-	const totalSlides = getTotalSlides(sections);
+	const sectionSlideCount = currentSection?.slides.length ?? 0;
 	const showDiagram = currentSlide?.type === "diagram";
 	const transitionKey = `${nav.currentSectionId}-${nav.currentSlideIndex}`;
 
@@ -69,7 +68,7 @@ function usePresentationData() {
 		currentSection,
 		currentSlide,
 		sectionIndex,
-		totalSlides,
+		sectionSlideCount,
 		totalSections: sections.length,
 		showDiagram,
 		transitionKey,

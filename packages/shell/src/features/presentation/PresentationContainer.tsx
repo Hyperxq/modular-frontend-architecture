@@ -86,7 +86,7 @@ const PresentationContainer: FunctionalComponent = () => {
 				bottom={
 					<BottomBar
 						currentSlideIndex={data.currentSlideIndex}
-						totalSlides={data.totalSlides}
+						totalSlides={data.sectionSlideCount}
 						currentSectionIndex={data.sectionIndex}
 						totalSections={data.totalSections}
 					/>

@@ -78,6 +78,16 @@ function getSectionIndex(data: Section[], sectionId: string): number {
 	return data.findIndex((s) => s.id === sectionId);
 }
 
+function getGlobalSlideIndex(data: Section[], sectionId: string, slideIndex: number): number {
+	const sectionIdx = getSectionIndex(data, sectionId);
+	if (sectionIdx === -1) return 0;
+	let global = 0;
+	for (let i = 0; i < sectionIdx; i++) {
+		global += data[i].slides.length;
+	}
+	return global + slideIndex;
+}
+
 function isFirstSlide(data: Section[], sectionId: string, slideIndex: number): boolean {
 	const sectionIdx = getSectionIndex(data, sectionId);
 	return sectionIdx === 0 && slideIndex === 0;
@@ -94,6 +104,7 @@ function isLastSlide(data: Section[], sectionId: string, slideIndex: number): bo
 export {
 	SLIDE_TYPE,
 	sections,
+	getGlobalSlideIndex,
 	getSectionById,
 	getSectionIndex,
 	getSlide,

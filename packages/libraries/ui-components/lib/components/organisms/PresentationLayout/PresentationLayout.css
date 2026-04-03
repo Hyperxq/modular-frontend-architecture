@@ -55,6 +55,7 @@
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: var(--z-controls);
+	pointer-events: none;
 }
 
 .presentation-layout__nav-prev {
@@ -68,6 +69,7 @@
 /* ─── Nav arrow button styling (rendered inline by container) ─── */
 .presentation-layout__nav-prev > button,
 .presentation-layout__nav-next > button {
+	pointer-events: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;

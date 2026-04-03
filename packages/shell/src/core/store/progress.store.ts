@@ -35,7 +35,7 @@ const progressStoreCreator: StateCreator<
 			(state) => ({
 				currentSectionId: sectionId,
 				currentSlideIndex: slideIndex,
-				visitedSlides: addVisited(state.visitedSlides, sectionId, slideIndex),
+				visitedSlides: visitUpTo(state.visitedSlides, sectionId, slideIndex),
 			}),
 			false,
 			"navigate",
@@ -52,6 +52,22 @@ const progressStoreCreator: StateCreator<
 
 	resetProgress: () => set(initialState, false, "resetProgress"),
 });
+
+function visitUpTo(
+	visited: Record<string, number[]>,
+	sectionId: string,
+	slideIndex: number,
+): Record<string, number[]> {
+	const existing = visited[sectionId] ?? [];
+	const kept = existing.filter((i) => i <= slideIndex);
+	if (!kept.includes(slideIndex)) {
+		kept.push(slideIndex);
+	}
+	if (kept.length === existing.length && existing.every((v, i) => v === kept[i])) {
+		return visited;
+	}
+	return { ...visited, [sectionId]: kept };
+}
 
 function addVisited(
 	visited: Record<string, number[]>,
@@ -90,5 +106,5 @@ export function useVisitedSlides() {
 	return useProgressStore((s) => s.visitedSlides);
 }
 
-export { addVisited, initialState };
+export { addVisited, visitUpTo, initialState };
 export type { ProgressActions, ProgressState, ProgressStore };

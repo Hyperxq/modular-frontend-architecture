@@ -1,6 +1,7 @@
 import { describe, expect, it } from "@rstest/core";
 import type { Section } from "./slides";
 import {
+	getGlobalSlideIndex,
 	getSectionById,
 	getSectionIndex,
 	getSlide,
@@ -79,6 +80,26 @@ describe("getSectionIndex", () => {
 
 	it("returns -1 for unknown section", () => {
 		expect(getSectionIndex(mockSections, "nope")).toBe(-1);
+	});
+});
+
+describe("getGlobalSlideIndex", () => {
+	it("returns 0 for first section, first slide", () => {
+		expect(getGlobalSlideIndex(mockSections, "intro", 0)).toBe(0);
+	});
+
+	it("returns local index for first section", () => {
+		expect(getGlobalSlideIndex(mockSections, "intro", 1)).toBe(1);
+	});
+
+	it("sums previous sections slides", () => {
+		// intro has 2 slides, so architecture slide 0 = global index 2
+		expect(getGlobalSlideIndex(mockSections, "architecture", 0)).toBe(2);
+		expect(getGlobalSlideIndex(mockSections, "architecture", 2)).toBe(4);
+	});
+
+	it("returns 0 for unknown section", () => {
+		expect(getGlobalSlideIndex(mockSections, "nope", 0)).toBe(0);
 	});
 });
 

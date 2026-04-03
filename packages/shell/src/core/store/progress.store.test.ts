@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "@rstest/core";
 import { act } from "@testing-library/preact";
-import { addVisited, useProgressStore } from "./progress.store";
+import { addVisited, visitUpTo, useProgressStore } from "./progress.store";
 
 const getState = () => useProgressStore.getState();
 const resetStore = () => getState().resetProgress();
@@ -24,6 +24,32 @@ describe("addVisited (pure helper)", () => {
 		const visited = { intro: [0, 1] };
 		const result = addVisited(visited, "intro", 0);
 		expect(result).toBe(visited);
+	});
+});
+
+describe("visitUpTo (pure helper)", () => {
+	it("adds slide to empty section", () => {
+		expect(visitUpTo({}, "intro", 0)).toEqual({ intro: [0] });
+	});
+
+	it("keeps slides up to index and removes later ones", () => {
+		const result = visitUpTo({ intro: [0, 1, 2] }, "intro", 1);
+		expect(result).toEqual({ intro: [0, 1] });
+	});
+
+	it("adds current slide if not yet present", () => {
+		const result = visitUpTo({ intro: [0, 2] }, "intro", 1);
+		expect(result).toEqual({ intro: [0, 1] });
+	});
+
+	it("returns same reference if nothing changes", () => {
+		const visited = { intro: [0, 1] };
+		expect(visitUpTo(visited, "intro", 1)).toBe(visited);
+	});
+
+	it("does not affect other sections", () => {
+		const result = visitUpTo({ intro: [0, 1, 2], arch: [0, 1] }, "intro", 0);
+		expect(result).toEqual({ intro: [0], arch: [0, 1] });
 	});
 });
 
@@ -68,6 +94,20 @@ describe("useProgressStore", () => {
 			intro: [0, 1],
 			architecture: [0],
 		});
+	});
+
+	it("truncates visited slides after current when navigating back", () => {
+		act(() => {
+			getState().navigate("intro", 0);
+			getState().navigate("intro", 1);
+			getState().navigate("intro", 2);
+		});
+		expect(getState().visitedSlides).toEqual({ intro: [0, 1, 2] });
+
+		act(() => {
+			getState().navigate("intro", 1);
+		});
+		expect(getState().visitedSlides).toEqual({ intro: [0, 1] });
 	});
 
 	it("does not duplicate visited entries", () => {
