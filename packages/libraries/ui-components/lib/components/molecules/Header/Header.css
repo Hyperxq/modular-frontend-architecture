@@ -1,0 +1,23 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--space-3) var(--space-4);
+	background: var(--surface-container-low);
+	z-index: var(--z-header);
+}
+
+.header__title {
+	font-family: var(--font-sans);
+	font-size: var(--text-xl);
+	font-weight: var(--weight-semibold);
+	color: var(--text-primary);
+	letter-spacing: var(--tracking-normal);
+	margin: 0;
+}
+
+.header__counter {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-md);
+	color: var(--text-secondary);
+}

@@ -1,0 +1,58 @@
+.sidebar {
+	background: var(--surface);
+	z-index: var(--z-sidebar);
+	padding: var(--space-4) var(--space-3);
+	overflow-y: auto;
+}
+
+.sidebar__list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4);
+}
+
+.sidebar__item {
+	margin: 0;
+}
+
+.sidebar__btn {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: var(--space-3) var(--space-4);
+	background: transparent;
+	border: none;
+	border-radius: var(--radius);
+	color: var(--text-secondary);
+	font-family: var(--font-sans);
+	font-size: var(--text-body-md);
+	cursor: pointer;
+	transition: background var(--duration-fast) var(--ease-default);
+	text-align: left;
+}
+
+.sidebar__btn:hover {
+	background: var(--surface-bright);
+}
+
+.sidebar__btn--active {
+	background: var(--surface-container);
+	color: var(--primary);
+}
+
+.sidebar__btn--active:hover {
+	background: var(--surface-container);
+}
+
+.sidebar__title {
+	flex: 1;
+}
+
+.sidebar__progress {
+	font-family: var(--font-mono);
+	font-size: var(--text-label-sm);
+	color: var(--text-muted);
+	margin-left: var(--space-2);
+}

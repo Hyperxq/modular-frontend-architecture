@@ -1,0 +1,7 @@
+.diagram-panel {
+	background: var(--surface-container);
+	border-left: 1px solid var(--border-ghost);
+	padding: var(--space-4);
+	overflow: auto;
+	min-height: 0;
+}

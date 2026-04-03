@@ -1,0 +1,6 @@
+.center-panel {
+	background: var(--surface-container-low);
+	padding: var(--space-8);
+	overflow-y: auto;
+	min-height: 0;
+}
