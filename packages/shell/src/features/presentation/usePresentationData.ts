@@ -18,6 +18,10 @@ interface SidebarSectionData {
 	slideCount: number;
 }
 
+function pad(n: number): string {
+	return String(n).padStart(2, "0");
+}
+
 function usePresentationData() {
 	const nav = useNavigation();
 	const visitedSlides = useVisitedSlides();
@@ -47,6 +51,19 @@ function usePresentationData() {
 		[navigate],
 	);
 
+	/* ─── Mock-1 display fields ─── */
+	const appTitle = "MICROFRONTEND ARCHITECTURE";
+	const githubLinkText = "GITHUB ↗";
+	const githubLinkUrl = "https://github.com/Hyperxq/modular-frontend-architecture";
+	const sidebarAppName = "SYSTEM DESIGN";
+	const sidebarVersion = "v2.4.0-stable";
+	const sectionLabel = currentSection
+		? `SECTION ${pad(sectionIndex + 1)} · ${currentSection.title.toUpperCase()}`
+		: "";
+	const slideTitle = currentSlide?.title ?? "";
+	const slideBody = currentSlide?.content ?? "";
+	const diagramTitle = "DIAGRAM :: STRUCTURAL ANALYSIS";
+
 	return {
 		...nav,
 		currentSection,
@@ -58,6 +75,15 @@ function usePresentationData() {
 		transitionKey,
 		sidebarSections,
 		handleSectionClick,
+		appTitle,
+		githubLinkText,
+		githubLinkUrl,
+		sidebarAppName,
+		sidebarVersion,
+		sectionLabel,
+		slideTitle,
+		slideBody,
+		diagramTitle,
 	};
 }
 
