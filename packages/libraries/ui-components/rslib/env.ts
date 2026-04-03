@@ -14,19 +14,14 @@ const ATOMIC_LEVELS: Record<number, string> = {
 };
 
 export const getComponentsGlob = (): string => {
-	const base = process.env.PUBLIC_BASE_UI_COMPONENTS_DIRECTORY ?? "./lib";
-	const componentsDir = process.env.PUBLIC_BASE_UI_COMPONENTS_COMPONENTS_PATHS ?? "/components";
-	const wildcard = process.env.PUBLIC_PATH_WILDCARD ?? "**/*";
-	const ext = process.env.PUBLIC_FILE_EXTENSION ?? ".tsx";
-
 	if (process.env.LEVEL_MODE) {
 		const level = Number(process.env.LEVEL_MODE.trim());
 		const group = ATOMIC_LEVELS[level];
 		const pattern = level > 1 ? `${group}/*/*` : `${group}/*`;
-		return `${base}${componentsDir}/${pattern}${ext}`;
+		return `./lib/components/${pattern}.tsx`;
 	}
 
-	return `${base}${componentsDir}/${wildcard}${ext}`;
+	return "./lib/components/**/*.tsx";
 };
 
 export const COMPONENTS_PATH: string[] = [getComponentsGlob()];
