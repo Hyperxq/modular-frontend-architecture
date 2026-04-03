@@ -28,11 +28,11 @@ html {
 
 body {
 	font-family: var(--font-sans);
-	font-size: var(--text-base);
+	font-size: var(--text-body-md);
 	font-weight: var(--weight-normal);
-	line-height: var(--leading-normal);
+	line-height: var(--leading-relaxed);
 	color: var(--text-primary);
-	background-color: var(--surface-bg);
+	background-color: var(--surface);
 }
 
 /* ─── Typography defaults ─── */
@@ -45,19 +45,20 @@ h6 {
 	font-weight: var(--weight-bold);
 	line-height: var(--leading-tight);
 	color: var(--text-primary);
+	letter-spacing: var(--tracking-display);
 }
 
 h1 {
-	font-size: var(--text-4xl);
+	font-size: var(--text-display-lg);
 }
 h2 {
-	font-size: var(--text-3xl);
+	font-size: var(--text-xl);
 }
 h3 {
-	font-size: var(--text-2xl);
+	font-size: var(--text-lg);
 }
 h4 {
-	font-size: var(--text-xl);
+	font-size: var(--text-base);
 }
 
 p {
@@ -65,50 +66,58 @@ p {
 	line-height: var(--leading-relaxed);
 }
 
+/* ─── Labels — Space Grotesk ─── */
+label,
+figcaption,
+.label {
+	font-family: var(--font-label);
+	font-size: var(--text-label-md);
+	color: var(--text-muted);
+}
+
+/* ─── Code — JetBrains Mono ─── */
 code,
 pre {
 	font-family: var(--font-mono);
-	font-size: var(--text-sm);
+	font-size: var(--text-body-md);
 }
 
 pre {
-	background-color: var(--surface-card);
-	border: 1px solid var(--border-subtle);
-	border-radius: var(--radius-md);
+	background-color: var(--surface-container-low);
+	border-radius: var(--radius);
 	padding: var(--space-4);
 	overflow-x: auto;
 }
 
 code {
-	background-color: var(--surface-elevated);
-	border-radius: var(--radius-sm);
+	background-color: var(--surface-container);
+	border-radius: var(--radius);
 	padding: 0.15em 0.4em;
 }
 
 pre code {
 	background: none;
 	padding: 0;
-	border-radius: 0;
 }
 
 /* ─── Links ─── */
 a {
-	color: var(--brand-accent);
+	color: var(--primary);
 	text-decoration: none;
-	transition: color var(--duration-fast) var(--ease-default);
+	transition: color var(--duration-instant);
 }
 
 a:hover {
-	color: var(--brand-accent-light);
+	color: var(--primary-dim);
 }
 
 /* ─── Selection ─── */
 ::selection {
-	background-color: var(--brand-primary);
+	background-color: var(--secondary);
 	color: var(--text-primary);
 }
 
-/* ─── Scrollbar (for overflow panels) ─── */
+/* ─── Scrollbar ─── */
 ::-webkit-scrollbar {
 	width: 6px;
 	height: 6px;
@@ -119,8 +128,8 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--border-default);
-	border-radius: var(--radius-full);
+	background: var(--outline-variant);
+	border-radius: var(--radius);
 }
 
 ::-webkit-scrollbar-thumb:hover {
