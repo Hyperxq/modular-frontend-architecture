@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../../../libraries/shared/src/styles/tailwind-preset.css";
+@source "../../../libraries/ui-components/lib/components/";
 
 @layer base {
 	/* ─── Viewport lock ─── */
@@ -78,7 +79,7 @@
 
 	/* ─── Links ─── */
 	a {
-		@apply text-primary no-underline transition-colors duration-instant;
+		@apply text-primary no-underline transition-colors duration-[0ms];
 	}
 
 	a:hover {

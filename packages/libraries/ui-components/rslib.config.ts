@@ -36,6 +36,12 @@ export default defineConfig(({ envMode = "development.local" }) => {
 			},
 		},
 
+		resolve: {
+			alias: {
+				"@modular-frontend/shared": "../shared/src",
+			},
+		},
+
 		source: {
 			entry: {
 				...pluginEntries(COMPONENTS_PATH),

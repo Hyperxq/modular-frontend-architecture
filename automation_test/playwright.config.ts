@@ -64,7 +64,7 @@ export default defineConfig({
 		{
 			// ui-components MF remote must be ready first
 			command: "bun run nx run ui-components:dev",
-			url: "http://localhost:3001",
+			url: "http://localhost:3001/mf-manifest.json",
 			reuseExistingServer: !process.env.CI,
 			timeout: 120_000,
 		},
