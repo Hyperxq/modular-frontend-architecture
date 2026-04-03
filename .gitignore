@@ -5,3 +5,4 @@ fix
 automation_test/playwright-report/
 automation_test/test-results/
 .claude/settings.local.json
+.playwright-mcp/
