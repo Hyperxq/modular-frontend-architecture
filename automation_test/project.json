@@ -1,0 +1,31 @@
+{
+	"name": "@modular-frontend/automation-test",
+	"$schema": "../node_modules/nx/schemas/project-schema.json",
+	"projectType": "application",
+	"sourceRoot": "automation_test",
+	"tags": ["type:e2e"],
+	"implicitDependencies": ["@modular-frontend/shell", "@modular-frontend/ui-components"],
+	"targets": {
+		"e2e": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx playwright test",
+				"cwd": "automation_test"
+			}
+		},
+		"e2e:chromium": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx playwright test --project=chromium",
+				"cwd": "automation_test"
+			}
+		},
+		"e2e:report": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx playwright show-report",
+				"cwd": "automation_test"
+			}
+		}
+	}
+}
