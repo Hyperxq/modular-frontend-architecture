@@ -3,37 +3,58 @@ import { render, screen } from "@testing-library/preact";
 import DiagramPanel from "./DiagramPanel";
 
 describe("DiagramPanel", () => {
-	it("renders children inside aside", () => {
+	it("renders panel title", () => {
+		const { container } = render(
+			<DiagramPanel panelTitle="DIAGRAM :: STRUCTURAL ANALYSIS">
+				<p>content</p>
+			</DiagramPanel>,
+		);
+		const title = container.querySelector(".diagram-panel__title");
+		expect(title?.textContent).toBe("DIAGRAM :: STRUCTURAL ANALYSIS");
+	});
+
+	it("renders children inside content area", () => {
 		render(
 			<DiagramPanel>
-				<svg data-testid="diagram">
-					<title>Test diagram</title>
-				</svg>
+				<span data-testid="diagram">diagram here</span>
 			</DiagramPanel>,
 		);
 		expect(screen.getByTestId("diagram")).toBeInTheDocument();
 	});
 
-	it("renders an aside element", () => {
+	it("renders metadata with labels and values", () => {
+		const { container } = render(
+			<DiagramPanel
+				metadata={[
+					{ label: "IMPACT RADIUS", value: "Global System Outage" },
+					{ label: "VELOCITY", value: "-45% Efficiency" },
+				]}
+			>
+				<p>content</p>
+			</DiagramPanel>,
+		);
+		const labels = container.querySelectorAll(".diagram-panel__meta-label");
+		const values = container.querySelectorAll(".diagram-panel__meta-value");
+		expect(labels).toHaveLength(2);
+		expect(labels[0]?.textContent).toBe("IMPACT RADIUS");
+		expect(values[0]?.textContent).toBe("Global System Outage");
+	});
+
+	it("omits metadata when not provided", () => {
 		const { container } = render(
 			<DiagramPanel>
-				<p>Content</p>
+				<p>content</p>
 			</DiagramPanel>,
 		);
-		expect(container.querySelector("aside")).not.toBeNull();
+		expect(container.querySelector(".diagram-panel__metadata")).toBeNull();
 	});
 
-	it("has accessible label", () => {
-		render(
+	it("omits title when not provided", () => {
+		const { container } = render(
 			<DiagramPanel>
-				<p>Content</p>
+				<p>content</p>
 			</DiagramPanel>,
 		);
-		expect(screen.getByLabelText("Diagram panel")).toBeInTheDocument();
-	});
-
-	it("renders empty aside when no children", () => {
-		const { container } = render(<DiagramPanel>{null}</DiagramPanel>);
-		expect(container.querySelector("aside")).not.toBeNull();
+		expect(container.querySelector(".diagram-panel__title")).toBeNull();
 	});
 });
