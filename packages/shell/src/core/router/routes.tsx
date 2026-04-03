@@ -1,19 +1,10 @@
 import type { FunctionalComponent } from "preact";
-import { lazy, Suspense } from "preact/compat";
-import { Route, Routes } from "react-router";
-
-const HomeContainer = lazy(() => import("../../features/home/HomeContainer"));
+import { Navigate, Route, Routes } from "react-router";
 
 const AppRoutes: FunctionalComponent = () => (
 	<Routes>
-		<Route
-			path="/"
-			element={
-				<Suspense fallback={<div class="text-center p-8 text-white">Loading...</div>}>
-					<HomeContainer />
-				</Suspense>
-			}
-		/>
+		<Route path="/:sectionId/:slideIndex" element={<div>Slide placeholder</div>} />
+		<Route path="*" element={<Navigate to="/intro/0" replace />} />
 	</Routes>
 );
 

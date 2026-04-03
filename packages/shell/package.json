@@ -15,11 +15,7 @@
 		"format:fix": "bunx biome format --write ."
 	},
 	"dependencies": {
-		"@hookform/resolvers": "^5.2.2",
-		"@tanstack/react-query": "5.90.15",
-		"react-hook-form": "^7.72.0",
 		"react-router": "7.11.0",
-		"zod": "^4.3.6",
 		"zustand": "5.0.9"
 	},
 	"devDependencies": {
@@ -27,7 +23,6 @@
 		"@module-federation/rsbuild-plugin": "0.24.1",
 		"@rsbuild/core": "1.7.5",
 		"@rsbuild/plugin-node-polyfill": "1.4.2",
-		"@tanstack/react-router-devtools": "1.144.0",
 		"compression-webpack-plugin": "^11.1.0"
 	}
 }
