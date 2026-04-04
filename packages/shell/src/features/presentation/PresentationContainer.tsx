@@ -1,6 +1,10 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
+import { useRef } from "preact/hooks";
 import { useKeyboard } from "../../core/hooks/useKeyboard";
+import { useIsMobile } from "../../core/hooks/useMediaQuery";
+import { useSwipe } from "../../core/hooks/useSwipe";
+import { useSidebarDrawer } from "../../core/store/app.store";
 import { usePresentationData } from "./usePresentationData";
 
 const BottomBar = lazy(() => import("ui_components/atoms/BottomBar/BottomBar"));
@@ -15,6 +19,9 @@ const PresentationLayout = lazy(
 
 const PresentationContainer: FunctionalComponent = () => {
 	const data = usePresentationData();
+	const isMobile = useIsMobile();
+	const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarDrawer();
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	useKeyboard({
 		goNext: data.goNext,
@@ -23,7 +30,28 @@ const PresentationContainer: FunctionalComponent = () => {
 		canGoPrev: data.canGoPrev,
 	});
 
+	useSwipe(contentRef, {
+		onSwipeLeft: data.goNext,
+		onSwipeRight: data.goPrev,
+		enabled: isMobile,
+	});
+
 	const { SlideContent } = data;
+
+	const navPrevBtn = (
+		<NavButton direction="prev" onClick={data.goPrev} disabled={!data.canGoPrev} />
+	);
+	const navNextBtn = (
+		<NavButton direction="next" onClick={data.goNext} disabled={!data.canGoNext} />
+	);
+
+	const sidebarProps = {
+		sections: data.sidebarSections,
+		activeSectionId: data.currentSectionId,
+		onSectionClick: data.handleSectionClick,
+		appName: data.sidebarAppName,
+		version: data.sidebarVersion,
+	};
 
 	return (
 		<Suspense
@@ -33,30 +61,30 @@ const PresentationContainer: FunctionalComponent = () => {
 		>
 			<PresentationLayout
 				showDiagram={data.showDiagram}
-				navPrev={<NavButton direction="prev" onClick={data.goPrev} disabled={!data.canGoPrev} />}
-				navNext={<NavButton direction="next" onClick={data.goNext} disabled={!data.canGoNext} />}
+				isMobile={isMobile}
+				navPrev={navPrevBtn}
+				navNext={navNextBtn}
 				header={
 					<Header
 						title={data.appTitle}
 						linkText={data.githubLinkText}
 						linkUrl={data.githubLinkUrl}
+						showMenuButton={isMobile}
+						onMenuToggle={toggleSidebar}
 					/>
 				}
-				sidebar={
-					<Sidebar
-						sections={data.sidebarSections}
-						activeSectionId={data.currentSectionId}
-						onSectionClick={data.handleSectionClick}
-						appName={data.sidebarAppName}
-						version={data.sidebarVersion}
-					/>
+				sidebar={<Sidebar {...sidebarProps} />}
+				sidebarDrawer={
+					<Sidebar {...sidebarProps} isDrawer isOpen={isSidebarOpen} onClose={closeSidebar} />
 				}
 				center={
-					<SlideTransition transitionKey={data.transitionKey}>
-						<CenterPanel sectionLabel={data.sectionLabel} slideTitle={data.slideTitle}>
-							{SlideContent && <SlideContent />}
-						</CenterPanel>
-					</SlideTransition>
+					<div ref={contentRef} class="h-full">
+						<SlideTransition transitionKey={data.transitionKey}>
+							<CenterPanel sectionLabel={data.sectionLabel} slideTitle={data.slideTitle}>
+								{SlideContent && <SlideContent />}
+							</CenterPanel>
+						</SlideTransition>
+					</div>
 				}
 				diagram={
 					data.showDiagram ? (
@@ -71,6 +99,9 @@ const PresentationContainer: FunctionalComponent = () => {
 						totalSlides={data.sectionSlideCount}
 						currentSectionIndex={data.sectionIndex}
 						totalSections={data.totalSections}
+						navPrev={isMobile ? navPrevBtn : undefined}
+						navNext={isMobile ? navNextBtn : undefined}
+						showSwipeHint={isMobile}
 					/>
 				}
 			/>
@@ -88,7 +119,11 @@ function NavButton({
 	direction,
 	onClick,
 	disabled,
-}: { direction: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+}: {
+	direction: "prev" | "next";
+	onClick: () => void;
+	disabled: boolean;
+}) {
 	return (
 		<button
 			type="button"
@@ -105,6 +140,7 @@ function NavButton({
 				stroke-width="2.5"
 				stroke-linecap="round"
 				stroke-linejoin="round"
+				aria-hidden="true"
 			>
 				<path d={NAV_PATHS[direction]} />
 			</svg>

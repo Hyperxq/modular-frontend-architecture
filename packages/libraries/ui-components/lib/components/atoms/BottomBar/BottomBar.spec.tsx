@@ -40,7 +40,7 @@ describe("BottomBar", () => {
 		render(
 			<BottomBar currentSlideIndex={0} totalSlides={5} currentSectionIndex={0} totalSections={9} />,
 		);
-		expect(screen.getByText(/SECTION 01 \/ 09/)).toBeInTheDocument();
+		expect(screen.getByText(/SEC 01 \/ 09/)).toBeInTheDocument();
 	});
 
 	it("renders double-digit sections without extra padding", () => {
@@ -52,6 +52,6 @@ describe("BottomBar", () => {
 				totalSections={15}
 			/>,
 		);
-		expect(screen.getByText(/SECTION 12 \/ 15/)).toBeInTheDocument();
+		expect(screen.getByText(/SEC 12 \/ 15/)).toBeInTheDocument();
 	});
 });

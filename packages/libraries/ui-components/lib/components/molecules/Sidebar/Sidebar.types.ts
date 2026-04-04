@@ -12,6 +12,9 @@ interface SidebarProps {
 	onSectionClick: (sectionId: string) => void;
 	appName?: string;
 	version?: string;
+	isDrawer?: boolean;
+	isOpen?: boolean;
+	onClose?: () => void;
 }
 
 export type { SidebarProps, SidebarSection };

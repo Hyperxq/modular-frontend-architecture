@@ -9,6 +9,8 @@ interface PresentationLayoutProps {
 	navPrev?: ComponentChildren;
 	navNext?: ComponentChildren;
 	showDiagram?: boolean;
+	isMobile?: boolean;
+	sidebarDrawer?: ComponentChildren;
 }
 
 export type { PresentationLayoutProps };

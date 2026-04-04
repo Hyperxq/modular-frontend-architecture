@@ -2,14 +2,10 @@ import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
 import type { SidebarProps } from "./Sidebar.types";
 
-const Sidebar: FunctionalComponent<SidebarProps> = ({
-	sections,
-	activeSectionId,
-	onSectionClick,
-	appName,
-	version,
-}) => (
-	<nav class="bg-surface z-sidebar px-3 py-4 overflow-y-auto" aria-label="Presentation sections">
+const SidebarContent: FunctionalComponent<
+	Pick<SidebarProps, "sections" | "activeSectionId" | "onSectionClick" | "appName" | "version">
+> = ({ sections, activeSectionId, onSectionClick, appName, version }) => (
+	<nav class="bg-surface h-full px-3 py-4 overflow-y-auto" aria-label="Presentation sections">
 		{appName && (
 			<div class="flex flex-col px-4 mb-8">
 				<span class="font-sans text-lg font-bold text-primary">{appName}</span>
@@ -55,5 +51,54 @@ const Sidebar: FunctionalComponent<SidebarProps> = ({
 		</ul>
 	</nav>
 );
+
+const Sidebar: FunctionalComponent<SidebarProps> = ({
+	sections,
+	activeSectionId,
+	onSectionClick,
+	appName,
+	version,
+	isDrawer,
+	isOpen,
+	onClose,
+}) => {
+	const contentProps = { sections, activeSectionId, onSectionClick, appName, version };
+
+	if (!isDrawer) {
+		return <SidebarContent {...contentProps} />;
+	}
+
+	const handleSectionClick = (sectionId: string) => {
+		onSectionClick(sectionId);
+		onClose?.();
+	};
+
+	return (
+		<div
+			class={cn(
+				"fixed inset-0 z-overlay transition-opacity duration-slow ease-default",
+				isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+			)}
+			data-testid="sidebar-drawer"
+		>
+			<button
+				type="button"
+				class="absolute inset-0 bg-surface-overlay border-none cursor-default"
+				onClick={onClose}
+				onKeyDown={(e) => e.key === "Escape" && onClose?.()}
+				tabIndex={-1}
+				aria-label="Close menu"
+			/>
+			<div
+				class={cn(
+					"absolute top-0 left-0 h-full w-[--width-sidebar-mobile] transition-transform duration-slow ease-out",
+					isOpen ? "translate-x-0" : "-translate-x-full",
+				)}
+			>
+				<SidebarContent {...contentProps} onSectionClick={handleSectionClick} />
+			</div>
+		</div>
+	);
+};
 
 export default Sidebar;
