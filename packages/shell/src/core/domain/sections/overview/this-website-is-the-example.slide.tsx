@@ -2,11 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>Webpack/Rspack runtime module sharing.</p>
+	<p>TODO: slide content</p>
 );
 
-export const moduleFederation: Slide = {
-	title: "Module Federation",
+export const thisWebsiteIsTheExample: Slide = {
+	title: "This Website Is The Example",
 	type: "concept",
 	Content,
 };

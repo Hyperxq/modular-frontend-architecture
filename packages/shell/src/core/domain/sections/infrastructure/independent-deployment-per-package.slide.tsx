@@ -2,12 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>How host loads remote modules.</p>
+	<p>TODO: slide content</p>
 );
 
-export const hostRemote: Slide = {
-	title: "Host & Remote",
-	type: "diagram",
+export const independentDeploymentPerPackage: Slide = {
+	title: "Independent Deployment Per Package",
+	type: "concept",
 	Content,
-	diagram: "host-remote-diagram",
 };

@@ -13,7 +13,7 @@ interface NavigationResult {
 
 function useNavigation(data: Section[] = defaultSections): NavigationResult {
 	const navigate = useNavigate();
-	const { sectionId = "intro", slideIndex: slideParam = "0" } = useParams();
+	const { sectionId = "problem-audience", slideIndex: slideParam = "0" } = useParams();
 	const slideIndex = Number(slideParam);
 	const sectionIdx = getSectionIndex(data, sectionId);
 

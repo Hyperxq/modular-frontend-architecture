@@ -18,7 +18,7 @@ interface ProgressActions {
 type ProgressStore = ProgressState & ProgressActions;
 
 const initialState: ProgressState = {
-	currentSectionId: "intro",
+	currentSectionId: "problem-audience",
 	currentSlideIndex: 0,
 	visitedSlides: {},
 };

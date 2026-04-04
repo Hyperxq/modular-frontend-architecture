@@ -2,11 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>Rsbuild, Rslib, Rstest — unified toolchain.</p>
+	<p>TODO: slide content</p>
 );
 
-export const rspackEcosystem: Slide = {
-	title: "Rspack Ecosystem",
+export const nxAsTaskRunnerOnly: Slide = {
+	title: "Nx As Task Runner Only",
 	type: "concept",
 	Content,
 };

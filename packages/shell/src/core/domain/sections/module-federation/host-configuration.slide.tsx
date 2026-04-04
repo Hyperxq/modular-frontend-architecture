@@ -2,11 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>Traditional monoliths create tightly coupled systems.</p>
+	<p>TODO: slide content</p>
 );
 
-export const monolithProblem: Slide = {
-	title: "The Monolith Problem",
+export const hostConfiguration: Slide = {
+	title: "Host Configuration",
 	type: "concept",
 	Content,
 };

@@ -2,11 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>Singleton pattern for shared libraries.</p>
+	<p>TODO: slide content</p>
 );
 
-export const sharedDependencies: Slide = {
-	title: "Shared Dependencies",
-	type: "code",
+export const e2eWithPlaywrightBdd: Slide = {
+	title: "E2E With Playwright BDD",
+	type: "concept",
 	Content,
 };

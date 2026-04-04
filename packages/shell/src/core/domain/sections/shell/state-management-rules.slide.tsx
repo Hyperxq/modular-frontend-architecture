@@ -2,11 +2,11 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 const Content: FunctionalComponent = () => (
-	<p>3KB runtime, React compatibility via aliases.</p>
+	<p>TODO: slide content</p>
 );
 
-export const preactSignals: Slide = {
-	title: "Preact + Signals",
+export const stateManagementRules: Slide = {
+	title: "State Management Rules",
 	type: "concept",
 	Content,
 };
