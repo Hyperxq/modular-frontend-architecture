@@ -21,6 +21,10 @@ export class PresentationPage extends BasePage {
 	readonly prevButton: Locator;
 	readonly nextButton: Locator;
 
+	// ── Mobile controls ──
+	readonly menuButton: Locator;
+	readonly sidebarDrawer: Locator;
+
 	constructor(page: Page) {
 		super(page);
 
@@ -32,6 +36,8 @@ export class PresentationPage extends BasePage {
 		this.bottomBar = page.locator("footer");
 		this.prevButton = page.getByRole("button", { name: "Previous slide" });
 		this.nextButton = page.getByRole("button", { name: "Next slide" });
+		this.menuButton = page.getByRole("button", { name: "Toggle menu" });
+		this.sidebarDrawer = page.locator('[data-testid="sidebar-drawer"]');
 	}
 
 	/** Navigate to a specific section/slide route and wait for MF to load */
@@ -52,11 +58,32 @@ export class PresentationPage extends BasePage {
 
 	// ── Sidebar helpers ──
 
+	private async isMobileViewport(): Promise<boolean> {
+		const viewport = this.page.viewportSize();
+		return viewport !== null && viewport.width < 768;
+	}
+
+	private async openDrawerIfMobile(): Promise<void> {
+		if (!(await this.isMobileViewport())) return;
+		const isDrawerOpen = await this.sidebarDrawer.evaluate((el) =>
+			el.classList.contains("opacity-100"),
+		);
+		if (!isDrawerOpen) {
+			await this.menuButton.click();
+			await this.sidebarDrawer.waitFor({ state: "visible", timeout: 5_000 });
+		}
+	}
+
 	getSidebarButton(sectionTitle: string): Locator {
 		return this.sidebar.getByRole("button").filter({ hasText: sectionTitle });
 	}
 
+	async ensureSidebarVisible(): Promise<void> {
+		await this.openDrawerIfMobile();
+	}
+
 	async clickSection(sectionTitle: string): Promise<void> {
+		await this.openDrawerIfMobile();
 		await this.getSidebarButton(sectionTitle).click();
 		await this.page.waitForLoadState("domcontentloaded");
 	}
@@ -77,7 +104,10 @@ export class PresentationPage extends BasePage {
 	}
 
 	async getSlideCounter(): Promise<string> {
-		return this.bottomBar.locator("span").filter({ hasText: /SLIDE \d/ }).innerText();
+		return this.bottomBar
+			.locator("span")
+			.filter({ hasText: /SLIDE \d/ })
+			.innerText();
 	}
 
 	async getSectionCounter(): Promise<string> {

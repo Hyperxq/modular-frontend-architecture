@@ -1,14 +1,17 @@
 import { expect } from "@playwright/test";
-import { Given, When, Then } from "../fixtures";
+import { Given, Then, When } from "../fixtures";
 
 // ---------------------------------------------------------------------------
 // Navigation — Given steps
 // ---------------------------------------------------------------------------
 
-Given("I am on slide {string} at index {int}", async ({ presentation }, section: string, index: number) => {
-	await presentation.navigateToSlide(section, index);
-	await presentation.waitForLayout();
-});
+Given(
+	"I am on slide {string} at index {int}",
+	async ({ presentation }, section: string, index: number) => {
+		await presentation.navigateToSlide(section, index);
+		await presentation.waitForLayout();
+	},
+);
 
 // ---------------------------------------------------------------------------
 // Navigation — When steps
@@ -19,9 +22,12 @@ When("I navigate to the root", async ({ presentation }) => {
 	await presentation.waitForLayout();
 });
 
-When("I navigate to slide {string} at index {int}", async ({ presentation }, section: string, index: number) => {
-	await presentation.navigateToSlide(section, index);
-});
+When(
+	"I navigate to slide {string} at index {int}",
+	async ({ presentation }, section: string, index: number) => {
+		await presentation.navigateToSlide(section, index);
+	},
+);
 
 When("I navigate to path {string}", async ({ presentation }, path: string) => {
 	await presentation.goto(path);
@@ -39,9 +45,12 @@ When("I force click the next arrow", async ({ presentation }) => {
 	await presentation.nextButton.click({ force: true });
 });
 
-When("I click the {string} section in the sidebar", async ({ presentation }, sectionTitle: string) => {
-	await presentation.clickSection(sectionTitle);
-});
+When(
+	"I click the {string} section in the sidebar",
+	async ({ presentation }, sectionTitle: string) => {
+		await presentation.clickSection(sectionTitle);
+	},
+);
 
 When("I press ArrowRight", async ({ presentation }) => {
 	await presentation.pressArrowRight();
@@ -125,12 +134,14 @@ Then("the slide counter should contain {string}", async ({ presentation }, text:
 // ---------------------------------------------------------------------------
 
 Then("the sidebar should have a button {string}", async ({ presentation }, title: string) => {
+	await presentation.ensureSidebarVisible();
 	await expect(presentation.getSidebarButton(title)).toBeVisible();
 });
 
 Then(
 	"the {string} sidebar button should have aria-current {string}",
 	async ({ presentation }, title: string, value: string) => {
+		await presentation.ensureSidebarVisible();
 		await expect(presentation.getSidebarButton(title)).toHaveAttribute("aria-current", value);
 	},
 );

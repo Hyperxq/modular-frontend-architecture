@@ -19,10 +19,12 @@ describe("NavArrows", () => {
 		};
 	});
 
-	it("renders two buttons with chevron characters", () => {
+	it("renders two buttons with chevron SVGs", () => {
 		render(<NavArrows onNext={onNext} onPrev={onPrev} canGoNext canGoPrev />);
-		expect(screen.getByLabelText("Previous slide").textContent).toBe("‹");
-		expect(screen.getByLabelText("Next slide").textContent).toBe("›");
+		const prev = screen.getByLabelText("Previous slide");
+		const next = screen.getByLabelText("Next slide");
+		expect(prev.querySelector("svg")).not.toBeNull();
+		expect(next.querySelector("svg")).not.toBeNull();
 	});
 
 	it("calls onNext when next button is clicked", () => {
