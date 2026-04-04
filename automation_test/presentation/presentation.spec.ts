@@ -122,6 +122,17 @@ test.describe("Slide Navigation via Arrows", () => {
 		const title = await presentation.getSlideTitle();
 		expect(title).toBe("Module Federation");
 	});
+
+	test("prev arrow crosses section boundary backwards", async ({ page }) => {
+		await presentation.navigateToSlide("architecture", 0);
+		await presentation.waitForLayout();
+
+		await presentation.clickPrev();
+		expect(page.url()).toContain("/intro/2");
+
+		const title = await presentation.getSlideTitle();
+		expect(title).toBe("Why Micro-Frontends?");
+	});
 });
 
 // ─── Section Navigation via Sidebar ──────────────────────────────────────────
@@ -191,6 +202,104 @@ test.describe("Keyboard Navigation", () => {
 		await presentation.pressArrowLeft();
 
 		expect(page.url()).toContain("/intro/0");
+	});
+
+	test("ArrowLeft is no-op on first slide", async ({ page }) => {
+		await presentation.pressArrowLeft();
+
+		expect(page.url()).toContain("/intro/0");
+	});
+
+	test("ArrowRight is no-op on last slide", async ({ page }) => {
+		await presentation.navigateToSlide("stack", 1);
+		await presentation.waitForLayout();
+
+		await presentation.pressArrowRight();
+
+		expect(page.url()).toContain("/stack/1");
+	});
+
+	test("ArrowLeft crosses section boundary backwards", async ({ page }) => {
+		await presentation.navigateToSlide("architecture", 0);
+		await presentation.waitForLayout();
+
+		await presentation.pressArrowLeft();
+
+		expect(page.url()).toContain("/intro/2");
+	});
+});
+
+// ─── Last Slide Boundary ────────────────────────────────────────────────────
+
+test.describe("Last Slide Boundary", () => {
+	test.beforeEach(async () => {
+		await presentation.navigateToSlide("stack", 1);
+		await presentation.waitForLayout();
+	});
+
+	test("next disabled, prev enabled on last slide", async () => {
+		await expect(presentation.nextButton).toBeDisabled();
+		await expect(presentation.prevButton).toBeEnabled();
+	});
+
+	test("clicking next is no-op on last slide", async ({ page }) => {
+		await presentation.nextButton.click({ force: true });
+
+		expect(page.url()).toContain("/stack/1");
+	});
+});
+
+// ─── Route Validation ───────────────────────────────────────────────────────
+
+test.describe("Route Validation", () => {
+	test("invalid slide index redirects to first slide", async ({ page }) => {
+		await presentation.navigateToSlide("intro", 999);
+
+		expect(page.url()).toContain("/intro/0");
+	});
+
+	test("invalid section redirects to first slide", async ({ page }) => {
+		await presentation.goto("/nonexistent/0");
+
+		expect(page.url()).toContain("/intro/0");
+	});
+
+	test("negative slide index redirects to first slide", async ({ page }) => {
+		await presentation.goto("/intro/-1");
+
+		expect(page.url()).toContain("/intro/0");
+	});
+});
+
+// ─── Browser History ────────────────────────────────────────────────────────
+
+test.describe("Browser History", () => {
+	test("browser back returns to previous slide", async ({ page }) => {
+		await presentation.navigateToSlide("intro", 0);
+		await presentation.waitForLayout();
+
+		await presentation.clickNext();
+		expect(page.url()).toContain("/intro/1");
+
+		await page.goBack();
+		await page.waitForLoadState("networkidle");
+		expect(page.url()).toContain("/intro/0");
+	});
+
+	test("browser forward restores after back", async ({ page }) => {
+		await presentation.navigateToSlide("intro", 0);
+		await presentation.waitForLayout();
+
+		await presentation.clickNext();
+		expect(page.url()).toContain("/intro/1");
+
+		await page.goBack();
+		await page.waitForLoadState("networkidle");
+		expect(page.url()).toContain("/intro/0");
+
+		await page.goForward();
+		await page.waitForLoadState("networkidle");
+		expect(page.url()).toContain("/intro/1");
 	});
 });
 
