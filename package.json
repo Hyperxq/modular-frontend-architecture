@@ -10,20 +10,21 @@
 		"rspack"
 	],
 	"scripts": {
-		"dev": "nx run web:dev --output-style=stream",
-		"dev:mock": "nx run web:mock --output-style=stream",
-		"test": "rstest",
-		"build": "nx run build",
-		"build:prod": "nx run web:build --configuration=production",
-		"build:wc": "nx run web:build-wc",
+		"dev": "nx run-many -t dev -p @modular-frontend/ui-components @modular-frontend/shell --output-style=stream",
+		"dev:mock": "nx run-many -t mock -p @modular-frontend/ui-components @modular-frontend/shell --output-style=stream",
+		"test": "nx run-many -t test --output-style=stream",
+		"test:shell": "nx run shell:test",
+		"test:ui": "nx run ui-components:test",
+		"test:mocks": "bunx rstest --config mocks/rstest.config.ts",
+		"build": "nx run-many -t build",
+		"build:prod": "nx run shell:build:prod",
 		"lint": "bunx biome check .",
 		"lint:fix": "bunx biome check --write .",
 		"format": "bunx biome format .",
 		"format:fix": "bunx biome format --write .",
-		"e2e": "bun run --cwd automation_test e2e",
-		"e2e:ui": "bun run --cwd automation_test e2e:ui",
-		"e2e:debug": "bun run --cwd automation_test e2e:debug",
-		"e2e:report": "bun run --cwd automation_test e2e:report"
+		"e2e": "nx run @modular-frontend/automation-test:e2e",
+		"e2e:chromium": "nx run @modular-frontend/automation-test:e2e:chromium",
+		"e2e:report": "nx run @modular-frontend/automation-test:e2e:report"
 	},
 	"overrides": {
 		"@rsbuild/core": "1.7.5",

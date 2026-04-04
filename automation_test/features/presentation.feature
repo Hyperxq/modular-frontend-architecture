@@ -103,6 +103,13 @@ Feature: Presentation Navigation
     And the slide title should be "Rspack Ecosystem"
 
   @navigation @sidebar
+  Scenario: Clicking Mock Mode navigates to its first slide
+    Given I am on slide "intro" at index 0
+    When I click the "Mock Mode" section in the sidebar
+    Then the URL should contain "/mock/0"
+    And the slide title should be "Mock Mode Demo"
+
+  @navigation @sidebar
   Scenario: Active section is highlighted in sidebar
     Given I am on slide "intro" at index 0
     Then the "Overview" sidebar button should have aria-current "true"

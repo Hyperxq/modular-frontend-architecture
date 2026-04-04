@@ -63,6 +63,14 @@
 				"command": "bunx biome format --write .",
 				"cwd": "packages/shell"
 			}
+		},
+		"test": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx rstest",
+				"cwd": "packages/shell"
+			},
+			"cache": true
 		}
 	}
 }
