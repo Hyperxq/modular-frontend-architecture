@@ -47,6 +47,33 @@
 			"options": {
 				"command": "nx run @modular-frontend/ui-components:build"
 			}
+		},
+		"e2e:servers": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": [
+					"nx run @modular-frontend/ui-components:dev",
+					"nx run @modular-frontend/shell:dev"
+				],
+				"parallel": true,
+				"readyWhen": "Local:"
+			}
+		},
+		"e2e": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx bddgen && bunx playwright test",
+				"cwd": "automation_test"
+			},
+			"dependsOn": ["e2e:servers"]
+		},
+		"e2e:chromium": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "bunx bddgen && bunx playwright test --project=chromium",
+				"cwd": "automation_test"
+			},
+			"dependsOn": ["e2e:servers"]
 		}
 	}
 }

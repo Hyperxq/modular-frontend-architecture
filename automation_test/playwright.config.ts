@@ -1,5 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import { defineBddConfig, cucumberReporter } from "playwright-bdd";
+import { cucumberReporter, defineBddConfig } from "playwright-bdd";
 
 // ---------------------------------------------------------------------------
 // Playwright + BDD config
@@ -17,7 +17,10 @@ const testDir = defineBddConfig({
 	steps: ["steps/**/*.steps.ts", "fixtures.ts"],
 });
 
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3002";
+// If PLAYWRIGHT_BASE_URL is set, run against that URL (CI post-deploy mode).
+// Otherwise spin up local dev servers automatically.
+const EXTERNAL_URL = process.env.PLAYWRIGHT_BASE_URL;
+const BASE_URL = EXTERNAL_URL ?? "http://127.0.0.1:3002";
 
 export default defineConfig({
 	testDir,
@@ -59,21 +62,25 @@ export default defineConfig({
 		},
 	],
 
-	// Start dev servers automatically before running tests
-	webServer: [
-		{
-			// ui-components MF remote must be ready first
-			command: "bun run nx run ui-components:dev",
-			url: "http://localhost:3001/mf-manifest.json",
-			reuseExistingServer: !process.env.CI,
-			timeout: 120_000,
-		},
-		{
-			// Shell host — depends on ui-components being up
-			command: "bun run nx run shell:dev",
-			url: BASE_URL,
-			reuseExistingServer: !process.env.CI,
-			timeout: 120_000,
-		},
-	],
+	// Local dev only — skipped when PLAYWRIGHT_BASE_URL points to an external URL
+	webServer: EXTERNAL_URL
+		? undefined
+		: [
+				{
+					// ui-components MF remote must be ready first
+					command: "bunx rslib mf-dev --env-mode development.local",
+					cwd: "../packages/libraries/ui-components",
+					url: "http://127.0.0.1:3001/mf-manifest.json",
+					reuseExistingServer: true,
+					timeout: 120_000,
+				},
+				{
+					// Shell host — starts after ui-components is serving
+					command: "bunx rsbuild dev --env-mode development.local",
+					cwd: "../packages/shell",
+					url: "http://127.0.0.1:3002",
+					reuseExistingServer: true,
+					timeout: 120_000,
+				},
+			],
 });

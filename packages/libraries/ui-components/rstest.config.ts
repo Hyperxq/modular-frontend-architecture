@@ -3,8 +3,9 @@ import { pluginPreact } from "@rsbuild/plugin-preact";
 import { defineConfig } from "@rstest/core";
 
 export default defineConfig({
-	testEnvironment: "jsdom",
+	testEnvironment: "happy-dom",
 	setupFiles: ["./rstest.setup.ts"],
+	include: ["lib/**/*.spec.tsx", "lib/**/*.test.tsx"],
 	plugins: [pluginPreact()],
 	resolve: {
 		alias: {

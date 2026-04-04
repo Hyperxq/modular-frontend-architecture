@@ -34,13 +34,8 @@ jobs:
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps chromium
 
-      - name: Generate BDD test files
-        working-directory: automation_test
-        run: bunx bddgen
-
       - name: Run E2E tests against deployed URL
-        working-directory: automation_test
-        run: bunx playwright test --project=chromium
+        run: nx run @modular-frontend/automation-test:e2e:chromium
         env:
           PLAYWRIGHT_BASE_URL: ${{ inputs.base_url || 'https://modular-frontend.pages.dev' }}
           CI: true
