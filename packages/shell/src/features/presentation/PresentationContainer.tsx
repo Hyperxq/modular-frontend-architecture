@@ -79,7 +79,10 @@ const PresentationContainer: FunctionalComponent = () => {
 };
 
 const NAV_LABELS = { prev: "Previous slide", next: "Next slide" } as const;
-const NAV_ICONS = { prev: "‹", next: "›" } as const;
+const NAV_PATHS = { prev: "M15 18l-6-6 6-6", next: "M9 18l6-6-6-6" } as const;
+
+const NAV_BTN_CLASSES =
+	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,border-color,background] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high disabled:opacity-30 disabled:cursor-default";
 
 function NavButton({
 	direction,
@@ -87,8 +90,24 @@ function NavButton({
 	disabled,
 }: { direction: "prev" | "next"; onClick: () => void; disabled: boolean }) {
 	return (
-		<button type="button" onClick={onClick} disabled={disabled} aria-label={NAV_LABELS[direction]}>
-			{NAV_ICONS[direction]}
+		<button
+			type="button"
+			class={NAV_BTN_CLASSES}
+			onClick={onClick}
+			disabled={disabled}
+			aria-label={NAV_LABELS[direction]}
+		>
+			<svg
+				class="w-6 h-6 text-primary"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d={NAV_PATHS[direction]} />
+			</svg>
 		</button>
 	);
 }
