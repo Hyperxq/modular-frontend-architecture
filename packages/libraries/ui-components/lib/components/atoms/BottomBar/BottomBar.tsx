@@ -14,7 +14,10 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 }) => (
 	<footer class="flex items-center justify-between px-4 py-2 bg-surface-container-highest/40 backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)] rounded-[--radius] z-controls">
 		<div class="flex items-center gap-2 font-label text-label-sm text-fg-muted uppercase">
-			<span class="font-mono text-label-md">←→</span>
+			<span class="inline-flex gap-1">
+				<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">←</span>
+				<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">→</span>
+			</span>
 			<span>TO NAVIGATE</span>
 		</div>
 		<div class="flex flex-col items-center gap-1">

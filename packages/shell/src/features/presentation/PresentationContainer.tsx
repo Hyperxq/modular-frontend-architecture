@@ -82,7 +82,7 @@ const NAV_LABELS = { prev: "Previous slide", next: "Next slide" } as const;
 const NAV_PATHS = { prev: "M15 18l-6-6 6-6", next: "M9 18l6-6-6-6" } as const;
 
 const NAV_BTN_CLASSES =
-	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,border-color,background] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high disabled:opacity-30 disabled:cursor-default";
+	"flex items-center justify-center w-14 h-14 bg-surface-container border border-[rgba(100,105,115,0.4)] rounded-full cursor-pointer transition-[color,border-color,background] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high disabled:opacity-30 disabled:cursor-default";
 
 function NavButton({
 	direction,
