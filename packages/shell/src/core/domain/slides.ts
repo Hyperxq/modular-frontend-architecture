@@ -56,6 +56,18 @@ const sections: Section[] = [
 			{ title: "Preact + Signals", type: "concept", content: "3KB runtime, React compatibility via aliases." },
 		],
 	},
+	{
+		id: "mock",
+		title: "Mock Mode",
+		description: "MSW-powered API mocking",
+		slides: [
+			{
+				title: "Mock Mode Demo",
+				type: "interactive",
+				content: "Toggle MSW on/off and see real vs mocked API responses in real time.",
+			},
+		],
+	},
 ];
 
 /* ─── Helpers ─── */

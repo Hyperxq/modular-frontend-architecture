@@ -3,8 +3,8 @@ Feature: Presentation Navigation
   I want to navigate between slides using arrows, keyboard, and sidebar
   So that I can browse all content seamlessly across sections
 
-  # Slide data: intro(3) → architecture(3) → stack(2) = 8 total
-  # First slide: /intro/0 — Last slide: /stack/1
+  # Slide data: intro(3) → architecture(3) → stack(2) → mock(1) = 9 total
+  # First slide: /intro/0 — Last slide: /mock/0
 
   # ─── Page Load ──────────────────────────────────────────────────────
 
@@ -31,6 +31,7 @@ Feature: Presentation Navigation
     And the sidebar should have a button "Overview"
     And the sidebar should have a button "Architecture"
     And the sidebar should have a button "Stack & Tooling"
+    And the sidebar should have a button "Mock Mode"
 
   @layout
   Scenario: Center panel renders slide content
@@ -132,9 +133,9 @@ Feature: Presentation Navigation
 
   @navigation @keyboard
   Scenario: ArrowRight is no-op on last slide
-    Given I am on slide "stack" at index 1
+    Given I am on slide "mock" at index 0
     When I press ArrowRight
-    Then the URL should contain "/stack/1"
+    Then the URL should contain "/mock/0"
 
   @navigation @keyboard
   Scenario: ArrowLeft crosses section boundary backwards
@@ -146,15 +147,15 @@ Feature: Presentation Navigation
 
   @navigation @boundary
   Scenario: Nav arrows state on last slide
-    Given I am on slide "stack" at index 1
+    Given I am on slide "mock" at index 0
     Then the next button should be disabled
     And the previous button should be enabled
 
   @navigation @boundary
   Scenario: Clicking next is no-op on last slide
-    Given I am on slide "stack" at index 1
+    Given I am on slide "mock" at index 0
     When I force click the next arrow
-    Then the URL should contain "/stack/1"
+    Then the URL should contain "/mock/0"
 
   # ─── Route Validation ──────────────────────────────────────────────
 

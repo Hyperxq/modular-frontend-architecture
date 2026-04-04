@@ -1,6 +1,8 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
+import { ErrorBoundary } from "../../core/components/ErrorBoundary";
 import { useKeyboard } from "../../core/hooks/useKeyboard";
+import { MockDemoContainer } from "../mock-demo/MockDemoContainer";
 import { usePresentationData } from "./usePresentationData";
 
 const BottomBar = lazy(() => import("ui_components/atoms/BottomBar/BottomBar"));
@@ -73,7 +75,20 @@ const PresentationContainer: FunctionalComponent = () => {
 							sectionLabel={data.sectionLabel}
 							slideTitle={data.slideTitle}
 							slideBody={data.slideBody}
-						/>
+						>
+							{data.currentSlide?.type === "interactive" &&
+								data.currentSectionId === "mock" && (
+									<ErrorBoundary
+										fallback={
+											<p class="text-body-md text-fg-muted p-4">
+												Mock demo unavailable — restart the dev servers to load this component.
+											</p>
+										}
+									>
+										<MockDemoContainer />
+									</ErrorBoundary>
+								)}
+						</CenterPanel>
 					</SlideTransition>
 				}
 				diagram={
