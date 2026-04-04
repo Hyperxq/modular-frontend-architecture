@@ -1,0 +1,56 @@
+name: E2E Tests (Deployed)
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Cloudflare Pages"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL to test against"
+        required: false
+        default: "https://modular-frontend.pages.dev"
+
+jobs:
+  e2e:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+
+      - name: Generate BDD test files
+        working-directory: automation_test
+        run: bunx bddgen
+
+      - name: Run E2E tests against deployed URL
+        working-directory: automation_test
+        run: bunx playwright test --project=chromium
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ inputs.base_url || 'https://modular-frontend.pages.dev' }}
+          CI: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            automation_test/playwright-report/
+            automation_test/cucumber-report/
+          retention-days: 7
