@@ -39,7 +39,7 @@ export class PresentationPage extends BasePage {
 		await this.goto(`/${sectionId}/${slideIndex}`);
 	}
 
-	/** Navigate to the app root (should redirect to /intro/0) */
+	/** Navigate to the app root (should redirect to /problem-audience/0) */
 	async navigateToRoot(): Promise<void> {
 		await this.goto("/");
 	}

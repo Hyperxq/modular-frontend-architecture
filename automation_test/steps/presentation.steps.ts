@@ -235,7 +235,7 @@ Then("there should be no console errors", async ({ page, presentation }) => {
 		}
 	});
 
-	await presentation.navigateToSlide("intro", 0);
+	await presentation.navigateToSlide("problem-audience", 0);
 	await presentation.waitForLayout();
 
 	expect(errors).toEqual([]);
