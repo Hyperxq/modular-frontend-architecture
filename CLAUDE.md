@@ -111,6 +111,38 @@ Entries are auto-discovered via `fast-glob` — never register them manually.
 
 `isLocalEnv()` from `@modular-frontend/shared` returns `true` for `development.local`, `mock`, or undefined.
 
+### Mock mode (MSW)
+
+Mock mode uses MSW v2 to intercept HTTP requests, enabling frontend development without a backend.
+
+**How it works:**
+1. `PUBLIC_ENABLE_MOCKING=true` in `.env.mock` enables MSW
+2. Shell `index.tsx` async-bootstraps: `await initMocking()` before `render()`
+3. MSW service worker intercepts requests matching domain handlers
+4. Without `PUBLIC_ENABLE_MOCKING`, zero MSW code in the bundle (tree-shaking via dynamic import)
+
+**Runtime toggle:**
+- `useMockStore` (Zustand, shell only) exposes `toggle()` → calls `worker.start()/stop()`
+- MockDemo slide at `/mock/0` shows interactive toggle + user list
+- MockDemo component (ui-components) is display-only — receives state via props
+- `ErrorBoundary` in shell wraps MockDemoContainer for graceful MF fallback
+
+**Key architecture:**
+- `PUBLIC_GATEWAY_BACKEND` = single source of truth for backend URL
+- Handlers define ONLY paths (`/users`), never domains
+- Domain-grouped: `mocks/domains/users.mock.ts`, `posts.mock.ts`
+- Hybrid mode: `PUBLIC_MSW_OMIT_KEYS="GET_USERS"` passes specific keys through to real API
+
+**Adding a new endpoint:**
+1. Create/edit domain file in `mocks/domains/`
+2. Add route key to `MockRouteKey` in `mocks/core/types.ts`
+3. Import and spread in `mocks/handlers.ts`
+4. Add test in `mocks/domains/{domain}.mock.spec.ts`
+
+**Scripts:**
+- `bun run dev:mock` — dev with MSW enabled (both ui-components + shell)
+- `bun run test:mocks` — run mock handler unit tests
+
 ## Commit Convention
 
 Conventional Commits enforced by commitlint + Lefthook:

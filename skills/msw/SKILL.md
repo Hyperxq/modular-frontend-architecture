@@ -268,6 +268,55 @@ export type RouteResultMap = Partial<Record<ApiRouteKey, RouteResolver>>;
 
 ---
 
+## Project-Specific Conventions
+
+### Directory structure
+
+```
+mocks/
+├── core/               # Config, types, URL utils
+│   ├── types.ts         # MockRouteKey union — add new keys here
+│   ├── mock.config.ts   # resolveMockConfig() reads env vars
+│   ├── url.ts           # normalizeBaseUrl() strips trailing slash
+│   ├── backend.ts       # BACKEND_BASE_URL from PUBLIC_GATEWAY_BACKEND
+│   ├── errors.ts        # Error response helpers
+│   └── env.d.ts         # Type declarations for PUBLIC_* env vars
+├── domains/             # One file per API domain
+│   ├── users.mock.ts    # CRUD /users — data + handlers together
+│   └── posts.mock.ts    # GET /posts
+├── handlers.ts          # createHandlers() — collects all domain handlers
+├── init-mocking.ts      # Browser: initMocking/stopMocking/startMocking
+├── setup-test-mocking.ts # Node: setupServer for unit tests
+└── rstest.config.ts     # Test config (testEnvironment: "node")
+```
+
+### Adding a new domain
+
+1. Create `mocks/domains/{domain}.mock.ts` — export `{domain}Handlers(config, baseUrl)`
+2. Add route keys to `MockRouteKey` in `core/types.ts`
+3. Import and spread in `handlers.ts` `createHandlers()`
+4. Add test file `mocks/domains/{domain}.mock.spec.ts`
+
+### Key rules
+
+- Handlers define ONLY paths (`/users`) — domain from `baseUrl` param
+- `PUBLIC_GATEWAY_BACKEND` is the single source of truth for backend URL
+- `shouldMock(config, key)` checks omitted keys — supports hybrid mode
+- Runtime toggle via `useMockStore` (Zustand) in shell — calls `worker.start()/stop()`
+- `ErrorBoundary` wraps MockDemoContainer — graceful fallback if MF remote unavailable
+- NEVER use `vi.fn()` or `vi.mock()` — rstest `vi` is broken, use plain functions
+
+### Environment variables
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `PUBLIC_GATEWAY_BACKEND` | Backend URL (only paths in handlers) | `https://jsonplaceholder.typicode.com` |
+| `PUBLIC_ENABLE_MOCKING` | Enable MSW service worker | `"true"` |
+| `PUBLIC_MSW_OMIT_KEYS` | Comma-separated keys to passthrough | `"GET_USERS,GET_POSTS"` |
+| `PUBLIC_MSW_ON_UNHANDLED` | Unhandled request strategy | `"bypass"` / `"warn"` / `"error"` |
+
+---
+
 ## Keywords
 
 msw, mock service worker, http, mocking, handlers, setupServer, setupWorker, HttpResponse, passthrough, testing, request interception, browser mocks, node mocks, service worker, test mocking
