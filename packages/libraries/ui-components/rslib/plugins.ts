@@ -2,7 +2,6 @@ import {
 	createModuleFederationConfig,
 	pluginModuleFederation,
 } from "@module-federation/rsbuild-plugin";
-import { pluginNodePolyfill } from "@rsbuild/plugin-node-polyfill";
 import { pluginPreact } from "@rsbuild/plugin-preact";
 import { pluginExposes } from "../lib/plugins/pluginExposes";
 import { COMPONENTS_PATH } from "./env";
@@ -32,6 +31,5 @@ const createMfConfig = (isLocal: boolean) =>
 
 export const createPlugins = (isLocal: boolean) => [
 	pluginPreact(),
-	pluginNodePolyfill(),
 	pluginModuleFederation(createMfConfig(isLocal)),
 ];
