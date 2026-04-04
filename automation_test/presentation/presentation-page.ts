@@ -58,7 +58,7 @@ export class PresentationPage extends BasePage {
 
 	async clickSection(sectionTitle: string): Promise<void> {
 		await this.getSidebarButton(sectionTitle).click();
-		await this.page.waitForLoadState("networkidle");
+		await this.page.waitForLoadState("domcontentloaded");
 	}
 
 	// ── Content readers ──
@@ -88,21 +88,21 @@ export class PresentationPage extends BasePage {
 
 	async clickNext(): Promise<void> {
 		await this.nextButton.click();
-		await this.page.waitForLoadState("networkidle");
+		await this.page.waitForLoadState("domcontentloaded");
 	}
 
 	async clickPrev(): Promise<void> {
 		await this.prevButton.click();
-		await this.page.waitForLoadState("networkidle");
+		await this.page.waitForLoadState("domcontentloaded");
 	}
 
 	async pressArrowRight(): Promise<void> {
 		await this.page.keyboard.press("ArrowRight");
-		await this.page.waitForLoadState("networkidle");
+		await this.page.waitForLoadState("domcontentloaded");
 	}
 
 	async pressArrowLeft(): Promise<void> {
 		await this.page.keyboard.press("ArrowLeft");
-		await this.page.waitForLoadState("networkidle");
+		await this.page.waitForLoadState("domcontentloaded");
 	}
 }

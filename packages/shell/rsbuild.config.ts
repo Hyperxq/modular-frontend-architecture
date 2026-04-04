@@ -25,8 +25,9 @@ export default defineConfig(({ envMode }) => {
 				level: 6,
 			},
 			headers: {
-				// Set a long cache lifetime for static assets (e.g., 1 year)
-				"Cache-Control": "public, max-age=31536000, immutable",
+				"Cache-Control": isLocalEnvMode
+					? "no-store, no-cache, must-revalidate"
+					: "public, max-age=31536000, immutable",
 			},
 			cors: {
 				origin: [/^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\])(?::\d+)?$/],
@@ -47,12 +48,13 @@ export default defineConfig(({ envMode }) => {
 			),
 		},
 		dev: {
-			writeToDisk: true,
+			writeToDisk: false,
 		},
 		output: {
 			injectStyles: !isLocalEnvMode,
 			// cleanDistPath: true,
 			assetPrefix: isLocalEnvMode ? "http://localhost:3002" : PUBLIC_BUCKET_URL,
+			filenameHash: !isLocalEnvMode,
 			distPath: {
 				root: `${DIST_PATH}`,
 			},

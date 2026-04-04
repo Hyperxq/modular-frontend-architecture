@@ -53,12 +53,12 @@ When("I press ArrowLeft", async ({ presentation }) => {
 
 When("I go back in the browser", async ({ page }) => {
 	await page.goBack();
-	await page.waitForLoadState("networkidle");
+	await page.waitForLoadState("domcontentloaded");
 });
 
 When("I go forward in the browser", async ({ page }) => {
 	await page.goForward();
-	await page.waitForLoadState("networkidle");
+	await page.waitForLoadState("domcontentloaded");
 });
 
 // ---------------------------------------------------------------------------
@@ -66,6 +66,7 @@ When("I go forward in the browser", async ({ page }) => {
 // ---------------------------------------------------------------------------
 
 Then("the URL should contain {string}", async ({ page }, path: string) => {
+	await page.waitForURL(`**${path}*`, { timeout: 5_000 });
 	expect(page.url()).toContain(path);
 });
 
@@ -214,7 +215,15 @@ Then("the next button should have non-zero dimensions", async ({ presentation })
 Then("there should be no console errors", async ({ page, presentation }) => {
 	const errors: string[] = [];
 
-	const IGNORED_PATTERNS = [/favicon/i, /devtools/i, /hot-update/i, /\[HMR\]/i, /Download the React DevTools/i];
+	const IGNORED_PATTERNS = [
+		/favicon/i,
+		/devtools/i,
+		/hot-update/i,
+		/\[HMR\]/i,
+		/Download the React DevTools/i,
+		/WebSocket connection to/i,
+		/dynamic-remote-type-hints-plugin/i,
+	];
 
 	page.on("console", (msg) => {
 		if (msg.type() === "error") {

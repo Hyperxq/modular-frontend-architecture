@@ -9,8 +9,7 @@ export class BasePage {
 	constructor(protected page: Page) {}
 
 	async goto(path: string): Promise<void> {
-		await this.page.goto(path);
-		await this.page.waitForLoadState("networkidle");
+		await this.page.goto(path, { waitUntil: "domcontentloaded" });
 	}
 
 	async getCurrentUrl(): Promise<string> {

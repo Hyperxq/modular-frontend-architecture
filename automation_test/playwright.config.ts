@@ -17,7 +17,7 @@ const testDir = defineBddConfig({
 	steps: ["steps/**/*.steps.ts", "fixtures.ts"],
 });
 
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3002";
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3002";
 
 export default defineConfig({
 	testDir,
