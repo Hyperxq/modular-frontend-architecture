@@ -1,8 +1,6 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
-import { ErrorBoundary } from "../../core/components/ErrorBoundary";
 import { useKeyboard } from "../../core/hooks/useKeyboard";
-import { MockDemoContainer } from "../mock-demo/MockDemoContainer";
 import { usePresentationData } from "./usePresentationData";
 
 const BottomBar = lazy(() => import("ui_components/atoms/BottomBar/BottomBar"));
@@ -25,6 +23,8 @@ const PresentationContainer: FunctionalComponent = () => {
 		canGoPrev: data.canGoPrev,
 	});
 
+	const { SlideContent } = data;
+
 	return (
 		<Suspense
 			fallback={
@@ -33,26 +33,8 @@ const PresentationContainer: FunctionalComponent = () => {
 		>
 			<PresentationLayout
 				showDiagram={data.showDiagram}
-				navPrev={
-					<button
-						type="button"
-						onClick={data.goPrev}
-						disabled={!data.canGoPrev}
-						aria-label="Previous slide"
-					>
-						‹
-					</button>
-				}
-				navNext={
-					<button
-						type="button"
-						onClick={data.goNext}
-						disabled={!data.canGoNext}
-						aria-label="Next slide"
-					>
-						›
-					</button>
-				}
+				navPrev={<NavButton direction="prev" onClick={data.goPrev} disabled={!data.canGoPrev} />}
+				navNext={<NavButton direction="next" onClick={data.goNext} disabled={!data.canGoNext} />}
 				header={
 					<Header
 						title={data.appTitle}
@@ -71,23 +53,8 @@ const PresentationContainer: FunctionalComponent = () => {
 				}
 				center={
 					<SlideTransition transitionKey={data.transitionKey}>
-						<CenterPanel
-							sectionLabel={data.sectionLabel}
-							slideTitle={data.slideTitle}
-							slideBody={data.slideBody}
-						>
-							{data.currentSlide?.type === "interactive" &&
-								data.currentSectionId === "mock" && (
-									<ErrorBoundary
-										fallback={
-											<p class="text-body-md text-fg-muted p-4">
-												Mock demo unavailable — restart the dev servers to load this component.
-											</p>
-										}
-									>
-										<MockDemoContainer />
-									</ErrorBoundary>
-								)}
+						<CenterPanel sectionLabel={data.sectionLabel} slideTitle={data.slideTitle}>
+							{SlideContent && <SlideContent />}
 						</CenterPanel>
 					</SlideTransition>
 				}
@@ -110,5 +77,20 @@ const PresentationContainer: FunctionalComponent = () => {
 		</Suspense>
 	);
 };
+
+const NAV_LABELS = { prev: "Previous slide", next: "Next slide" } as const;
+const NAV_ICONS = { prev: "‹", next: "›" } as const;
+
+function NavButton({
+	direction,
+	onClick,
+	disabled,
+}: { direction: "prev" | "next"; onClick: () => void; disabled: boolean }) {
+	return (
+		<button type="button" onClick={onClick} disabled={disabled} aria-label={NAV_LABELS[direction]}>
+			{NAV_ICONS[direction]}
+		</button>
+	);
+}
 
 export { PresentationContainer };

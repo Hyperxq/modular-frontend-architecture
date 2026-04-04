@@ -1,4 +1,4 @@
-import type { Section } from "../../types";
+import type { Section } from "../types";
 import { preactSignals } from "./preact-signals.slide";
 import { rspackEcosystem } from "./rspack-ecosystem.slide";
 

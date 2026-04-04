@@ -2,7 +2,7 @@ import type { FunctionalComponent } from "preact";
 import { useEffect } from "preact/hooks";
 import { Navigate, useParams } from "react-router";
 import { PresentationContainer } from "../../features/presentation/PresentationContainer";
-import { getSectionById, sections } from "../domain/slides";
+import { getSectionById, sections } from "../domain/sections";
 import { useProgressStore } from "../store/progress.store";
 
 const SlideRoute: FunctionalComponent = () => {

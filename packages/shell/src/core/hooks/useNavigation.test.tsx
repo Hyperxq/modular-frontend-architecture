@@ -2,7 +2,7 @@ import { describe, expect, it } from "@rstest/core";
 import { fireEvent, render, screen } from "@testing-library/preact";
 import type { FunctionalComponent } from "preact";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router";
-import type { Section } from "../domain/slides";
+import type { Section } from "../domain/sections";
 import { useNavigation } from "./useNavigation";
 
 const testSections: Section[] = [
@@ -11,8 +11,8 @@ const testSections: Section[] = [
 		title: "Introduction",
 		description: "Getting started",
 		slides: [
-			{ title: "Welcome", type: "concept", content: "Hello" },
-			{ title: "Overview", type: "concept", content: "Overview" },
+			{ title: "Welcome", type: "concept", Content: () => null },
+			{ title: "Overview", type: "concept", Content: () => null },
 		],
 	},
 	{
@@ -20,8 +20,8 @@ const testSections: Section[] = [
 		title: "Architecture",
 		description: "Deep dive",
 		slides: [
-			{ title: "Clean Arch", type: "concept", content: "Layers" },
-			{ title: "Patterns", type: "code", content: "Code" },
+			{ title: "Clean Arch", type: "concept", Content: () => null },
+			{ title: "Patterns", type: "code", Content: () => null },
 		],
 	},
 ];

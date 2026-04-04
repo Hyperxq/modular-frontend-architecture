@@ -1,8 +1,8 @@
 import type { Section } from "./types";
-import { architectureSection } from "./sections/architecture/architecture.section";
-import { introSection } from "./sections/intro/intro.section";
-import { mockSection } from "./sections/mock/mock.section";
-import { stackSection } from "./sections/stack/stack.section";
+import { architectureSection } from "./architecture/architecture.section";
+import { introSection } from "./intro/intro.section";
+import { mockSection } from "./mock/mock.section";
+import { stackSection } from "./stack/stack.section";
 
 const sections: Section[] = [introSection, architectureSection, stackSection, mockSection];
 

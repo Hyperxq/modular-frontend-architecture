@@ -1,4 +1,4 @@
-import type { Section } from "../../types";
+import type { Section } from "../types";
 import { hostRemote } from "./host-remote.slide";
 import { moduleFederation } from "./module-federation.slide";
 import { sharedDependencies } from "./shared-dependencies.slide";

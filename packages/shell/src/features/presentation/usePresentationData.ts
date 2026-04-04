@@ -5,7 +5,7 @@ import {
 	getSectionIndex,
 	getSlide,
 	sections,
-} from "../../core/domain/slides";
+} from "../../core/domain/sections";
 import { useNavigation } from "../../core/hooks/useNavigation";
 import { useVisitedSlides } from "../../core/store/progress.store";
 
@@ -60,7 +60,7 @@ function usePresentationData() {
 		? `SECTION ${pad(sectionIndex + 1)} · ${currentSection.title.toUpperCase()}`
 		: "";
 	const slideTitle = currentSlide?.title ?? "";
-	const slideBody = currentSlide?.content ?? "";
+	const SlideContent = currentSlide?.Content;
 	const diagramTitle = "DIAGRAM :: STRUCTURAL ANALYSIS";
 
 	return {
@@ -81,7 +81,7 @@ function usePresentationData() {
 		sidebarVersion,
 		sectionLabel,
 		slideTitle,
-		slideBody,
+		SlideContent,
 		diagramTitle,
 	};
 }

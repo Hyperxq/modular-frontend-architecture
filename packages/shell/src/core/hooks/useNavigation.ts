@@ -1,6 +1,6 @@
 import { useCallback } from "preact/hooks";
 import { useNavigate, useParams } from "react-router";
-import { sections as defaultSections, getSectionIndex, type Section } from "../domain/slides";
+import { sections as defaultSections, getSectionIndex, type Section } from "../domain/sections";
 
 interface NavigationResult {
 	goNext: () => void;

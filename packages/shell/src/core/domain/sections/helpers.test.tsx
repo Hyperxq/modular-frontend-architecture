@@ -10,14 +10,16 @@ import {
 } from "./helpers";
 import type { Section } from "./types";
 
+const Noop = () => null;
+
 const mockSections: Section[] = [
 	{
 		id: "intro",
 		title: "Introduction",
 		description: "Getting started",
 		slides: [
-			{ title: "Welcome", type: "concept", content: "Hello" },
-			{ title: "Overview", type: "diagram", content: "Architecture", diagram: "overview-diagram" },
+			{ title: "Welcome", type: "concept", Content: Noop },
+			{ title: "Overview", type: "diagram", Content: Noop, diagram: "overview-diagram" },
 		],
 	},
 	{
@@ -25,9 +27,9 @@ const mockSections: Section[] = [
 		title: "Architecture",
 		description: "Deep dive",
 		slides: [
-			{ title: "Clean Arch", type: "concept", content: "Layers" },
-			{ title: "Code Example", type: "code", content: "const x = 1" },
-			{ title: "Try It", type: "interactive", content: "Exercise" },
+			{ title: "Clean Arch", type: "concept", Content: Noop },
+			{ title: "Code Example", type: "code", Content: Noop },
+			{ title: "Try It", type: "interactive", Content: Noop },
 		],
 	},
 ];

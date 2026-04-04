@@ -1,3 +1,5 @@
+import type { FunctionalComponent } from "preact";
+
 const SLIDE_TYPE = {
 	CONCEPT: "concept",
 	DIAGRAM: "diagram",
@@ -10,7 +12,7 @@ type SlideType = (typeof SLIDE_TYPE)[keyof typeof SLIDE_TYPE];
 interface Slide {
 	title: string;
 	type: SlideType;
-	content: string;
+	Content: FunctionalComponent;
 	diagram?: string;
 	notes?: string;
 }
