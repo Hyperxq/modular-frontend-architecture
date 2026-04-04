@@ -29,6 +29,20 @@ function shouldMock(config: MockConfig, key: MockRouteKey): boolean {
 	return !config.ommitedKeys.has(key);
 }
 
+const MAX_STRING = 200;
+
+function sanitizeString(value: unknown, fallback: string): string {
+	return typeof value === "string" ? value.slice(0, MAX_STRING) : fallback;
+}
+
+function parseUserBody(body: Record<string, unknown>): Partial<MockUser> {
+	return {
+		name: sanitizeString(body.name, "New User"),
+		email: sanitizeString(body.email, "new@example.com"),
+		username: sanitizeString(body.username, "newuser"),
+	};
+}
+
 export function userHandlers(config: MockConfig, baseUrl: string) {
 	const url = (path: string) => `${baseUrl}${path}`;
 
@@ -50,12 +64,13 @@ export function userHandlers(config: MockConfig, baseUrl: string) {
 		// POST /users — create
 		http.post(url("/users"), async ({ request }) => {
 			if (!shouldMock(config, "POST_USER")) return passthrough();
-			const body = (await request.json()) as Partial<MockUser>;
+			const body = (await request.json()) as Record<string, unknown>;
+			const parsed = parseUserBody(body);
 			const newUser: MockUser = {
 				id: nextId++,
-				name: body.name ?? "New User",
-				email: body.email ?? "new@example.com",
-				username: body.username ?? "newuser",
+				name: parsed.name ?? "New User",
+				email: parsed.email ?? "new@example.com",
+				username: parsed.username ?? "newuser",
 			};
 			users.push(newUser);
 			return HttpResponse.json(newUser, { status: 201 });
@@ -66,8 +81,9 @@ export function userHandlers(config: MockConfig, baseUrl: string) {
 			if (!shouldMock(config, "PUT_USER")) return passthrough();
 			const index = users.findIndex((u) => u.id === Number(params.id));
 			if (index === -1) return HttpResponse.json({ error: "User not found" }, { status: 404 });
-			const body = (await request.json()) as Partial<MockUser>;
-			users[index] = { ...users[index], ...body };
+			const body = (await request.json()) as Record<string, unknown>;
+			const parsed = parseUserBody(body);
+			users[index] = { ...users[index], ...parsed };
 			return HttpResponse.json(users[index]);
 		}),
 

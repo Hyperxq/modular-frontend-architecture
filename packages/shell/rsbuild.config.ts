@@ -21,6 +21,9 @@ export default defineConfig(({ envMode }) => {
 	return {
 		server: {
 			port: 3002,
+			publicDir: {
+				ignore: isLocalEnvMode ? [] : ["**/mockServiceWorker.js"],
+			},
 			compress: {
 				level: 6,
 			},

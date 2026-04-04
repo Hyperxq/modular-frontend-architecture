@@ -23,7 +23,9 @@ const mockStoreCreator: StateCreator<MockStore, [["zustand/devtools", never]], [
 	isEnabled: import.meta.env.PUBLIC_ENABLE_MOCKING === "true",
 
 	toggle: async () => {
-		const { isActive } = get();
+		const { isActive, isEnabled } = get();
+		if (!isEnabled) return;
+
 		if (isActive) {
 			const { stopMocking } = await import("../../../../../mocks/init-mocking");
 			await stopMocking();
