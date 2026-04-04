@@ -25,6 +25,7 @@ export const mfOutput = (isLocal: boolean, sourceMap: boolean | SourceMap): LibC
 		distPath: { root: `${DIST_ROOT}/mf` },
 		cleanDistPath: true,
 		filenameHash: !isLocal,
+		assetPrefix: isLocal ? "http://localhost:3001" : "/ui-components/mf",
 		sourceMap,
 	},
 });
