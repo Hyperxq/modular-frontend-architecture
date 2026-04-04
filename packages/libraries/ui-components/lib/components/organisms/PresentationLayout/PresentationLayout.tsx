@@ -2,34 +2,8 @@ import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
 import type { PresentationLayoutProps } from "./PresentationLayout.types";
 
-const NAV_WRAPPER_BASE = "grid-row-[2] self-center z-controls pointer-events-none";
-
-const NAV_BUTTON_CLASSES = [
-	"[&>button]:pointer-events-auto",
-	"[&>button]:flex",
-	"[&>button]:items-center",
-	"[&>button]:justify-center",
-	"[&>button]:w-12",
-	"[&>button]:h-12",
-	"[&>button]:font-sans",
-	"[&>button]:text-[2rem]",
-	"[&>button]:font-normal",
-	"[&>button]:leading-none",
-	"[&>button]:text-fg-secondary",
-	"[&>button]:bg-surface-container",
-	"[&>button]:border",
-	"[&>button]:border-border-ghost",
-	"[&>button]:rounded-full",
-	"[&>button]:cursor-pointer",
-	"[&>button]:transition-[color,background]",
-	"[&>button]:duration-fast",
-	"[&>button]:ease-default",
-	"[&>button]:hover:not-disabled:text-primary",
-	"[&>button]:hover:not-disabled:bg-surface-container-high",
-	"[&>button]:disabled:text-fg-muted",
-	"[&>button]:disabled:opacity-40",
-	"[&>button]:disabled:cursor-default",
-].join(" ");
+const NAV_WRAPPER =
+	"row-[2/3] self-center z-controls pointer-events-none [&>div]:pointer-events-auto";
 
 const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 	header,
@@ -55,7 +29,7 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 		{showDiagram && <div class="grid-area-diagram min-h-0 overflow-hidden">{diagram}</div>}
 		{navPrev && (
 			<div
-				class={cn(NAV_WRAPPER_BASE, "grid-col-[2] justify-self-start pl-4", NAV_BUTTON_CLASSES)}
+				class={cn(NAV_WRAPPER, "col-[2] justify-self-start pl-4")}
 				data-testid="nav-prev-wrapper"
 			>
 				{navPrev}
@@ -63,12 +37,7 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 		)}
 		{navNext && (
 			<div
-				class={cn(
-					NAV_WRAPPER_BASE,
-					"justify-self-end pr-4",
-					showDiagram ? "grid-col-[3]" : "grid-col-[2]",
-					NAV_BUTTON_CLASSES,
-				)}
+				class={cn(NAV_WRAPPER, "justify-self-end pr-4", showDiagram ? "col-[3]" : "col-[2]")}
 				data-testid="nav-next-wrapper"
 			>
 				{navNext}

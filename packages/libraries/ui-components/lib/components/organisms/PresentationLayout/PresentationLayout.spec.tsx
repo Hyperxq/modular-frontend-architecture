@@ -87,7 +87,7 @@ describe("PresentationLayout", () => {
 		expect(screen.getByTestId("prev")).toBeInTheDocument();
 	});
 
-	it("renders navNext with grid-col-[2] when showDiagram is false", () => {
+	it("renders navNext with col-[2] when showDiagram is false", () => {
 		render(
 			<PresentationLayout
 				header={null}
@@ -105,12 +105,12 @@ describe("PresentationLayout", () => {
 		);
 		const wrapper = screen.getByTestId("nav-next-wrapper");
 		expect(wrapper).not.toBeNull();
-		expect(wrapper.classList.contains("grid-col-[3]")).toBe(false);
-		expect(wrapper.classList.contains("grid-col-[2]")).toBe(true);
+		expect(wrapper.classList.contains("col-[3]")).toBe(false);
+		expect(wrapper.classList.contains("col-[2]")).toBe(true);
 		expect(screen.getByTestId("next")).toBeInTheDocument();
 	});
 
-	it("renders navNext with grid-col-[3] when showDiagram is true", () => {
+	it("renders navNext with col-[3] when showDiagram is true", () => {
 		render(
 			<PresentationLayout
 				header={null}
@@ -127,7 +127,7 @@ describe("PresentationLayout", () => {
 			/>,
 		);
 		const wrapper = screen.getByTestId("nav-next-wrapper");
-		expect(wrapper.classList.contains("grid-col-[3]")).toBe(true);
+		expect(wrapper.classList.contains("col-[3]")).toBe(true);
 	});
 
 	it("omits nav wrappers when not provided", () => {
