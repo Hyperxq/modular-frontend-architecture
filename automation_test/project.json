@@ -9,14 +9,14 @@
 		"e2e": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "bunx playwright test",
+				"command": "bunx bddgen && bunx playwright test",
 				"cwd": "automation_test"
 			}
 		},
 		"e2e:chromium": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "bunx playwright test --project=chromium",
+				"command": "bunx bddgen && bunx playwright test --project=chromium",
 				"cwd": "automation_test"
 			}
 		},

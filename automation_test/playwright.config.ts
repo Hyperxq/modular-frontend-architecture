@@ -1,30 +1,26 @@
 import { defineConfig, devices } from "@playwright/test";
+import { defineBddConfig, cucumberReporter } from "playwright-bdd";
 
 // ---------------------------------------------------------------------------
-// Playwright E2E config
+// Playwright + BDD config
 //
-// Tests live in: automation_test/
-// Structure:
-//   automation_test/
-//     base-page.ts           ← BasePage class (all pages extend this)
-//     helpers.ts             ← shared utilities, data generators
-//     {feature}/
-//       {feature}-page.ts    ← Page Object Model
-//       {feature}.spec.ts    ← tests (one spec file per feature)
-//       {feature}.md         ← test documentation
+// Feature files:  features/**/*.feature
+// Step defs:      steps/**/*.steps.ts
+// Page Objects:   {feature}/{feature}-page.ts
 //
 // Run against shell dev server (:3002)
 // ui-components MF remote must be running (:3001)
 // ---------------------------------------------------------------------------
 
+const testDir = defineBddConfig({
+	features: "features/**/*.feature",
+	steps: ["steps/**/*.steps.ts", "fixtures.ts"],
+});
+
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3002";
 
 export default defineConfig({
-	// Test directory — relative to this config file (automation_test/)
-	testDir: "./",
-
-	// One spec file per feature — no splitting
-	testMatch: "**/*.spec.ts",
+	testDir,
 
 	// Fail fast in CI — no point running all tests if one fails
 	fullyParallel: true,
@@ -33,7 +29,11 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 
 	// Reporters
-	reporter: [["list"], ["html", { outputFolder: "playwright-report", open: "never" }]],
+	reporter: [
+		["list"],
+		["html", { outputFolder: "playwright-report", open: "never" }],
+		cucumberReporter("html", { outputFile: "cucumber-report/index.html" }),
+	],
 
 	use: {
 		baseURL: BASE_URL,

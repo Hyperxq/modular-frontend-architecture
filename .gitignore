@@ -5,5 +5,7 @@ fix
 .env*
 automation_test/playwright-report/
 automation_test/test-results/
+automation_test/.features-gen/
+automation_test/cucumber-report/
 .claude/settings.local.json
 .playwright-mcp/
