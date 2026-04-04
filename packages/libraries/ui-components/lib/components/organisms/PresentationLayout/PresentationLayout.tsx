@@ -3,7 +3,7 @@ import type { FunctionalComponent } from "preact";
 import type { PresentationLayoutProps } from "./PresentationLayout.types";
 
 const NAV_WRAPPER =
-	"row-[2/3] self-center z-controls pointer-events-none [&>div]:pointer-events-auto";
+	"row-[2/3] self-center z-controls pointer-events-none [&_button]:pointer-events-auto";
 
 const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 	header,

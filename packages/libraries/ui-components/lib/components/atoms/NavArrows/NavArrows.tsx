@@ -2,7 +2,21 @@ import type { FunctionalComponent } from "preact";
 import type { NavArrowsProps } from "./NavArrows.types";
 
 const NAV_BTN_CLASSES =
-	"flex items-center justify-center w-12 h-12 font-sans text-[2rem] font-normal leading-none text-fg-secondary bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,background] duration-fast ease-default hover:enabled:text-primary hover:enabled:bg-surface-container-high disabled:text-fg-muted disabled:opacity-40 disabled:cursor-default";
+	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,border-color,background] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high disabled:opacity-30 disabled:cursor-default";
+
+const CHEVRON_CLASSES = "w-6 h-6 text-primary";
+
+const ChevronLeft: FunctionalComponent = () => (
+	<svg class={CHEVRON_CLASSES} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M15 18l-6-6 6-6" />
+	</svg>
+);
+
+const ChevronRight: FunctionalComponent = () => (
+	<svg class={CHEVRON_CLASSES} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M9 18l6-6-6-6" />
+	</svg>
+);
 
 const NavArrows: FunctionalComponent<NavArrowsProps> = ({
 	onNext,
@@ -18,7 +32,7 @@ const NavArrows: FunctionalComponent<NavArrowsProps> = ({
 			disabled={!canGoPrev}
 			aria-label="Previous slide"
 		>
-			‹
+			<ChevronLeft />
 		</button>
 		<button
 			type="button"
@@ -27,7 +41,7 @@ const NavArrows: FunctionalComponent<NavArrowsProps> = ({
 			disabled={!canGoNext}
 			aria-label="Next slide"
 		>
-			›
+			<ChevronRight />
 		</button>
 	</div>
 );
