@@ -850,17 +850,20 @@ Scenario: Next arrow advances to slide 2
 
 ### Deployment Architecture
 
-```
-┌──────────────────────────────────────────────────────┐
-│                    CDN / S3 Bucket                     │
-│                                                       │
-│  /shell/              → Shell static assets           │
-│  /ui-components/mf/   → MF remote chunks + manifest  │
-│                                                       │
-│  Shell loads, then fetches ui-components at runtime   │
-│  via mf-manifest.json URL                             │
-└──────────────────────────────────────────────────────┘
-```
+The project deploys to **Cloudflare Pages** via GitHub Actions. Both shell and MF remote are served from a single Pages project:
+
+- **Production URL**: `modular-frontend.pages.dev`
+- **Shell assets**: served from root (`/`)
+- **MF remote**: served from `/ui-components/mf/` (includes `mf-manifest.json` + all chunks)
+
+The CI workflow (`.github/workflows/deploy.yml`) builds both packages and copies the MF remote output into the shell's `dist/` directory before deploying as a single unit.
+
+**Build order in CI:**
+1. Build ui-components with `--env-mode production`
+2. Create `.env.production` with `PUBLIC_BUCKET_URL=https://modular-frontend.pages.dev`
+3. Build shell with `build:prod`
+4. Copy `ui-components/dist/ui-components/mf/*` into `shell/dist/ui-components/mf/`
+5. Deploy `shell/dist/` to Cloudflare Pages via `bunx wrangler`
 
 ### Environment Strategy
 
@@ -882,26 +885,23 @@ export function isLocalEnv(envMode: string | undefined): boolean {
 
 This single function controls: source maps, DTS generation, style injection, asset hashing, CORS headers, cache-control behavior.
 
-### CI/CD Per MFE
+### CI/CD Pipeline
 
-Each micro-frontend can be deployed independently:
+The GitHub Actions workflow handles the full build-deploy cycle on every push to `main`. PRs to `main` get **preview deploys** automatically at `{branch}.modular-frontend.pages.dev`.
 
-1. **ui-components** — build with Rslib → upload MF chunks + `mf-manifest.json` to CDN
-2. **shell** — build with Rsbuild → upload static assets to CDN/hosting
+Key implementation details:
+- Uses `bunx wrangler` directly instead of `cloudflare/wrangler-action` — the action uses npm internally which conflicts with Bun workspace peer dependencies
+- Project creation is idempotent: `wrangler pages project create ... || true`
+- `--commit-dirty=true` flag needed because CI working directory has uncommitted build artifacts
 
-The shell's `PUBLIC_BUCKET_URL` environment variable points to wherever the remote is deployed. Change the URL → shell loads a different version of ui-components.
-
-### GitHub Pages Alternative
-
-For demos and presentations, the static output can be deployed to GitHub Pages:
-- Shell builds to `dist/` with correct `assetPrefix`
-- UI-Components MF output uploaded alongside
-- Single-page app routing handled via 404.html redirect trick
+**Required GitHub secrets:**
+- `CLOUDFLARE_API_TOKEN` — API token with Pages permissions
+- `CLOUDFLARE_ACCOUNT_ID` — Cloudflare account identifier
 
 ### Asset Configuration
 
 ```typescript
-// Shell output config
+// Shell output config (rsbuild.config.ts)
 output: {
   assetPrefix: isLocalEnvMode
     ? "http://localhost:3002"     // Dev: absolute local URL
@@ -909,7 +909,17 @@ output: {
   filenameHash: !isLocalEnvMode,  // Hash only in prod builds
   injectStyles: !isLocalEnvMode,  // Inline CSS in prod
 }
+
+// MF Remote output config (rslib/outputs/mf.ts)
+output: {
+  assetPrefix: isLocal
+    ? "http://localhost:3001"      // Dev: local remote server
+    : "/ui-components/mf",        // Prod: subpath on same domain
+  filenameHash: !isLocal,
+}
 ```
+
+**Critical**: The MF remote's `assetPrefix` in production MUST match the subpath where its chunks are served. Without this, Module Federation resolves chunk URLs against the root domain, causing 404s that return HTML — which triggers "MIME type not executable" errors.
 
 ---
 
@@ -987,7 +997,7 @@ This architecture adds real operational overhead:
 | Concern | Monolith | This Architecture |
 |---------|----------|-------------------|
 | Build pipeline | 1 build | N builds (1 per MFE) |
-| Deployment | 1 deploy | N deploys + manifest coordination |
+| Deployment | 1 deploy | 1 monolithic deploy (current) or N deploys + manifest coordination (scaled) |
 | Version compatibility | Implicit | Must manage shared dep versions |
 | Debugging | Single source map | Cross-origin source maps |
 | Local dev | `npm start` | Multiple dev servers (Nx orchestrates) |
@@ -1012,6 +1022,9 @@ The value proposition is strongest when:
 5. **Domain-grouped mock handlers** — organize by API domain, not HTTP method, for maintainability
 6. **Auto-discovery over manual registration** — fast-glob eliminates a class of "forgot to register" bugs
 7. **Source-only shared packages** — no build step, no dist folder, just import from source
+8. **`assetPrefix` on MF remote is mandatory for subpath deployment** — without it, chunk URLs resolve to the root domain, returning 404 HTML pages that trigger MIME type errors
+9. **`bunx wrangler` over `wrangler-action`** — when using Bun workspaces, the Wrangler GitHub Action's internal npm install conflicts with peer dependencies
+10. **Phantom dependencies break CI** — packages that work locally via hoisting (e.g., `@rsbuild/plugin-node-polyfill` used in ui-components but declared only in shell) will fail in CI with strict resolution
 
 ---
 
