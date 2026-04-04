@@ -23,7 +23,7 @@ Feature: Mock Mode Section
     Then the mock demo area should have content
 
   @mock
-  Scenario: Navigation from mock section goes back to stack
+  Scenario: Navigation from mock section goes back to module-federation
     Given I am on the mock demo slide
     When I click the previous arrow
-    Then the URL should contain "/stack/3"
+    Then the URL should contain "/module-federation/3"
