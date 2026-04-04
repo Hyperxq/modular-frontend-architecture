@@ -1,5 +1,4 @@
 import { describe, expect, it } from "@rstest/core";
-import type { Section } from "./slides";
 import {
 	getGlobalSlideIndex,
 	getSectionById,
@@ -8,7 +7,8 @@ import {
 	getTotalSlides,
 	isFirstSlide,
 	isLastSlide,
-} from "./slides";
+} from "./helpers";
+import type { Section } from "./types";
 
 const mockSections: Section[] = [
 	{
