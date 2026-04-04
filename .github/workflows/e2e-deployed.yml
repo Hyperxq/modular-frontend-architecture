@@ -35,7 +35,7 @@ jobs:
         run: bunx playwright install --with-deps chromium
 
       - name: Run E2E tests against deployed URL
-        run: nx run @modular-frontend/automation-test:e2e:chromium
+        run: bunx nx run @modular-frontend/automation-test:e2e:chromium
         env:
           PLAYWRIGHT_BASE_URL: ${{ inputs.base_url || 'https://modular-frontend.pages.dev' }}
           CI: true
