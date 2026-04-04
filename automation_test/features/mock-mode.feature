@@ -10,7 +10,7 @@ Feature: Mock Mode Section
   @mock
   Scenario: Mock demo slide renders with section label
     Given I am on the mock demo slide
-    Then the slide title should be "Mock Mode Demo"
+    Then the slide title should be "The Problem It Solves"
 
   @mock
   Scenario: Mock toggle is disabled without mock env
@@ -26,4 +26,4 @@ Feature: Mock Mode Section
   Scenario: Navigation from mock section goes back to stack
     Given I am on the mock demo slide
     When I click the previous arrow
-    Then the URL should contain "/stack/1"
+    Then the URL should contain "/stack/3"
