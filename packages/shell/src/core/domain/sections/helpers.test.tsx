@@ -14,22 +14,22 @@ const Noop = () => null;
 
 const mockSections: Section[] = [
 	{
-		id: "intro",
-		title: "Introduction",
-		description: "Getting started",
+		id: "problem-audience",
+		title: "Problem & Audience",
+		description: "The pain points and target audience",
 		slides: [
-			{ title: "Welcome", type: "concept", Content: Noop },
-			{ title: "Overview", type: "diagram", Content: Noop, diagram: "overview-diagram" },
+			{ title: "The Pain", type: "concept", Content: Noop },
+			{ title: "Who This Is For", type: "diagram", Content: Noop, diagram: "audience-diagram" },
 		],
 	},
 	{
-		id: "architecture",
-		title: "Architecture",
-		description: "Deep dive",
+		id: "overview",
+		title: "Overview",
+		description: "High-level architecture overview",
 		slides: [
-			{ title: "Clean Arch", type: "concept", Content: Noop },
-			{ title: "Code Example", type: "code", Content: Noop },
-			{ title: "Try It", type: "interactive", Content: Noop },
+			{ title: "The Big Picture", type: "concept", Content: Noop },
+			{ title: "Data Flow", type: "code", Content: Noop },
+			{ title: "This Website", type: "interactive", Content: Noop },
 		],
 	},
 ];
@@ -46,8 +46,8 @@ describe("getTotalSlides", () => {
 
 describe("getSectionById", () => {
 	it("returns the matching section", () => {
-		const result = getSectionById(mockSections, "architecture");
-		expect(result?.title).toBe("Architecture");
+		const result = getSectionById(mockSections, "overview");
+		expect(result?.title).toBe("Overview");
 	});
 
 	it("returns undefined for unknown id", () => {
@@ -55,19 +55,19 @@ describe("getSectionById", () => {
 	});
 
 	it("returns undefined for empty data", () => {
-		expect(getSectionById([], "intro")).toBeUndefined();
+		expect(getSectionById([], "problem-audience")).toBeUndefined();
 	});
 });
 
 describe("getSlide", () => {
 	it("returns the correct slide", () => {
-		const slide = getSlide(mockSections, "intro", 1);
-		expect(slide?.title).toBe("Overview");
-		expect(slide?.diagram).toBe("overview-diagram");
+		const slide = getSlide(mockSections, "problem-audience", 1);
+		expect(slide?.title).toBe("Who This Is For");
+		expect(slide?.diagram).toBe("audience-diagram");
 	});
 
 	it("returns undefined for out-of-bounds index", () => {
-		expect(getSlide(mockSections, "intro", 99)).toBeUndefined();
+		expect(getSlide(mockSections, "problem-audience", 99)).toBeUndefined();
 	});
 
 	it("returns undefined for unknown section", () => {
@@ -77,7 +77,7 @@ describe("getSlide", () => {
 
 describe("getSectionIndex", () => {
 	it("returns the correct index", () => {
-		expect(getSectionIndex(mockSections, "architecture")).toBe(1);
+		expect(getSectionIndex(mockSections, "overview")).toBe(1);
 	});
 
 	it("returns -1 for unknown section", () => {
@@ -87,17 +87,17 @@ describe("getSectionIndex", () => {
 
 describe("getGlobalSlideIndex", () => {
 	it("returns 0 for first section, first slide", () => {
-		expect(getGlobalSlideIndex(mockSections, "intro", 0)).toBe(0);
+		expect(getGlobalSlideIndex(mockSections, "problem-audience", 0)).toBe(0);
 	});
 
 	it("returns local index for first section", () => {
-		expect(getGlobalSlideIndex(mockSections, "intro", 1)).toBe(1);
+		expect(getGlobalSlideIndex(mockSections, "problem-audience", 1)).toBe(1);
 	});
 
 	it("sums previous sections slides", () => {
-		// intro has 2 slides, so architecture slide 0 = global index 2
-		expect(getGlobalSlideIndex(mockSections, "architecture", 0)).toBe(2);
-		expect(getGlobalSlideIndex(mockSections, "architecture", 2)).toBe(4);
+		// problem-audience has 2 slides, so overview slide 0 = global index 2
+		expect(getGlobalSlideIndex(mockSections, "overview", 0)).toBe(2);
+		expect(getGlobalSlideIndex(mockSections, "overview", 2)).toBe(4);
 	});
 
 	it("returns 0 for unknown section", () => {
@@ -107,29 +107,29 @@ describe("getGlobalSlideIndex", () => {
 
 describe("isFirstSlide", () => {
 	it("returns true for first section, first slide", () => {
-		expect(isFirstSlide(mockSections, "intro", 0)).toBe(true);
+		expect(isFirstSlide(mockSections, "problem-audience", 0)).toBe(true);
 	});
 
 	it("returns false for first section, second slide", () => {
-		expect(isFirstSlide(mockSections, "intro", 1)).toBe(false);
+		expect(isFirstSlide(mockSections, "problem-audience", 1)).toBe(false);
 	});
 
 	it("returns false for second section, first slide", () => {
-		expect(isFirstSlide(mockSections, "architecture", 0)).toBe(false);
+		expect(isFirstSlide(mockSections, "overview", 0)).toBe(false);
 	});
 });
 
 describe("isLastSlide", () => {
 	it("returns true for last section, last slide", () => {
-		expect(isLastSlide(mockSections, "architecture", 2)).toBe(true);
+		expect(isLastSlide(mockSections, "overview", 2)).toBe(true);
 	});
 
 	it("returns false for last section, not-last slide", () => {
-		expect(isLastSlide(mockSections, "architecture", 1)).toBe(false);
+		expect(isLastSlide(mockSections, "overview", 1)).toBe(false);
 	});
 
 	it("returns false for first section, last slide of that section", () => {
-		expect(isLastSlide(mockSections, "intro", 1)).toBe(false);
+		expect(isLastSlide(mockSections, "problem-audience", 1)).toBe(false);
 	});
 
 	it("returns false for unknown section", () => {

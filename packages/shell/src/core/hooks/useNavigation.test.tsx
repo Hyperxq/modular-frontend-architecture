@@ -7,21 +7,21 @@ import { useNavigation } from "./useNavigation";
 
 const testSections: Section[] = [
 	{
-		id: "intro",
-		title: "Introduction",
-		description: "Getting started",
+		id: "problem-audience",
+		title: "Problem & Audience",
+		description: "The pain points and target audience",
 		slides: [
-			{ title: "Welcome", type: "concept", Content: () => null },
-			{ title: "Overview", type: "concept", Content: () => null },
+			{ title: "The Pain", type: "concept", Content: () => null },
+			{ title: "Who This Is For", type: "concept", Content: () => null },
 		],
 	},
 	{
-		id: "architecture",
-		title: "Architecture",
-		description: "Deep dive",
+		id: "overview",
+		title: "Overview",
+		description: "High-level architecture overview",
 		slides: [
-			{ title: "Clean Arch", type: "concept", Content: () => null },
-			{ title: "Patterns", type: "code", Content: () => null },
+			{ title: "The Big Picture", type: "concept", Content: () => null },
+			{ title: "Data Flow", type: "code", Content: () => null },
 		],
 	},
 ];
@@ -64,55 +64,55 @@ function renderAtRoute(path: string) {
 
 describe("useNavigation", () => {
 	it("reads current position from URL params", () => {
-		renderAtRoute("/intro/0");
-		expect(screen.getByTestId("section").textContent).toBe("intro");
+		renderAtRoute("/problem-audience/0");
+		expect(screen.getByTestId("section").textContent).toBe("problem-audience");
 		expect(screen.getByTestId("slide").textContent).toBe("0");
 	});
 
 	it("can go next from first slide, cannot go prev", () => {
-		renderAtRoute("/intro/0");
+		renderAtRoute("/problem-audience/0");
 		expect(screen.getByTestId("can-next").textContent).toBe("true");
 		expect(screen.getByTestId("can-prev").textContent).toBe("false");
 	});
 
 	it("navigates to next slide within section", () => {
-		renderAtRoute("/intro/0");
+		renderAtRoute("/problem-audience/0");
 		fireEvent.click(screen.getByTestId("next"));
-		expect(screen.getByTestId("location").textContent).toBe("/intro/1");
+		expect(screen.getByTestId("location").textContent).toBe("/problem-audience/1");
 	});
 
 	it("crosses to next section at boundary", () => {
-		renderAtRoute("/intro/1");
+		renderAtRoute("/problem-audience/1");
 		fireEvent.click(screen.getByTestId("next"));
-		expect(screen.getByTestId("location").textContent).toBe("/architecture/0");
+		expect(screen.getByTestId("location").textContent).toBe("/overview/0");
 	});
 
 	it("navigates to previous slide within section", () => {
-		renderAtRoute("/intro/1");
+		renderAtRoute("/problem-audience/1");
 		fireEvent.click(screen.getByTestId("prev"));
-		expect(screen.getByTestId("location").textContent).toBe("/intro/0");
+		expect(screen.getByTestId("location").textContent).toBe("/problem-audience/0");
 	});
 
 	it("crosses to previous section at boundary", () => {
-		renderAtRoute("/architecture/0");
+		renderAtRoute("/overview/0");
 		fireEvent.click(screen.getByTestId("prev"));
-		expect(screen.getByTestId("location").textContent).toBe("/intro/1");
+		expect(screen.getByTestId("location").textContent).toBe("/problem-audience/1");
 	});
 
 	it("cannot go next from last slide of last section", () => {
-		renderAtRoute("/architecture/1");
+		renderAtRoute("/overview/1");
 		expect(screen.getByTestId("can-next").textContent).toBe("false");
 	});
 
 	it("stays on same route when goNext at end", () => {
-		renderAtRoute("/architecture/1");
+		renderAtRoute("/overview/1");
 		fireEvent.click(screen.getByTestId("next"));
-		expect(screen.getByTestId("location").textContent).toBe("/architecture/1");
+		expect(screen.getByTestId("location").textContent).toBe("/overview/1");
 	});
 
 	it("stays on same route when goPrev at start", () => {
-		renderAtRoute("/intro/0");
+		renderAtRoute("/problem-audience/0");
 		fireEvent.click(screen.getByTestId("prev"));
-		expect(screen.getByTestId("location").textContent).toBe("/intro/0");
+		expect(screen.getByTestId("location").textContent).toBe("/problem-audience/0");
 	});
 });
