@@ -1,20 +1,41 @@
+import type { SetupWorker } from "msw/browser";
 import { createHandlers } from "./handlers";
-import { resolveMockConfig } from "./mock.config";
+import { resolveMockConfig } from "./core/mock.config";
 
-export async function initMocking() {
-  const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
+// ---------------------------------------------------------------------------
+// Browser MSW worker — singleton with start/stop for runtime toggle
+// ---------------------------------------------------------------------------
 
-  if(!isBrowser) return null;
+let worker: SetupWorker | null = null;
 
-  const { setupWorker } = await import("msw/browser");
+export async function initMocking(): Promise<void> {
+	const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined";
+	if (!isBrowser) return;
 
-  const config = resolveMockConfig();
-  const worker = setupWorker(...createHandlers(config));
+	const { setupWorker } = await import("msw/browser");
 
-  await worker.start({
-    onUnhandledRequest: config.onUnhandled,
-    serviceWorker: {
-      url: "/mockServiceWorker.js"
-    }
-  })
+	const config = resolveMockConfig();
+	worker = setupWorker(...createHandlers(config));
+
+	await worker.start({
+		onUnhandledRequest: config.onUnhandled,
+		serviceWorker: { url: "/mockServiceWorker.js" },
+	});
+}
+
+export async function stopMocking(): Promise<void> {
+	if (worker) await worker.stop();
+}
+
+export async function startMocking(): Promise<void> {
+	if (worker) {
+		await worker.start({
+			onUnhandledRequest: resolveMockConfig().onUnhandled,
+			serviceWorker: { url: "/mockServiceWorker.js" },
+		});
+	}
+}
+
+export function isWorkerActive(): boolean {
+	return worker !== null;
 }
