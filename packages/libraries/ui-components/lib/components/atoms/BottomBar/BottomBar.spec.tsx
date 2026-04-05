@@ -3,11 +3,40 @@ import { render, screen } from "@testing-library/preact";
 import BottomBar from "./BottomBar";
 
 describe("BottomBar", () => {
-	it("renders navigation hint with accessible label", () => {
+	it("does not render navigation hint on desktop (no navPrev/navNext)", () => {
 		render(
 			<BottomBar currentSlideIndex={0} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
 		);
-		expect(screen.getByText("Use arrow keys to navigate")).toBeInTheDocument();
+		expect(screen.queryByText(/navigate/i)).toBeNull();
+	});
+
+	it("renders swipe hint on mobile when showSwipeHint is true", () => {
+		render(
+			<BottomBar
+				currentSlideIndex={0}
+				totalSlides={5}
+				currentSectionIndex={0}
+				totalSections={3}
+				navPrev={<button type="button">prev</button>}
+				navNext={<button type="button">next</button>}
+				showSwipeHint
+			/>,
+		);
+		expect(screen.getByText("SWIPE TO NAVIGATE")).toBeInTheDocument();
+	});
+
+	it("renders arrows hint on mobile when showSwipeHint is false", () => {
+		render(
+			<BottomBar
+				currentSlideIndex={0}
+				totalSlides={5}
+				currentSectionIndex={0}
+				totalSections={3}
+				navPrev={<button type="button">prev</button>}
+				navNext={<button type="button">next</button>}
+			/>,
+		);
+		expect(screen.getByText("USE ARROWS TO NAVIGATE")).toBeInTheDocument();
 	});
 
 	it("renders slide counter with correct numbers", () => {

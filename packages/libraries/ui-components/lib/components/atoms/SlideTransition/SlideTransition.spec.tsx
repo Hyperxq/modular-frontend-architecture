@@ -32,14 +32,14 @@ describe("SlideTransition", () => {
 		expect(wrapper?.className).toContain("will-change-[opacity,transform]");
 	});
 
-	it("does not have entering animation on initial render", () => {
+	it("has entering animation on initial render", () => {
 		const { container } = render(
 			<SlideTransition transitionKey="intro-0">
 				<p>Content</p>
 			</SlideTransition>,
 		);
 		const wrapper = container.firstElementChild;
-		expect(wrapper?.className).not.toContain("animate-slide-enter");
+		expect(wrapper?.className).toContain("animate-slide-enter");
 	});
 
 	it("does not unmount children on key change", () => {
