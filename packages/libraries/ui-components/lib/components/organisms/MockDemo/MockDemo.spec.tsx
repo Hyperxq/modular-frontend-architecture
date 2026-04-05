@@ -7,7 +7,7 @@ function makeProps(overrides: Partial<MockDemoProps> = {}): MockDemoProps {
 	return {
 		isMockActive: true,
 		isMockEnabled: true,
-		onToggle: overrides.onToggle ?? (() => {}),
+		onToggle: overrides.onToggle ?? (() => undefined),
 		users: [
 			{ id: 1, name: "Leanne Graham", email: "leanne@example.com" },
 			{ id: 2, name: "Ervin Howell", email: "ervin@example.com" },
@@ -19,14 +19,18 @@ function makeProps(overrides: Partial<MockDemoProps> = {}): MockDemoProps {
 }
 
 describe("MockDemo", () => {
-	it("renders toggle button with correct aria-label when active", () => {
+	it("renders toggle switch with aria-checked when active", () => {
 		render(<MockDemo {...makeProps()} />);
-		expect(screen.getByRole("button", { name: "Disable mock mode" })).toBeInTheDocument();
+		const toggle = screen.getByRole("switch", { name: "MSW mock mode" });
+		expect(toggle).toBeInTheDocument();
+		expect(toggle.getAttribute("aria-checked")).toBe("true");
 	});
 
-	it("renders toggle button with correct aria-label when inactive", () => {
+	it("renders toggle switch with aria-checked false when inactive", () => {
 		render(<MockDemo {...makeProps({ isMockActive: false })} />);
-		expect(screen.getByRole("button", { name: "Enable mock mode" })).toBeInTheDocument();
+		const toggle = screen.getByRole("switch", { name: "MSW mock mode" });
+		expect(toggle).toBeInTheDocument();
+		expect(toggle.getAttribute("aria-checked")).toBe("false");
 	});
 
 	it("shows 'Mock' source label when active", () => {
@@ -64,14 +68,16 @@ describe("MockDemo", () => {
 
 	it("calls onToggle when toggle is clicked", () => {
 		let called = 0;
-		const onToggle = () => { called++; };
+		const onToggle = () => {
+			called++;
+		};
 		render(<MockDemo {...makeProps({ onToggle })} />);
-		fireEvent.click(screen.getByRole("button", { name: "Disable mock mode" }));
+		fireEvent.click(screen.getByRole("switch", { name: "MSW mock mode" }));
 		expect(called).toBe(1);
 	});
 
 	it("disables toggle when mock mode is not enabled", () => {
 		render(<MockDemo {...makeProps({ isMockEnabled: false })} />);
-		expect(screen.getByRole("button")).toBeDisabled();
+		expect(screen.getByRole("switch", { name: "MSW mock mode" })).toBeDisabled();
 	});
 });
