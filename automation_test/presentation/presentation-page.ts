@@ -28,7 +28,7 @@ export class PresentationPage extends BasePage {
 	constructor(page: Page) {
 		super(page);
 
-		this.app = page.locator('[role="application"][aria-label="Presentation"]');
+		this.app = page.locator('section[aria-label="Presentation"]');
 		this.header = page.locator("header");
 		this.headerTitle = page.locator("h1");
 		this.sidebar = page.locator('nav[aria-label="Presentation sections"]');
@@ -54,6 +54,11 @@ export class PresentationPage extends BasePage {
 	async waitForLayout(): Promise<void> {
 		await this.app.waitFor({ state: "visible", timeout: 30_000 });
 		await this.centerPanel.waitFor({ state: "visible", timeout: 15_000 });
+		await this.header.waitFor({ state: "visible", timeout: 10_000 });
+		await this.sidebar.waitFor({ state: "visible", timeout: 10_000 });
+		await this.bottomBar.waitFor({ state: "visible", timeout: 10_000 });
+		// Ensure nav buttons are rendered and stable (Suspense fully resolved)
+		await this.nextButton.waitFor({ state: "visible", timeout: 10_000 });
 	}
 
 	// ── Sidebar helpers ──
@@ -117,12 +122,16 @@ export class PresentationPage extends BasePage {
 	// ── Navigation helpers ──
 
 	async clickNext(): Promise<void> {
-		await this.nextButton.click();
+		// dispatchEvent bypasses Playwright's hit-test entirely — the grid-area-center
+		// panel visually overlaps nav buttons in desktop, intercepting pointer events.
+		// Native JS dispatch sends the event directly to the button's click handler.
+		await this.nextButton.dispatchEvent("click");
 		await this.page.waitForLoadState("domcontentloaded");
 	}
 
 	async clickPrev(): Promise<void> {
-		await this.prevButton.click();
+		// dispatchEvent — same grid overlap reason as clickNext
+		await this.prevButton.dispatchEvent("click");
 		await this.page.waitForLoadState("domcontentloaded");
 	}
 

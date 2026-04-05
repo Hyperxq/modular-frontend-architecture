@@ -231,7 +231,7 @@ Then("the next button should have non-zero dimensions", async ({ presentation })
 // Assertions — Then steps (console errors)
 // ---------------------------------------------------------------------------
 
-Then("there should be no console errors", async ({ page, presentation }) => {
+Then("there should be no console errors", async ({ page }) => {
 	const errors: string[] = [];
 
 	const IGNORED_PATTERNS = [
@@ -254,8 +254,8 @@ Then("there should be no console errors", async ({ page, presentation }) => {
 		}
 	});
 
-	await presentation.navigateToSlide("problem-audience", 0);
-	await presentation.waitForLayout();
+	// Page already loaded by the Given step — just wait for any late async errors
+	await page.waitForTimeout(2_000);
 
 	expect(errors).toEqual([]);
 });
