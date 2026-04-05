@@ -15,6 +15,7 @@
 		"rspack"
 	],
 	"scripts": {
+		"postinstall": "bun scripts/setup-env.ts",
 		"dev": "nx run-many -t dev -p @modular-frontend/ui-components @modular-frontend/shell --output-style=stream",
 		"dev:mock": "nx run-many -t mock -p @modular-frontend/ui-components @modular-frontend/shell --output-style=stream",
 		"test": "nx run-many -t test --exclude=web --output-style=stream",

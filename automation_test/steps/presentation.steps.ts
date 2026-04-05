@@ -111,6 +111,14 @@ Then("the next button should be visible", async ({ presentation }) => {
 	await expect(presentation.nextButton).toBeVisible();
 });
 
+Then("the previous button should be hidden", async ({ presentation }) => {
+	await expect(presentation.prevButton).toBeHidden();
+});
+
+Then("the next button should be hidden", async ({ presentation }) => {
+	await expect(presentation.nextButton).toBeHidden();
+});
+
 // ---------------------------------------------------------------------------
 // Assertions — Then steps (content)
 // ---------------------------------------------------------------------------
@@ -180,43 +188,43 @@ Then("the next button should be enabled", async ({ presentation }) => {
 Then("the header should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.header.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 Then("the sidebar should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.sidebar.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 Then("the center panel should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.centerPanel.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 Then("the bottom bar should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.bottomBar.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 Then("the previous button should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.prevButton.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 Then("the next button should have non-zero dimensions", async ({ presentation }) => {
 	const box = await presentation.nextButton.boundingBox();
 	expect(box).not.toBeNull();
-	expect(box!.width).toBeGreaterThan(0);
-	expect(box!.height).toBeGreaterThan(0);
+	expect(box?.width).toBeGreaterThan(0);
+	expect(box?.height).toBeGreaterThan(0);
 });
 
 // ---------------------------------------------------------------------------

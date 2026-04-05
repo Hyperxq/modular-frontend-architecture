@@ -42,7 +42,7 @@ const MockDemoContainer: FunctionalComponent = () => {
 
 	useEffect(() => {
 		fetchUsers();
-	}, [fetchUsers, isActive]);
+	}, [fetchUsers]);
 
 	const handleToggle = useCallback(async () => {
 		await toggle();

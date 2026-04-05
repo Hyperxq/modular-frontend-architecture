@@ -8,5 +8,10 @@ export const shellSection: Section = {
 	id: "shell",
 	title: "Shell & Communication",
 	description: "Shell architecture and communication patterns",
-	slides: [cleanArchitectureInTheShell, howShellTalksToUiComponents, stateManagementRules, theFiveRules],
+	slides: [
+		cleanArchitectureInTheShell,
+		howShellTalksToUiComponents,
+		stateManagementRules,
+		theFiveRules,
+	],
 };

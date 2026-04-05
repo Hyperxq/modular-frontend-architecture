@@ -39,6 +39,7 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 					aria-label={`Slide ${currentSlideIndex + 1} of ${totalSlides}`}
 				>
 					{Array.from({ length: totalSlides }, (_, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: dots are positional — index is the only meaningful key
 						<span
 							key={`dot-${i}`}
 							class={cn(

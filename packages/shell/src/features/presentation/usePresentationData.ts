@@ -1,11 +1,6 @@
 import { useCallback } from "preact/hooks";
 import { useNavigate } from "react-router";
-import {
-	getSectionById,
-	getSectionIndex,
-	getSlide,
-	sections,
-} from "../../core/domain/sections";
+import { getSectionById, getSectionIndex, getSlide, sections } from "../../core/domain/sections";
 import { useNavigation } from "../../core/hooks/useNavigation";
 import { useVisitedSlides } from "../../core/store/progress.store";
 

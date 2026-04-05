@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "@rstest/core";
 import { act } from "@testing-library/preact";
-import { addVisited, visitUpTo, useProgressStore } from "./progress.store";
+import { addVisited, useProgressStore, visitUpTo } from "./progress.store";
 
 const getState = () => useProgressStore.getState();
 const resetStore = () => getState().resetProgress();
@@ -48,7 +48,11 @@ describe("visitUpTo (pure helper)", () => {
 	});
 
 	it("does not affect other sections", () => {
-		const result = visitUpTo({ "problem-audience": [0, 1, 2], arch: [0, 1] }, "problem-audience", 0);
+		const result = visitUpTo(
+			{ "problem-audience": [0, 1, 2], arch: [0, 1] },
+			"problem-audience",
+			0,
+		);
 		expect(result).toEqual({ "problem-audience": [0], arch: [0, 1] });
 	});
 });
