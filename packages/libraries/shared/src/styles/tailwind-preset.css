@@ -17,6 +17,10 @@
 	--color-amber: #ffb74d;
 	--color-outline-variant: #46484f;
 
+	/* ─── Glow ─── */
+	--color-primary-glow: rgba(109, 221, 255, 0.12);
+	--color-primary-glow-strong: rgba(109, 221, 255, 0.25);
+
 	/* ─── Text (fg- prefix to avoid text-text-* double prefix) ─── */
 	--color-fg-primary: #e6e6eb;
 	--color-fg-secondary: #a0a3b5;
@@ -75,7 +79,8 @@
 	--font-weight-bold: 700;
 
 	/* ─── Radius ─── */
-	--radius: 0px;
+	--radius: 6px;
+	--radius-lg: 12px;
 
 	/* ─── Transitions — Durations ─── */
 	--duration-instant: 0ms;
@@ -99,25 +104,47 @@
 	--z-overlay: 40;
 	--z-modal: 50;
 
-	/* ─── Layout — Sidebar Width (percentage for responsive readiness) ─── */
-	--width-sidebar: 15%;
+	/* ─── Layout — Sidebar Width ─── */
+	--width-sidebar: 220px;
 	--width-sidebar-mobile: 80%;
 	--height-bottom-bar: 7rem;
 
 	/* ─── Animations ─── */
-	--animate-slide-enter: slide-enter 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+	--animate-slide-enter: slide-enter 300ms cubic-bezier(0, 0, 0.2, 1) forwards;
+	--animate-fade-up: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) both;
 	--animate-drawer-enter: drawer-enter 400ms cubic-bezier(0, 0, 0.2, 1) forwards;
+	--animate-shimmer: shimmer 1.8s ease-in-out infinite;
 }
 
 /* ─── Keyframes ─── */
 @keyframes slide-enter {
 	from {
 		opacity: 0;
-		transform: translateY(0.7rem);
+		transform: translateY(0.75rem);
 	}
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(0.75rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes shimmer {
+	from {
+		background-position: -200% center;
+	}
+	to {
+		background-position: 200% center;
 	}
 }
 
@@ -127,6 +154,28 @@
 	}
 	to {
 		transform: translateX(0);
+	}
+}
+
+/* ─── Stagger children utility ─── */
+@utility stagger-children {
+	& > *:nth-child(1) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 0ms both;
+	}
+	& > *:nth-child(2) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 60ms both;
+	}
+	& > *:nth-child(3) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 120ms both;
+	}
+	& > *:nth-child(4) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 180ms both;
+	}
+	& > *:nth-child(5) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 240ms both;
+	}
+	& > *:nth-child(n + 6) {
+		animation: fade-up 300ms cubic-bezier(0, 0, 0.2, 1) 300ms both;
 	}
 }
 

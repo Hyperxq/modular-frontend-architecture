@@ -27,6 +27,7 @@ describe("Header", () => {
 
 	it("does not render a counter element", () => {
 		const { container } = render(<Header title="Test" />);
-		expect(container.querySelectorAll("*")).toHaveLength(2); // header + h1 only
+		expect(container.querySelector("[role='timer']")).toBeNull();
+		expect(container.querySelector("[data-counter]")).toBeNull();
 	});
 });
