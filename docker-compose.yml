@@ -1,0 +1,90 @@
+# ============================================================================
+# Docker Compose — Modular Frontend Architecture
+# ============================================================================
+#
+# Usage:
+#   docker compose up              → Dev mode (ui-components + shell with HMR)
+#   docker compose --profile production up prod  → Production preview on :8080
+#   docker compose down            → Stop containers
+#   docker compose down -v         → Stop + remove named volumes (clean slate)
+#
+# E2E Testing:
+#   E2E tests run on the HOST, not inside a container. Playwright needs a real
+#   browser engine that is impractical to run in Docker. Use the docker:e2e
+#   script which spins up dev containers, runs Playwright on the host against
+#   localhost:3002, then tears everything down:
+#
+#     bun run docker:e2e
+#
+# ============================================================================
+
+services:
+  ui-components:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deps
+    volumes:
+      - .:/app:cached
+      - app_node_modules:/app/node_modules
+      - ui_node_modules:/app/packages/libraries/ui-components/node_modules
+      - shell_node_modules:/app/packages/shell/node_modules
+      - automation_node_modules:/app/automation_test/node_modules
+    ports:
+      - "3001:3001"
+    command: bunx rslib mf-dev --env-mode development.local --host 0.0.0.0
+    working_dir: /app/packages/libraries/ui-components
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3001/mf-manifest.json"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 40s
+    restart: unless-stopped
+
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deps
+    volumes:
+      - .:/app:cached
+      - app_node_modules:/app/node_modules
+      - ui_node_modules:/app/packages/libraries/ui-components/node_modules
+      - shell_node_modules:/app/packages/shell/node_modules
+      - automation_node_modules:/app/automation_test/node_modules
+    ports:
+      - "3002:3002"
+    command: bunx rsbuild dev --env-mode development.local --host 0.0.0.0
+    working_dir: /app/packages/shell
+    depends_on:
+      ui-components:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3002"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 40s
+    restart: unless-stopped
+
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: serve
+    ports:
+      - "8080:80"
+    profiles:
+      - production
+    restart: unless-stopped
+
+volumes:
+  app_node_modules:
+    name: mfa_node_modules
+  ui_node_modules:
+    name: mfa_ui_node_modules
+  shell_node_modules:
+    name: mfa_shell_node_modules
+  automation_node_modules:
+    name: mfa_automation_node_modules

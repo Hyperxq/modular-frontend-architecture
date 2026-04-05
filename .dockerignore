@@ -1,0 +1,52 @@
+# Dependencies — NEVER copy host node_modules into Linux container
+node_modules/
+packages/*/node_modules/
+packages/libraries/*/node_modules/
+automation_test/node_modules/
+
+# Build artifacts — rebuilt inside container
+dist/
+packages/*/dist/
+packages/libraries/*/dist/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Nx cache
+.nx/
+
+# Test artifacts
+automation_test/playwright-report/
+automation_test/test-results/
+automation_test/cucumber-report/
+automation_test/.features-gen/
+
+# MF auto-generated types
+packages/shell/@mf-types/
+
+# Environment files (recreated by postinstall)
+.env
+.env.*
+!.env.example
+
+# Playwright browser binaries
+.playwright-mcp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker (avoid recursive copy)
+Dockerfile
+docker-compose.yml
+docker/
+
+# Claude / AI
+.claude/
