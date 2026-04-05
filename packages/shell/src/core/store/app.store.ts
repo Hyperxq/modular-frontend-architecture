@@ -22,7 +22,7 @@ export interface AppActions {
 
 type AppStore = AppState & AppActions;
 
-const appStoreCreator: StateCreator<AppStore, [["zustand/devtools", never]], []> = (set) => ({
+const appStoreCreator: StateCreator<AppStore> = (set) => ({
 	theme: "dark",
 	locale: "en",
 	isInitialized: false,
@@ -34,7 +34,10 @@ const appStoreCreator: StateCreator<AppStore, [["zustand/devtools", never]], []>
 	closeSidebar: () => set({ isSidebarOpen: false }),
 });
 
-export const useAppStore = create<AppStore>()(devtools(appStoreCreator, { name: "AppStore" }));
+const isDev = process.env.NODE_ENV !== "production";
+export const useAppStore = isDev
+	? create<AppStore>()(devtools(appStoreCreator, { name: "AppStore" }))
+	: create<AppStore>()(appStoreCreator);
 
 export function useAppTheme() {
 	return useAppStore(useShallow((s) => ({ theme: s.theme, setTheme: s.setTheme })));

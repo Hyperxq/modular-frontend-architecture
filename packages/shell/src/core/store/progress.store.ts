@@ -23,11 +23,7 @@ const initialState: ProgressState = {
 	visitedSlides: {},
 };
 
-const progressStoreCreator: StateCreator<
-	ProgressStore,
-	[["zustand/devtools", never], ["zustand/persist", unknown]],
-	[]
-> = (set) => ({
+const progressStoreCreator: StateCreator<ProgressStore> = (set) => ({
 	...initialState,
 
 	navigate: (sectionId, slideIndex) =>
@@ -38,7 +34,6 @@ const progressStoreCreator: StateCreator<
 				visitedSlides: visitUpTo(state.visitedSlides, sectionId, slideIndex),
 			}),
 			false,
-			"navigate",
 		),
 
 	markVisited: (sectionId, slideIndex) =>
@@ -47,10 +42,9 @@ const progressStoreCreator: StateCreator<
 				visitedSlides: addVisited(state.visitedSlides, sectionId, slideIndex),
 			}),
 			false,
-			"markVisited",
 		),
 
-	resetProgress: () => set(initialState, false, "resetProgress"),
+	resetProgress: () => set(initialState, false),
 });
 
 function visitUpTo(
@@ -79,19 +73,24 @@ function addVisited(
 	return { ...visited, [sectionId]: [...existing, slideIndex] };
 }
 
-export const useProgressStore = create<ProgressStore>()(
-	devtools(
-		persist(progressStoreCreator, {
-			name: "mfe-progress",
-			partialize: (state) => ({
-				currentSectionId: state.currentSectionId,
-				currentSlideIndex: state.currentSlideIndex,
-				visitedSlides: state.visitedSlides,
-			}),
-		}),
-		{ name: "ProgressStore" },
-	),
-);
+const persistedStore = persist(progressStoreCreator, {
+	name: "mfe-progress",
+	version: 1,
+	migrate: (persistedState, version) => {
+		if (version === 0) return {};
+		return persistedState as ProgressStore;
+	},
+	partialize: (state) => ({
+		currentSectionId: state.currentSectionId,
+		currentSlideIndex: state.currentSlideIndex,
+		visitedSlides: state.visitedSlides,
+	}),
+});
+
+const isDev = process.env.NODE_ENV !== "production";
+export const useProgressStore = isDev
+	? create<ProgressStore>()(devtools(persistedStore, { name: "ProgressStore" }))
+	: create<ProgressStore>()(persistedStore);
 
 export function useCurrentPosition() {
 	return useProgressStore(
