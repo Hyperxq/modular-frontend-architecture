@@ -409,6 +409,8 @@ rm -rf .nx/cache packages/shell/node_modules/.cache packages/libraries/ui-compon
 | `getByRole("switch")` not matching | `<button role="switch">` doesn't expose `switch` role reliably | Use `locator('[aria-label="..."]')` |
 | TYPE-001 DTS error | MF type generation fails | Cosmetic — does NOT affect runtime. Ignore. |
 | Prefresh error in Firefox | `can't access property "key"` | HMR cosmetic error. Ignore. |
+| Swipe/touch simulation | Playwright `dispatchEvent` creates plain Events, not real TouchEvents — `e.touches[0]` is undefined | Use `page.evaluate` with `new Touch()` + `new TouchEvent()` for native touch simulation |
+| Ref null inside Suspense | `useEffect` depending on a ref to an element inside `<Suspense>` — ref is null on mount, listeners never attached | Move the ref target element OUTSIDE the `<Suspense>` boundary |
 
 ## Spec-Driven Development (OpenSpec)
 
