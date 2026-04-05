@@ -98,7 +98,7 @@ const PresentationContainer: FunctionalComponent = () => {
 					</div>
 				}
 				center={
-					<div ref={contentRef} class="h-full">
+					<div ref={contentRef} class="h-full touch-pan-y">
 						<SlideTransition transitionKey={data.transitionKey}>
 							<CenterPanel sectionLabel={data.sectionLabel} slideTitle={data.slideTitle}>
 								{SlideContent && <SlideContent />}
