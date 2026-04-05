@@ -1,4 +1,5 @@
 import type { FunctionalComponent } from "preact";
+import type { lazy } from "preact/compat";
 
 const SLIDE_TYPE = {
 	CONCEPT: "concept",
@@ -9,10 +10,12 @@ const SLIDE_TYPE = {
 
 type SlideType = (typeof SLIDE_TYPE)[keyof typeof SLIDE_TYPE];
 
+type LazyComponent = ReturnType<typeof lazy>;
+
 interface Slide {
 	title: string;
 	type: SlideType;
-	Content: FunctionalComponent;
+	Content: FunctionalComponent | LazyComponent;
 	diagram?: string;
 	notes?: string;
 }

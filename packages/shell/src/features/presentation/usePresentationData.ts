@@ -1,3 +1,4 @@
+import type { FunctionalComponent } from "preact";
 import { useCallback } from "preact/hooks";
 import { useNavigate } from "react-router";
 import { getSectionById, getSectionIndex, getSlide, sections } from "../../core/domain/sections";
@@ -55,7 +56,7 @@ function usePresentationData() {
 		? `SECTION ${pad(sectionIndex + 1)} · ${currentSection.title.toUpperCase()}`
 		: "";
 	const slideTitle = currentSlide?.title ?? "";
-	const SlideContent = currentSlide?.Content;
+	const SlideContent = currentSlide?.Content as FunctionalComponent | undefined;
 	const diagramTitle = "DIAGRAM :: STRUCTURAL ANALYSIS";
 
 	return {

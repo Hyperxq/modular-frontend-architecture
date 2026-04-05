@@ -48,6 +48,7 @@ export default defineConfig({
 	},
 
 	projects: [
+		// BDD feature tests (playwright-bdd generated)
 		{
 			name: "chromium",
 			use: { ...devices["Desktop Chrome"] },
@@ -59,6 +60,13 @@ export default defineConfig({
 		{
 			name: "mobile-chrome",
 			use: { ...devices["Pixel 5"] },
+		},
+		// Plain *.spec.ts tests — lazy loading verification
+		{
+			name: "chromium-specs",
+			testDir: ".",
+			testMatch: "**/*.spec.ts",
+			use: { ...devices["Desktop Chrome"] },
 		},
 	],
 
