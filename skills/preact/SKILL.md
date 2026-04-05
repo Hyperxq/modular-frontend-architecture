@@ -294,6 +294,50 @@ bun run typecheck  # tsc --noEmit — validates jsxImportSource
 
 ---
 
+## Suspense + Refs — Critical Timing Gotcha
+
+**NEVER place a ref target element inside a `<Suspense>` boundary if a hook in the parent component depends on that ref in a `useEffect`.**
+
+When a component wraps lazy children in `<Suspense>`, the children don't exist in the DOM until the lazy imports resolve. But the parent's `useEffect` runs immediately on mount — when `ref.current` is still `null`. Since `ref` is a stable object identity, the effect **never re-runs**, and any hook that attaches listeners or observers (useSwipe, useFocusTrap, useClickOutside, IntersectionObserver, ResizeObserver, etc.) **silently fails with zero errors**.
+
+```tsx
+// ❌ BAD — ref is null when useEffect runs, listeners never attached
+const MyComponent: FunctionalComponent = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  useSwipe(contentRef, { onSwipeLeft: goNext }); // effect runs, ref.current is null → silent no-op
+
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <LazyChild>
+        <div ref={contentRef}>content</div>  {/* doesn't exist until lazy resolves */}
+      </LazyChild>
+    </Suspense>
+  );
+};
+
+// ✅ GOOD — ref target is outside Suspense, available immediately
+const MyComponent: FunctionalComponent = () => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  useSwipe(contentRef, { onSwipeLeft: goNext }); // effect runs, ref.current exists ✓
+
+  return (
+    <div ref={contentRef}>  {/* exists on mount, events from children bubble up */}
+      <Suspense fallback={<Skeleton />}>
+        <LazyChild>content</LazyChild>
+      </Suspense>
+    </div>
+  );
+};
+```
+
+**Key points:**
+- Suspense can wrap multiple lazy components (one skeleton for all is fine)
+- Only ref targets that hooks depend on need to be outside the boundary
+- Child DOM events (touch, click, keyboard) naturally bubble up to the parent ref element
+- This bug is **completely silent** — no errors, no warnings, the feature just doesn't work
+
+---
+
 ## Common Mistakes to Avoid
 
 - **Importing hooks from `"react"`** — fails silently or throws; always use `"preact/hooks"`
@@ -301,3 +345,4 @@ bun run typecheck  # tsc --noEmit — validates jsxImportSource
 - **Duplicate Preact in MF** — hooks state is lost across remote boundary; always `singleton: true`
 - **Using `React.FC`** — use `FunctionalComponent<P>` from `preact` instead
 - **`jsxImportSource: "react"` in any tsconfig** — breaks the entire JSX transform for that package
+- **Ref target inside `<Suspense>`** — ref is null when useEffect runs; listeners never attached (see section above)
