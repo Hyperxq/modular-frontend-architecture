@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			atoms/ (LEVEL_MODE=1) are primitive building blocks. molecules/ (LEVEL_MODE=2) compose atoms.
 			organisms/ (LEVEL_MODE=3) are full UI sections
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ATOMS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				MOLECULES
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ORGANISMS
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Atomic levels</span>
+				<dt class="text-xs text-fg-secondary">Atomic levels</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1</span>
-				<span class="text-xs text-fg-secondary">LEVEL_MODE per component</span>
+				<dt class="text-xs text-fg-secondary">LEVEL_MODE per component</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			LEVEL_MODE prevents organisms from importing other organisms at build time
 		</p>

@@ -15,10 +15,7 @@ export interface MockActions {
 
 type MockStore = MockState & MockActions;
 
-const mockStoreCreator: StateCreator<MockStore, [["zustand/devtools", never]], []> = (
-	set,
-	get,
-) => ({
+const mockStoreCreator: StateCreator<MockStore> = (set, get) => ({
 	isActive: import.meta.env.PUBLIC_ENABLE_MOCKING === "true",
 	isEnabled: import.meta.env.PUBLIC_ENABLE_MOCKING === "true",
 
@@ -33,15 +30,16 @@ const mockStoreCreator: StateCreator<MockStore, [["zustand/devtools", never]], [
 			const { startMocking } = await import("../../../../../mocks/init-mocking");
 			await startMocking();
 		}
-		set({ isActive: !isActive }, false, "toggle");
+		set({ isActive: !isActive });
 	},
 
-	setEnabled: (enabled) => set({ isEnabled: enabled }, false, "setEnabled"),
+	setEnabled: (enabled) => set({ isEnabled: enabled }),
 });
 
-export const useMockStore = create<MockStore>()(
-	devtools(mockStoreCreator, { name: "MockStore" }),
-);
+const isDev = process.env.NODE_ENV !== "production";
+export const useMockStore = isDev
+	? create<MockStore>()(devtools(mockStoreCreator, { name: "MockStore" }))
+	: create<MockStore>()(mockStoreCreator);
 
 export function useMockToggle() {
 	return useMockStore(useShallow((s) => ({ isActive: s.isActive, toggle: s.toggle })));

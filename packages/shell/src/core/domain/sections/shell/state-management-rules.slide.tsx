@@ -12,27 +12,27 @@ const Content: FunctionalComponent = () => (
 			All stores use devtools + persist middleware. useShallow prevents unnecessary re-renders.
 			UI-Components never imports any store
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				APPSTORE
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				PROGRESSSTORE
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				MOCKSTORE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Zustand stores</span>
+				<dt class="text-xs text-fg-secondary">Zustand stores</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Stores in ui-components</span>
+				<dt class="text-xs text-fg-secondary">Stores in ui-components</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			useShallow is not optional — without it every state update re-renders all consumers
 		</p>

@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Feature files in automation_test/features/. Step definitions in automation_test/steps/. Zero
 			backend dependency — MSW provides all data
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				GHERKIN
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				PLAYWRIGHT
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ZERO BACKEND
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">29</span>
-				<span class="text-xs text-fg-secondary">Scenarios</span>
+				<dt class="text-xs text-fg-secondary">Scenarios</dt>
+				<dd class="text-2xl font-bold text-primary m-0">29</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Browsers (Chromium/Firefox/WebKit)</span>
+				<dt class="text-xs text-fg-secondary">Browsers (Chromium/Firefox/WebKit)</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			BDD scenarios serve as living documentation — they describe behavior, not implementation
 		</p>

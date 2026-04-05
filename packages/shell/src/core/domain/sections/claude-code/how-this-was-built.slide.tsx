@@ -12,27 +12,27 @@ const Content: FunctionalComponent = () => (
 			Every feature starts with a proposal, specs, design, tasks, apply, verify, archive. Claude
 			Code implements; the architect decides.
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SDD
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				7 PHASES
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SPEC BEFORE CODE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">7</span>
-				<span class="text-xs text-fg-secondary">SDD phases</span>
+				<dt class="text-xs text-fg-secondary">SDD phases</dt>
+				<dd class="text-2xl font-bold text-primary m-0">7</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Lines coded without a spec</span>
+				<dt class="text-xs text-fg-secondary">Lines coded without a spec</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			AI is Jarvis. You are Tony Stark. Direct it, do not follow it.
 		</p>

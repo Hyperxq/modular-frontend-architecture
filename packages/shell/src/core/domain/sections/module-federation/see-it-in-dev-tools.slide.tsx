@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Each slide navigation triggers a new network request to load only that component chunk.
 			Nothing is pre-bundled into the shell
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ON-DEMAND LOADING
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				NETWORK TAB
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				LAZY CHUNKS
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0KB</span>
-				<span class="text-xs text-fg-secondary">Shell bundle for components</span>
+				<dt class="text-xs text-fg-secondary">Shell bundle for components</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0KB</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1 request</span>
-				<span class="text-xs text-fg-secondary">Per component first load</span>
+				<dt class="text-xs text-fg-secondary">Per component first load</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1 request</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Refresh the page on a slide — only that slide chunk reloads
 		</p>

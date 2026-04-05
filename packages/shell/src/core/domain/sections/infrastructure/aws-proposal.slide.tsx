@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Each package gets its own S3 bucket and CloudFront distribution. filenameHash: false on
 			UI-Components chunks means CDN invalidation, not new URLs
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				S3
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				CLOUDFRONT
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				IMMUTABLE CACHE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">2</span>
-				<span class="text-xs text-fg-secondary">CloudFront distributions</span>
+				<dt class="text-xs text-fg-secondary">CloudFront distributions</dt>
+				<dd class="text-2xl font-bold text-primary m-0">2</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">∞</span>
-				<span class="text-xs text-fg-secondary">Cache TTL for chunks</span>
+				<dt class="text-xs text-fg-secondary">Cache TTL for chunks</dt>
+				<dd class="text-2xl font-bold text-primary m-0">∞</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			CloudFront invalidation on deploy is cheaper than cache-busting via filenames
 		</p>

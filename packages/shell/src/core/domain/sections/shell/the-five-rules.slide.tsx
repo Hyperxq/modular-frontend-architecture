@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			1) No upward imports. 2) No Zustand stores in ui-components. 3) All data via props. 4)
 			Callbacks as event props. 5) State must be serializable
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				NO UPWARD IMPORTS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				PROPS ONLY
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SERIALIZABLE STATE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">5</span>
-				<span class="text-xs text-fg-secondary">Enforced rules</span>
+				<dt class="text-xs text-fg-secondary">Enforced rules</dt>
+				<dd class="text-2xl font-bold text-primary m-0">5</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Exceptions allowed</span>
+				<dt class="text-xs text-fg-secondary">Exceptions allowed</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Rules without enforcement are suggestions — Biome makes them errors
 		</p>

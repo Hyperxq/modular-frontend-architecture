@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Shell reads from Zustand → passes to PresentationContainer → passes to UI-Components
 			atoms/molecules via props. No shared store access from UI-Components
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				PROPS DOWN
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				EVENTS UP
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				CONTAINER PATTERN
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1</span>
-				<span class="text-xs text-fg-secondary">Container per route</span>
+				<dt class="text-xs text-fg-secondary">Container per route</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Direct store access from UI</span>
+				<dt class="text-xs text-fg-secondary">Direct store access from UI</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			The container owns the composition — UI-Components just renders
 		</p>

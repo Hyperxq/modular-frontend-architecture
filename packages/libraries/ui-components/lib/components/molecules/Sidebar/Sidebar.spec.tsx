@@ -65,7 +65,7 @@ describe("Sidebar", () => {
 			<Sidebar sections={mockSections} activeSectionId="intro" onSectionClick={onSectionClick} />,
 		);
 		const activeBtn = screen.getByText("Introduction").closest("button");
-		expect(activeBtn?.getAttribute("aria-current")).toBe("true");
+		expect(activeBtn?.getAttribute("aria-current")).toBe("step");
 		const inactiveBtn = screen.getByText("Architecture").closest("button");
 		expect(inactiveBtn?.getAttribute("aria-current")).toBeNull();
 	});

@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			The remote URL is injected at runtime from an env variable. In dev it points to :3001. In
 			production it points to the CDN bucket
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				HOST
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				REMOTE
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				RUNTIME URL
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">:3001</span>
-				<span class="text-xs text-fg-secondary">Dev remote URL</span>
+				<dt class="text-xs text-fg-secondary">Dev remote URL</dt>
+				<dd class="text-2xl font-bold text-primary m-0">:3001</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">PUBLIC_BUCKET_URL</span>
-				<span class="text-xs text-fg-secondary">Prod remote URL</span>
+				<dt class="text-xs text-fg-secondary">Prod remote URL</dt>
+				<dd class="text-2xl font-bold text-primary m-0">PUBLIC_BUCKET_URL</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			URL injection is the only coupling between host and remote at runtime
 		</p>

@@ -12,27 +12,27 @@ const Content: FunctionalComponent = () => (
 			The same .tsx source file compiles to all three targets. Shell uses MF today; import maps and
 			web components are ready for future consumers
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				MODULE FEDERATION
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				IMPORT MAPS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				WEB COMPONENTS
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Output formats</span>
+				<dt class="text-xs text-fg-secondary">Output formats</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1</span>
-				<span class="text-xs text-fg-secondary">Source file</span>
+				<dt class="text-xs text-fg-secondary">Source file</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Build once, consume many — each target is independently tree-shakeable
 		</p>

@@ -1,6 +1,7 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { useRef } from "preact/hooks";
+import { useFocusTrap } from "../../core/hooks/useFocusTrap";
 import { useKeyboard } from "../../core/hooks/useKeyboard";
 import { useIsMobile } from "../../core/hooks/useMediaQuery";
 import { useSwipe } from "../../core/hooks/useSwipe";
@@ -22,6 +23,9 @@ const PresentationContainer: FunctionalComponent = () => {
 	const isMobile = useIsMobile();
 	const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarDrawer();
 	const contentRef = useRef<HTMLDivElement>(null);
+	const drawerRef = useRef<HTMLDivElement>(null);
+
+	useFocusTrap(drawerRef, isSidebarOpen);
 
 	useKeyboard({
 		goNext: data.goNext,
@@ -56,7 +60,9 @@ const PresentationContainer: FunctionalComponent = () => {
 	return (
 		<Suspense
 			fallback={
-				<div style={{ color: "var(--text-muted)", padding: "var(--space-8)" }}>Loading...</div>
+				<output class="text-fg-muted p-8" aria-label="Loading presentation">
+					Loading...
+				</output>
 			}
 		>
 			<PresentationLayout
@@ -75,7 +81,9 @@ const PresentationContainer: FunctionalComponent = () => {
 				}
 				sidebar={<Sidebar {...sidebarProps} />}
 				sidebarDrawer={
-					<Sidebar {...sidebarProps} isDrawer isOpen={isSidebarOpen} onClose={closeSidebar} />
+					<div ref={drawerRef}>
+						<Sidebar {...sidebarProps} isDrawer isOpen={isSidebarOpen} onClose={closeSidebar} />
+					</div>
 				}
 				center={
 					<div ref={contentRef} class="h-full">

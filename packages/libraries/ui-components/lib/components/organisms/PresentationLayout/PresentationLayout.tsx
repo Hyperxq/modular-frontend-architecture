@@ -24,9 +24,8 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 	isMobile = false,
 	sidebarDrawer,
 }) => (
-	<div
+	<section
 		class={cn("grid h-dvh w-full overflow-hidden bg-surface", getGridClass(isMobile, showDiagram))}
-		role="application"
 		aria-label="Presentation"
 	>
 		<div class="grid-area-header">{header}</div>
@@ -55,7 +54,7 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 		)}
 		<div class="grid-area-bottom">{bottom}</div>
 		{isMobile && sidebarDrawer}
-	</div>
+	</section>
 );
 
 export default PresentationLayout;

@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Tailwind 4 uses a @theme CSS preset with design tokens. No config file needed. Tokens are CSS
 			variables consumed as Tailwind classes
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ZUSTAND 5
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				TAILWIND 4
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				DESIGN TOKENS
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Zustand stores in shell</span>
+				<dt class="text-xs text-fg-secondary">Zustand stores in shell</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Stores in ui-components</span>
+				<dt class="text-xs text-fg-secondary">Stores in ui-components</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			State flows down, events flow up — the architecture enforces this
 		</p>

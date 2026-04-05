@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Handlers live in mocks/. They intercept fetch/XHR before they reach the network. The app code
 			does not know if it is hitting a mock or a real API
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				MSW
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SERVICE WORKER
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				HTTP INTERCEPTION
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Hardcoded data files</span>
+				<dt class="text-xs text-fg-secondary">Hardcoded data files</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">100%</span>
-				<span class="text-xs text-fg-secondary">Real app code paths</span>
+				<dt class="text-xs text-fg-secondary">Real app code paths</dt>
+				<dd class="text-2xl font-bold text-primary m-0">100%</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Mock the transport, not the code — your components behave identically
 		</p>

@@ -31,7 +31,7 @@ describe("PresentationLayout", () => {
 				bottom={null}
 			/>,
 		);
-		const root = screen.getByRole("application");
+		const root = screen.getByRole("region", { name: "Presentation" });
 		expect(root.getAttribute("aria-label")).toBe("Presentation");
 	});
 
@@ -45,7 +45,7 @@ describe("PresentationLayout", () => {
 				bottom={null}
 			/>,
 		);
-		const root = screen.getByRole("application");
+		const root = screen.getByRole("region", { name: "Presentation" });
 		expect(root.classList.contains("layout-grid-no-diagram")).toBe(true);
 		expect(root.classList.contains("layout-grid-full")).toBe(false);
 	});
@@ -61,7 +61,7 @@ describe("PresentationLayout", () => {
 				showDiagram
 			/>,
 		);
-		const root = screen.getByRole("application");
+		const root = screen.getByRole("region", { name: "Presentation" });
 		expect(root.classList.contains("layout-grid-full")).toBe(true);
 		expect(root.classList.contains("layout-grid-no-diagram")).toBe(false);
 	});
@@ -81,7 +81,7 @@ describe("PresentationLayout", () => {
 				}
 			/>,
 		);
-		const root = screen.getByRole("application");
+		const root = screen.getByRole("region", { name: "Presentation" });
 		const wrapper = root.querySelector(':scope > [data-testid="nav-prev-wrapper"]');
 		expect(wrapper).not.toBeNull();
 		expect(screen.getByTestId("prev")).toBeInTheDocument();

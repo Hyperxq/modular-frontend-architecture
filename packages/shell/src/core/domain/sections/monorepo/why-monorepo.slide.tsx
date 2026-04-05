@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			All packages share a single node_modules installation. Nx orchestrates builds with caching —
 			no rebuild if nothing changed
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				BUN WORKSPACES
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				NX 22
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				UNIFIED DX
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1</span>
-				<span class="text-xs text-fg-secondary">bun install</span>
+				<dt class="text-xs text-fg-secondary">bun install</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">~0s</span>
-				<span class="text-xs text-fg-secondary">Cached task re-run</span>
+				<dt class="text-xs text-fg-secondary">Cached task re-run</dt>
+				<dd class="text-2xl font-bold text-primary m-0">~0s</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Monorepo ≠ monolith — packages stay independently deployable
 		</p>

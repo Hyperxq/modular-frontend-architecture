@@ -14,28 +14,28 @@ const Content: FunctionalComponent = () => (
 			component loaded via Module Federation — the repo is its own living documentation.
 		</p>
 		{/* Pills */}
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				DOGFOODING
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				LIVE DEMO
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SELF-DOCUMENTING
-			</span>
-		</div>
+			</li>
+		</ul>
 		{/* Metrics */}
-		<div class="grid grid-cols-2 gap-4">
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">42</span>
-				<span class="text-xs text-fg-secondary">Live slides</span>
+				<dt class="text-xs text-fg-secondary">Live slides</dt>
+				<dd class="text-2xl font-bold text-primary m-0">42</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">External deps bundled</span>
+				<dt class="text-xs text-fg-secondary">External deps bundled</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
-		</div>
+		</dl>
 		{/* Caption */}
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			The best documentation is working code

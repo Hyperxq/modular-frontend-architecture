@@ -10,27 +10,27 @@ const Content: FunctionalComponent = () => (
 		<p class="text-fg-secondary text-base leading-relaxed">
 			Teams couple to a shared deploy pipeline; a CSS change requires a full regression cycle
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				DEPLOYMENT BOTTLENECK
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				TEAM COUPLING
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				SHARED PIPELINE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1 pipeline</span>
-				<span class="text-xs text-fg-secondary">N teams blocked</span>
+				<dt class="text-xs text-fg-secondary">N teams blocked</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1 pipeline</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">Every change</span>
-				<span class="text-xs text-fg-secondary">Full regression</span>
+				<dt class="text-xs text-fg-secondary">Full regression</dt>
+				<dd class="text-2xl font-bold text-primary m-0">Every change</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			The bigger the app, the worse the coupling gets
 		</p>

@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			nx.json defines task dependencies and caching. project.json defines targets. That is the
 			entire Nx surface area used
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				TASK RUNNER ONLY
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				NO GENERATORS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				CACHING
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">2</span>
-				<span class="text-xs text-fg-secondary">Config files used</span>
+				<dt class="text-xs text-fg-secondary">Config files used</dt>
+				<dd class="text-2xl font-bold text-primary m-0">2</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">∞</span>
-				<span class="text-xs text-fg-secondary">Generators ignored</span>
+				<dt class="text-xs text-fg-secondary">Generators ignored</dt>
+				<dd class="text-2xl font-bold text-primary m-0">∞</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Escape hatch always available — Bun scripts work without Nx
 		</p>

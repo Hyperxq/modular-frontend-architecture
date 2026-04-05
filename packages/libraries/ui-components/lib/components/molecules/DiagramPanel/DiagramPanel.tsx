@@ -8,10 +8,15 @@ const DiagramPanel: FunctionalComponent<DiagramPanelProps> = ({
 }) => (
 	<aside
 		class="flex flex-col bg-surface-container p-4 overflow-auto min-h-0"
-		aria-label="Diagram panel"
+		aria-labelledby="diagram-panel-title"
 	>
 		{panelTitle && (
-			<div class="font-label text-label-md text-fg-muted uppercase mb-4">{panelTitle}</div>
+			<h3
+				id="diagram-panel-title"
+				class="font-label text-label-md text-fg-muted uppercase mb-4 m-0"
+			>
+				{panelTitle}
+			</h3>
 		)}
 		<div class="flex-1 min-h-0 overflow-auto">{children}</div>
 		{metadata && metadata.length > 0 && (

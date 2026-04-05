@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			git clone → bun install → bun run dev:mock. Navigate to :3002. Every slide maps to a file in
 			packages/shell/src/core/domain/sections/
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				CLONE
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				BUN RUN DEV:MOCK
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				READ THE CODE
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3</span>
-				<span class="text-xs text-fg-secondary">Setup commands</span>
+				<dt class="text-xs text-fg-secondary">Setup commands</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">:3002</span>
-				<span class="text-xs text-fg-secondary">Start here</span>
+				<dt class="text-xs text-fg-secondary">Start here</dt>
+				<dd class="text-2xl font-bold text-primary m-0">:3002</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			The codebase is the spec. The spec is in openspec/. Start with the code
 		</p>

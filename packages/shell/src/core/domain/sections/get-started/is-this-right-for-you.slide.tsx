@@ -12,27 +12,27 @@ const Content: FunctionalComponent = () => (
 			This architecture has a real complexity cost. It pays off at scale — when one team deploy
 			cannot block another. Below 3 teams, the overhead outweighs the benefit
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				3+ TEAMS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				INDEPENDENT DEPLOYS
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				BROWNFIELD OK
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">3+</span>
-				<span class="text-xs text-fg-secondary">Minimum teams</span>
+				<dt class="text-xs text-fg-secondary">Minimum teams</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3+</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1</span>
-				<span class="text-xs text-fg-secondary">Team = too small</span>
+				<dt class="text-xs text-fg-secondary">Team = too small</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			Use the simplest architecture that solves your actual problem
 		</p>

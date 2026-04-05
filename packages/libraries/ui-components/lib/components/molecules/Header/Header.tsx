@@ -1,6 +1,15 @@
 import type { FunctionalComponent } from "preact";
 import type { HeaderProps } from "./Header.types";
 
+function isSafeUrl(url: string): boolean {
+	try {
+		const { protocol } = new URL(url);
+		return protocol === "https:" || protocol === "http:";
+	} catch {
+		return false;
+	}
+}
+
 const Header: FunctionalComponent<HeaderProps> = ({
 	title,
 	linkText,
@@ -33,12 +42,13 @@ const Header: FunctionalComponent<HeaderProps> = ({
 		<h1 class="font-label text-label-md font-semibold text-fg-primary tracking-normal uppercase m-0">
 			{title}
 		</h1>
-		{linkUrl && (
+		{linkUrl && isSafeUrl(linkUrl) && (
 			<a
 				class="absolute right-4 font-label text-label-sm text-fg-secondary uppercase no-underline transition-colors duration-fast ease-default hover:text-primary"
 				href={linkUrl}
 				target="_blank"
 				rel="noopener noreferrer"
+				aria-label={`${linkText ?? "GitHub repository"} (opens in new tab)`}
 			>
 				{showMenuButton ? (
 					<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

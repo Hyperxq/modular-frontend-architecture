@@ -3,11 +3,11 @@ import { render, screen } from "@testing-library/preact";
 import BottomBar from "./BottomBar";
 
 describe("BottomBar", () => {
-	it("renders navigation hint with TO NAVIGATE", () => {
+	it("renders navigation hint with accessible label", () => {
 		render(
 			<BottomBar currentSlideIndex={0} totalSlides={5} currentSectionIndex={0} totalSections={3} />,
 		);
-		expect(screen.getByText("TO NAVIGATE")).toBeInTheDocument();
+		expect(screen.getByText("Use arrow keys to navigate")).toBeInTheDocument();
 	});
 
 	it("renders slide counter with correct numbers", () => {

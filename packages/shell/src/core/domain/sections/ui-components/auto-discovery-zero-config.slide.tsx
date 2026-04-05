@@ -11,27 +11,27 @@ const Content: FunctionalComponent = () => (
 			Every .tsx file under lib/components/ becomes its own independent Module Federation exposed
 			entry. Adding a component = creating a file
 		</p>
-		<div class="flex flex-wrap gap-2">
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				FAST-GLOB
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				ZERO CONFIG
-			</span>
-			<span class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				AUTO-EXPOSED
-			</span>
-		</div>
-		<div class="grid grid-cols-2 gap-4">
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">0</span>
-				<span class="text-xs text-fg-secondary">Manual registrations</span>
+				<dt class="text-xs text-fg-secondary">Manual registrations</dt>
+				<dd class="text-2xl font-bold text-primary m-0">0</dd>
 			</div>
 			<div class="flex flex-col">
-				<span class="text-2xl font-bold text-primary">1 file</span>
-				<span class="text-xs text-fg-secondary">= 1 MF entry</span>
+				<dt class="text-xs text-fg-secondary">= 1 MF entry</dt>
+				<dd class="text-2xl font-bold text-primary m-0">1 file</dd>
 			</div>
-		</div>
+		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
 			mf-manifest.json is generated at build time — never edit it manually
 		</p>

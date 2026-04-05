@@ -26,7 +26,7 @@ const SidebarContent: FunctionalComponent<
 									: "hover:bg-surface-bright",
 							)}
 							onClick={() => onSectionClick(section.id)}
-							aria-current={isActive ? "true" : undefined}
+							aria-current={isActive ? "step" : undefined}
 						>
 							<span class="font-label text-label-md uppercase">{section.title}</span>
 							<span
@@ -80,6 +80,10 @@ const Sidebar: FunctionalComponent<SidebarProps> = ({
 				isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
 			)}
 			data-testid="sidebar-drawer"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Navigation menu"
+			aria-hidden={!isOpen}
 		>
 			<button
 				type="button"

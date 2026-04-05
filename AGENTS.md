@@ -67,6 +67,38 @@ You are working on **modular-frontend-architecture** — a Preact micro-frontend
 - Shell reads from Zustand and passes data to components via props or context values
 - This works safely because Preact is singleton across the MF boundary
 
+## Git Workflow
+
+- ALWAYS create a feature branch before starting any work: `git checkout -b feat/<change-name>` or `fix/<change-name>`
+- NEVER commit directly to `main` — branch protection is enforced, direct pushes will be rejected
+- One branch per SDD change or logical unit of work
+- Branch naming: `feat/`, `fix/`, `chore/`, `refactor/` — matching the commit type
+
+## Pull Request Convention
+
+Every PR must answer two questions clearly in its description:
+
+**Why** — What problem does this PR solve? What was broken, missing, or needed?
+**What** — What was achieved? What changed and what is the outcome?
+
+### PR Description Template
+
+```
+## Why
+[One paragraph explaining the motivation. What was the problem or need? Why does this matter?]
+
+## What was achieved
+[Bullet list of concrete outcomes — what works now that didn't before, what was fixed, added, or improved]
+
+## Changes
+[Brief summary of files/areas touched — not a git diff, just context]
+```
+
+### Rules
+- NEVER open a PR without a description — empty PRs will be rejected
+- The "Why" must be written for someone who has no context — assume they haven't read the issue or Slack thread
+- The "What" must list outcomes, not just files changed ("users can now navigate with keyboard" not "added tabIndex to Sidebar")
+
 ## Non-Negotiable Rules
 
 - NEVER use `any` — `noExplicitAny` is a Biome **error**
