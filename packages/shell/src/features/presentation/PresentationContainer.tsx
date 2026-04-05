@@ -28,7 +28,7 @@ const PresentationContainer: FunctionalComponent = () => {
 
 	useFocusTrap(drawerRef, isSidebarOpen);
 
-	useKeyboard({
+	const { flashPrev, flashNext } = useKeyboard({
 		goNext: data.goNext,
 		goPrev: data.goPrev,
 		canGoNext: data.canGoNext,
@@ -43,12 +43,29 @@ const PresentationContainer: FunctionalComponent = () => {
 
 	const { SlideContent } = data;
 
-	const navPrevBtn = (
-		<NavButton direction="prev" onClick={data.goPrev} disabled={!data.canGoPrev} />
-	);
-	const navNextBtn = (
-		<NavButton direction="next" onClick={data.goNext} disabled={!data.canGoNext} />
-	);
+	// ── Arrow visibility logic ──
+	// Visible + enabled: canGo is true
+	// Visible + disabled (flash): canGo is false BUT user pressed keyboard arrow
+	// Hidden: canGo is false AND no flash active
+	const showPrev = data.canGoPrev || flashPrev;
+	const showNext = data.canGoNext || flashNext;
+
+	const navPrevBtn = showPrev ? (
+		<NavButton
+			direction="prev"
+			onClick={data.goPrev}
+			disabled={!data.canGoPrev}
+			flash={flashPrev}
+		/>
+	) : null;
+	const navNextBtn = showNext ? (
+		<NavButton
+			direction="next"
+			onClick={data.goNext}
+			disabled={!data.canGoNext}
+			flash={flashNext}
+		/>
+	) : null;
 
 	const sidebarProps = {
 		sections: data.sidebarSections,
@@ -115,25 +132,33 @@ const PresentationContainer: FunctionalComponent = () => {
 const NAV_LABELS = { prev: "Previous slide", next: "Next slide" } as const;
 const NAV_PATHS = { prev: "M15 18l-6-6 6-6", next: "M9 18l6-6-6-6" } as const;
 
-const NAV_BTN_CLASSES =
-	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,border-color,background,box-shadow,transform] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high hover:enabled:shadow-[0_0_20px_var(--color-primary-glow-strong)] hover:enabled:scale-[1.04] active:enabled:scale-[0.97] disabled:opacity-30 disabled:cursor-default";
+const NAV_BTN_BASE =
+	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full transition-all duration-normal ease-default";
+
+const NAV_BTN_ENABLED =
+	"cursor-pointer hover:enabled:border-primary hover:enabled:bg-surface-container-high hover:enabled:shadow-[0_0_20px_var(--color-primary-glow-strong)] hover:enabled:scale-[1.04] active:enabled:scale-[0.97]";
+
+const NAV_BTN_DISABLED = "opacity-30 cursor-default";
 
 function NavButton({
 	direction,
 	onClick,
 	disabled,
+	flash,
 }: {
 	direction: "prev" | "next";
 	onClick: () => void;
 	disabled: boolean;
+	flash: boolean;
 }) {
 	return (
 		<button
 			type="button"
-			class={NAV_BTN_CLASSES}
+			class={`${NAV_BTN_BASE} ${disabled ? NAV_BTN_DISABLED : NAV_BTN_ENABLED} ${flash ? "animate-fade-up" : ""}`}
 			onClick={onClick}
 			disabled={disabled}
 			aria-label={NAV_LABELS[direction]}
+			data-flash={flash || undefined}
 		>
 			<svg
 				class="w-6 h-6 text-primary"

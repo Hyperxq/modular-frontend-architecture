@@ -55,10 +55,10 @@ export class PresentationPage extends BasePage {
 		await this.app.waitFor({ state: "visible", timeout: 30_000 });
 		await this.centerPanel.waitFor({ state: "visible", timeout: 15_000 });
 		await this.header.waitFor({ state: "visible", timeout: 10_000 });
-		await this.sidebar.waitFor({ state: "visible", timeout: 10_000 });
+		if (!(await this.isMobileViewport())) {
+			await this.sidebar.waitFor({ state: "visible", timeout: 10_000 });
+		}
 		await this.bottomBar.waitFor({ state: "visible", timeout: 10_000 });
-		// Ensure nav buttons are rendered and stable (Suspense fully resolved)
-		await this.nextButton.waitFor({ state: "visible", timeout: 10_000 });
 	}
 
 	// ── Sidebar helpers ──

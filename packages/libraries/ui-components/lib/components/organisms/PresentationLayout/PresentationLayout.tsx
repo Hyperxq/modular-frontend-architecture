@@ -34,7 +34,10 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 		<div class="grid-area-header">{header}</div>
 		{!isMobile && <div class="grid-area-sidebar overflow-y-auto">{sidebar}</div>}
 		<div
-			class={cn("grid-area-center min-h-0 overflow-hidden", isMobile && "pb-[--height-bottom-bar]")}
+			class={cn(
+				"grid-area-center min-h-0 overflow-hidden",
+				isMobile ? "pb-[--height-bottom-bar]" : "px-20",
+			)}
 		>
 			{center}
 		</div>
