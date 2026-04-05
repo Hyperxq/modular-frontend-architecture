@@ -1,11 +1,10 @@
-import { cn } from "@modular-frontend/shared";
 import type { FunctionalComponent } from "preact";
 
 const SHIMMER =
 	"bg-gradient-to-r from-surface-container via-surface-container-high/60 to-surface-container bg-[length:200%_100%] animate-shimmer rounded-[--radius] motion-reduce:animate-none";
 
 const SkeletonBlock: FunctionalComponent<{ class?: string }> = ({ class: cls }) => (
-	<div class={cn(SHIMMER, cls)} />
+	<div class={cls ? `${SHIMMER} ${cls}` : SHIMMER} />
 );
 
 const SIDEBAR_ITEMS = ["s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"];
@@ -69,7 +68,7 @@ const PresentationSkeleton: FunctionalComponent = () => (
 			<div class="flex flex-col items-center gap-2 px-4 py-2 bg-surface-container-highest/40 backdrop-blur-[12px] border border-border-ghost/60 rounded-[--radius]">
 				<div class="flex gap-[6px]">
 					{BOTTOM_DOTS.map((key, i) => (
-						<SkeletonBlock key={key} class={cn("h-2", i === 0 ? "w-4" : "w-2")} />
+						<SkeletonBlock key={key} class={i === 0 ? "h-2 w-4" : "h-2 w-2"} />
 					))}
 				</div>
 				<SkeletonBlock class="h-3 w-36" />
