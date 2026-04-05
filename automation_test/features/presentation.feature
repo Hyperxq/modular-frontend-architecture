@@ -56,9 +56,9 @@ Feature: Presentation Navigation
   @layout
   Scenario: Nav arrows state on first slide
     Given I am on slide "problem-audience" at index 0
-    Then the previous button should be hidden
-    And the next button should be visible
+    Then the previous button should be visible
     And the previous button should be disabled
+    And the next button should be visible
     And the next button should be enabled
 
   # ─── Slide Navigation via Arrows ───────────────────────────────────
@@ -120,10 +120,10 @@ Feature: Presentation Navigation
   @navigation @sidebar
   Scenario: Active section is highlighted in sidebar
     Given I am on slide "problem-audience" at index 0
-    Then the "Problem & Audience" sidebar button should have aria-current "true"
+    Then the "Problem & Audience" sidebar button should have aria-current "step"
     When I click the "Overview" section in the sidebar
-    Then the "Overview" sidebar button should have aria-current "true"
-    And the "Problem & Audience" sidebar button should not have aria-current "true"
+    Then the "Overview" sidebar button should have aria-current "step"
+    And the "Problem & Audience" sidebar button should not have aria-current "step"
 
   # ─── Keyboard Navigation ───────────────────────────────────────────
 

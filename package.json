@@ -30,7 +30,14 @@
 		"format:fix": "bunx biome format --write .",
 		"e2e": "nx run web:e2e",
 		"e2e:chromium": "nx run web:e2e:chromium",
-		"e2e:report": "nx run @modular-frontend/automation-test:e2e:report"
+		"e2e:report": "nx run @modular-frontend/automation-test:e2e:report",
+		"docker:dev": "docker compose up --build",
+		"docker:dev:detach": "docker compose up --build -d",
+		"docker:prod": "docker compose --profile production up prod --build",
+		"docker:build": "docker compose --profile production build prod",
+		"docker:e2e": "docker compose up -d --build --wait && PLAYWRIGHT_BASE_URL=http://localhost:3002 bun run e2e; docker compose down",
+		"docker:down": "docker compose down",
+		"docker:clean": "docker compose down -v --rmi local"
 	},
 	"overrides": {
 		"@rsbuild/core": "1.7.5",

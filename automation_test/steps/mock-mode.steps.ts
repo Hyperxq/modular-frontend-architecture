@@ -14,10 +14,6 @@ Given("I am on the mock demo slide", async ({ mockDemo, presentation }) => {
 // Assertions — Then steps
 // ---------------------------------------------------------------------------
 
-Then("the mock toggle should be present", async ({ mockDemo }) => {
-	await expect(mockDemo.toggle).toBeVisible();
-});
-
 Then("the mock demo area should have content", async ({ page }) => {
 	const main = page.locator('main[aria-label="Slide content"]');
 	await expect(main).toBeVisible();

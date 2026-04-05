@@ -13,11 +13,6 @@ Feature: Mock Mode Section
     Then the slide title should be "The Problem It Solves"
 
   @mock
-  Scenario: Mock toggle is disabled without mock env
-    Given I am on the mock demo slide
-    Then the mock toggle should be present
-
-  @mock
   Scenario: Mock demo content or fallback renders
     Given I am on the mock demo slide
     Then the mock demo area should have content

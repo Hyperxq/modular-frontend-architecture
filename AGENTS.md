@@ -162,6 +162,19 @@ nx run-many --target=test --all         # test all
 nx reset                                # clear Nx cache
 nx graph                                # visualize task dependencies
 
+# E2E
+bun run e2e           # Nx: start servers → bddgen → playwright test (all browsers)
+bun run e2e:chromium  # Nx: same but chromium only
+
+# Docker (local dev only — CLI only, no Docker Desktop required)
+bun run docker:dev          # compose up ui-components + shell (foreground)
+bun run docker:dev:detach   # same but detached
+bun run docker:prod         # production preview on :8080 (nginx)
+bun run docker:build        # build production image only
+bun run docker:e2e          # compose up + run E2E + compose down
+bun run docker:down         # stop all services
+bun run docker:clean        # stop + remove volumes + remove images
+
 # Dependency troubleshooting — full clean reinstall
 rm -rf node_modules packages/shell/node_modules packages/libraries/ui-components/node_modules
 bun install
@@ -313,6 +326,89 @@ ls node_modules/.bun/ | grep rspack+core
 | `@rsbuild/plugin-preact` | `1.7.2` | Brings `@swc/plugin-prefresh@^12.7.0` compatible with `swc_core@59.x` |
 
 > **Rule:** when upgrading any tool in this chain, always upgrade ALL of them together and verify with `ls node_modules/.bun/ | grep rspack+core` that a single copy exists.
+
+## Docker (Local Development Only)
+
+Docker is for local development ONLY — it does NOT replace CI/CD (GitHub Actions) or production deployment (Cloudflare Pages). All commands use `docker compose` CLI — no Docker Desktop required.
+
+### Architecture
+
+```
+docker-compose.yml
+├── ui-components   (:3001)  — MF remote, starts FIRST
+├── shell           (:3002)  — host app, depends_on ui-components healthy
+└── prod            (:8080)  — nginx serving production build (profile: production)
+```
+
+### Files
+
+| File | Purpose |
+| --- | --- |
+| `Dockerfile` | Multi-stage: base (bun:1.3) → deps → build → serve (nginx:alpine) |
+| `docker-compose.yml` | 3 services with healthchecks and dependency ordering |
+| `docker/nginx.conf` | SPA routing, MF asset caching, security headers, /health endpoint |
+| `.dockerignore` | Excludes node_modules, dist, .git, IDE, Nx cache, test artifacts |
+
+### Key Design Decisions
+
+1. **`--host 0.0.0.0` in compose commands** — Rsbuild v2 defaults to `localhost`. Inside Docker, `localhost` = container only. Dev servers MUST listen on `0.0.0.0` for port mapping to work.
+2. **Named volumes for `node_modules`** — Host `node_modules/` has wrong-platform native binaries (Rspack, SWC). NEVER mount host modules into Linux container.
+3. **Browser accesses `localhost`** — `PUBLIC_BUCKET_URL=http://localhost:3001` because the browser runs on the HOST, not inside a container. Docker port mapping exposes container ports to host.
+4. **E2E runs on HOST** — Playwright runs on the host machine against Docker services. Not inside a container.
+5. **`postinstall` creates `.env` files** — `bun install` inside the container triggers `scripts/setup-env.ts` automatically.
+
+### Troubleshooting
+
+```bash
+# Ports already in use — kill everything first
+kill $(lsof -t -i :3001 -i :3002 -i :8080) 2>/dev/null
+
+# Full clean (removes volumes + images)
+bun run docker:clean
+
+# Rebuild from scratch (no cache)
+docker compose build --no-cache
+```
+
+## E2E Testing
+
+### How `bun run e2e` Works
+
+`bun run e2e` → `nx run web:e2e` → Nx orchestrates:
+1. Starts `ui-components` dev server (:3001)
+2. Starts `shell` dev server (:3002)
+3. Runs `bunx bddgen && bunx playwright test`
+
+**CRITICAL**: Kill any existing servers on :3001/:3002 BEFORE running `bun run e2e`. If ports are occupied, Nx tries alternative ports (3004) and crashes with `EADDRINUSE`.
+
+```bash
+# Always do this before bun run e2e:
+kill $(lsof -t -i :3001 -i :3002) 2>/dev/null
+```
+
+### Cache Problems
+
+When the app shows infinite skeleton/shimmer and MF components never load:
+
+```bash
+# Nuclear cache clean
+bunx nx reset
+rm -rf .nx/cache packages/shell/node_modules/.cache packages/libraries/ui-components/node_modules/.cache
+```
+
+### Known Playwright Patterns for This Project
+
+| Pattern | Problem | Solution |
+| --- | --- | --- |
+| `[role="application"]` not found | `<section>` has implicit role `region`, not `application` | Use `section[aria-label="..."]` |
+| `waitForLayout()` timeout | Lazy MF components not yet rendered | Wait for ALL elements: app, centerPanel, header, sidebar, bottomBar, nextButton |
+| `intercepts pointer events` | Grid layout overlap — center panel covers nav buttons | Use `dispatchEvent("click")` instead of `.click()` |
+| `aria-current` mismatch | Sidebar uses `"step"` not `"true"` | Check actual component implementation |
+| `toBeHidden()` on disabled button | `disabled:opacity-30` is still visible to Playwright | Use `toBeDisabled()` instead |
+| Console error double-navigation | Then step re-navigates after Given already loaded | Don't navigate in Then if Given already did |
+| `getByRole("switch")` not matching | `<button role="switch">` doesn't expose `switch` role reliably | Use `locator('[aria-label="..."]')` |
+| TYPE-001 DTS error | MF type generation fails | Cosmetic — does NOT affect runtime. Ignore. |
+| Prefresh error in Firefox | `can't access property "key"` | HMR cosmetic error. Ignore. |
 
 ## Spec-Driven Development (OpenSpec)
 
