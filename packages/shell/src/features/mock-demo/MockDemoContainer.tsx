@@ -1,7 +1,7 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { useMockToggle, useIsMockEnabled } from "../../core/store/mock.store";
+import { useIsMockEnabled, useMockToggle } from "../../core/store/mock.store";
 
 interface User {
 	id: number;
@@ -51,7 +51,9 @@ const MockDemoContainer: FunctionalComponent = () => {
 	return (
 		<Suspense
 			fallback={
-				<div style={{ color: "var(--text-muted)", padding: "var(--space-8)" }}>Loading...</div>
+				<output class="text-fg-muted p-8" aria-label="Loading mock demo">
+					Loading...
+				</output>
 			}
 		>
 			<MockDemo

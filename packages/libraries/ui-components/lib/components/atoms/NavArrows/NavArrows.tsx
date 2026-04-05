@@ -7,13 +7,33 @@ const NAV_BTN_CLASSES =
 const CHEVRON_CLASSES = "w-6 h-6 text-primary";
 
 const ChevronLeft: FunctionalComponent = () => (
-	<svg class={CHEVRON_CLASSES} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+	<svg
+		class={CHEVRON_CLASSES}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		aria-hidden="true"
+		focusable="false"
+	>
 		<path d="M15 18l-6-6 6-6" />
 	</svg>
 );
 
 const ChevronRight: FunctionalComponent = () => (
-	<svg class={CHEVRON_CLASSES} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+	<svg
+		class={CHEVRON_CLASSES}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		aria-hidden="true"
+		focusable="false"
+	>
 		<path d="M9 18l6-6-6-6" />
 	</svg>
 );

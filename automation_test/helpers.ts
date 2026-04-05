@@ -9,10 +9,12 @@
 
 export const generateUniqueEmail = (): string => `test.${Date.now()}@example.com`;
 
+const TEST_PASSWORD = process.env.TEST_USER_PASSWORD ?? "placeholder-change-in-env";
+
 export const generateTestUser = () => ({
 	name: "Test User",
 	email: generateUniqueEmail(),
-	password: "TestPassword123!",
+	password: TEST_PASSWORD,
 });
 
 // ---------------------------------------------------------------------------

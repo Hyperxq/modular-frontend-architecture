@@ -21,9 +21,11 @@ const MockDemo: FunctionalComponent<MockDemoProps> = ({
 			</div>
 			<button
 				type="button"
+				role="switch"
+				aria-checked={isMockActive}
 				onClick={onToggle}
 				disabled={!isMockEnabled}
-				aria-label={isMockActive ? "Disable mock mode" : "Enable mock mode"}
+				aria-label="MSW mock mode"
 				class={cn(
 					"relative inline-flex h-8 w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-fast ease-default",
 					isMockActive ? "bg-primary" : "bg-surface-container-high",
@@ -42,23 +44,25 @@ const MockDemo: FunctionalComponent<MockDemoProps> = ({
 		{/* Source indicator */}
 		<div class="flex items-center gap-3">
 			<div
-				class={cn(
-					"h-3 w-3 rounded-full",
-					isMockActive ? "bg-accent-success" : "bg-accent-warning",
-				)}
+				class={cn("h-3 w-3 rounded-full", isMockActive ? "bg-accent-success" : "bg-accent-warning")}
 				aria-hidden="true"
 			/>
-			<span class="font-label text-label-md text-fg-secondary" data-testid="source-label">
-				Source: {isMockActive ? "Mock" : "Real API"}
-			</span>
+			<div aria-live="polite" aria-atomic="true">
+				<span class="font-label text-label-md text-fg-secondary" data-testid="source-label">
+					Source: {isMockActive ? "Mock" : "Real API"}
+				</span>
+			</div>
 		</div>
 
 		{/* User list */}
-		<div class="rounded-lg border border-border-ghost bg-surface-container-low">
+		<section
+			class="rounded-lg border border-border-ghost bg-surface-container-low"
+			aria-labelledby="users-section-title"
+		>
 			<div class="border-b border-border-ghost px-4 py-3">
-				<span class="font-label text-label-md text-primary uppercase">
+				<h3 id="users-section-title" class="font-label text-label-md text-primary uppercase m-0">
 					Users — GET /users
-				</span>
+				</h3>
 			</div>
 			<div class="p-4">
 				{isLoading && (
@@ -88,7 +92,7 @@ const MockDemo: FunctionalComponent<MockDemoProps> = ({
 					</ul>
 				)}
 			</div>
-		</div>
+		</section>
 	</div>
 );
 

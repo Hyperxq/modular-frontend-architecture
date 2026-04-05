@@ -33,6 +33,8 @@ const SlideTransition: FunctionalComponent<SlideTransitionProps> = ({
 				"will-change-[opacity,transform]",
 				entering && "animate-slide-enter motion-reduce:animate-none",
 			)}
+			aria-live="polite"
+			aria-relevant="additions text"
 			aria-atomic="true"
 		>
 			{children}

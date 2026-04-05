@@ -60,7 +60,9 @@ const PresentationContainer: FunctionalComponent = () => {
 	return (
 		<Suspense
 			fallback={
-				<div style={{ color: "var(--text-muted)", padding: "var(--space-8)" }}>Loading...</div>
+				<output class="text-fg-muted p-8" aria-label="Loading presentation">
+					Loading...
+				</output>
 			}
 		>
 			<PresentationLayout

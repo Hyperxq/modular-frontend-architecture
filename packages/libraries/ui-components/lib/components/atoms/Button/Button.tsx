@@ -7,13 +7,14 @@ interface ButtonProps {
 	disabled?: boolean;
 	variant?: "primary" | "secondary" | "danger";
 	type?: "button" | "submit" | "reset";
+	ariaLabel?: string;
 }
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
 	primary: "bg-primary text-on-primary hover:bg-primary-dim focus:ring-primary",
 	secondary:
 		"bg-surface-container-high text-fg-primary hover:bg-surface-bright focus:ring-outline-variant",
-	danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+	danger: "bg-red-700 text-white hover:bg-red-800 focus:ring-red-500",
 };
 
 const Button: FunctionalComponent<ButtonProps> = ({
@@ -22,6 +23,7 @@ const Button: FunctionalComponent<ButtonProps> = ({
 	disabled = false,
 	variant = "primary",
 	type = "button",
+	ariaLabel,
 }) => {
 	return (
 		<button
@@ -32,6 +34,7 @@ const Button: FunctionalComponent<ButtonProps> = ({
 			)}
 			onClick={onClick}
 			disabled={disabled}
+			aria-label={ariaLabel}
 		>
 			{label}
 		</button>

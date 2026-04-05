@@ -29,14 +29,22 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 		>
 			<div class="flex items-center gap-2 font-label text-label-sm text-fg-muted uppercase">
 				<span class="inline-flex gap-1">
-					<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">
+					<span
+						aria-hidden="true"
+						class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm"
+					>
 						←
 					</span>
-					<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">
+					<span
+						aria-hidden="true"
+						class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm"
+					>
 						→
 					</span>
 				</span>
-				<span>{showSwipeHint ? "or SWIPE TO NAVIGATE" : "TO NAVIGATE"}</span>
+				<span>
+					{showSwipeHint ? "Use arrow keys or swipe to navigate" : "Use arrow keys to navigate"}
+				</span>
 			</div>
 			{totalSlides > 0 && (
 				<span
