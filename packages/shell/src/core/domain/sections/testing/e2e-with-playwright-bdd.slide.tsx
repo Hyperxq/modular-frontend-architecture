@@ -2,7 +2,41 @@ import type { FunctionalComponent } from "preact";
 import type { Slide } from "../types";
 
 // biome-ignore lint/style/useComponentExportOnlyModules: slide pattern — Content is co-located with its Slide data object by design
-const Content: FunctionalComponent = () => <p>TODO: slide content</p>;
+const Content: FunctionalComponent = () => (
+	<div class="flex flex-col gap-5 animate-slide-enter">
+		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
+			Playwright BDD uses Gherkin feature files — scenarios are readable by non-engineers
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			Feature files in automation_test/features/. Step definitions in automation_test/steps/. Zero
+			backend dependency — MSW provides all data
+		</p>
+		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				GHERKIN
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				PLAYWRIGHT
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				ZERO BACKEND
+			</li>
+		</ul>
+		<dl class="grid grid-cols-2 gap-4">
+			<div class="flex flex-col">
+				<dt class="text-xs text-fg-secondary">Scenarios</dt>
+				<dd class="text-2xl font-bold text-primary m-0">29</dd>
+			</div>
+			<div class="flex flex-col">
+				<dt class="text-xs text-fg-secondary">Browsers (Chromium/Firefox/WebKit)</dt>
+				<dd class="text-2xl font-bold text-primary m-0">3</dd>
+			</div>
+		</dl>
+		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
+			BDD scenarios serve as living documentation — they describe behavior, not implementation
+		</p>
+	</div>
+);
 
 export const e2eWithPlaywrightBdd: Slide = {
 	title: "E2E With Playwright BDD",
