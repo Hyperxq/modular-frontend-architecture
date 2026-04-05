@@ -17,7 +17,8 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
+      pull-requests: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -50,4 +51,82 @@ jobs:
           path: |
             automation_test/playwright-report/
             automation_test/cucumber-report/
-          retention-days: 7
+          retention-days: 30
+
+      - name: Prepare E2E report for GitHub Pages
+        if: always()
+        run: |
+          mkdir -p e2e-report/playwright
+          mkdir -p e2e-report/cucumber
+
+          cp -r automation_test/playwright-report/* e2e-report/playwright/ 2>/dev/null || true
+          cp -r automation_test/cucumber-report/* e2e-report/cucumber/ 2>/dev/null || true
+
+          cat > e2e-report/index.html << 'INDEXEOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>E2E Reports</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 600px; margin: 4rem auto; padding: 0 1rem; }
+              a { display: block; padding: 1rem; margin: 0.5rem 0; background: #f0f0f0; border-radius: 8px; text-decoration: none; color: #333; }
+              a:hover { background: #e0e0e0; }
+              h1 { color: #1a1a1a; }
+            </style>
+          </head>
+          <body>
+            <h1>E2E Reports</h1>
+            <a href="./playwright/index.html">Playwright Report</a>
+            <a href="./cucumber/index.html">Cucumber Report</a>
+          </body>
+          </html>
+          INDEXEOF
+
+      - name: Deploy E2E report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./e2e-report
+          destination_dir: e2e
+          keep_files: true
+
+      - name: Find merged PR and comment E2E results
+        if: always() && github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          MERGE_SHA="${{ github.event.workflow_run.head_sha }}"
+
+          # Find the PR that produced this merge commit
+          PR_NUMBER=$(gh api "repos/${REPO}/commits/${MERGE_SHA}/pulls" --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found for commit ${MERGE_SHA}, skipping comment."
+            exit 0
+          fi
+
+          # Determine E2E outcome
+          RUN_URL="${{ github.server_url }}/${REPO}/actions/runs/${{ github.run_id }}"
+          PAGES_URL="https://$(echo ${REPO} | tr '/' '.').github.io/e2e/"
+
+          if [ "${{ job.status }}" = "success" ]; then
+            STATUS="✅ **E2E tests passed**"
+          else
+            STATUS="❌ **E2E tests failed**"
+          fi
+
+          BODY="${STATUS}
+
+          | Report | Link |
+          |--------|------|
+          | Playwright | [GitHub Pages](${PAGES_URL}playwright/index.html) |
+          | Cucumber | [GitHub Pages](${PAGES_URL}cucumber/index.html) |
+          | Workflow run | [Actions](${RUN_URL}) |
+          | Artifacts | [Download](${RUN_URL}#artifacts) |"
+
+          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$BODY"
+          echo "Commented on PR #${PR_NUMBER}"
