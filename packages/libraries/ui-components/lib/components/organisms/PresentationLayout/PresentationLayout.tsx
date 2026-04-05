@@ -25,7 +25,10 @@ const PresentationLayout: FunctionalComponent<PresentationLayoutProps> = ({
 	sidebarDrawer,
 }) => (
 	<div
-		class={cn("grid h-dvh w-full overflow-hidden bg-surface", getGridClass(isMobile, showDiagram))}
+		class={cn(
+			"grid h-dvh w-full overflow-hidden bg-surface bg-gradient-to-br from-surface to-surface-container-low/50",
+			getGridClass(isMobile, showDiagram),
+		)}
 		role="application"
 		aria-label="Presentation"
 	>

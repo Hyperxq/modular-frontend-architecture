@@ -1,6 +1,7 @@
 import type { FunctionalComponent } from "preact";
 import { lazy, Suspense } from "preact/compat";
 import { useRef } from "preact/hooks";
+import { PresentationSkeleton } from "../../core/components/PresentationSkeleton";
 import { useKeyboard } from "../../core/hooks/useKeyboard";
 import { useIsMobile } from "../../core/hooks/useMediaQuery";
 import { useSwipe } from "../../core/hooks/useSwipe";
@@ -54,11 +55,7 @@ const PresentationContainer: FunctionalComponent = () => {
 	};
 
 	return (
-		<Suspense
-			fallback={
-				<div style={{ color: "var(--text-muted)", padding: "var(--space-8)" }}>Loading...</div>
-			}
-		>
+		<Suspense fallback={<PresentationSkeleton />}>
 			<PresentationLayout
 				showDiagram={data.showDiagram}
 				isMobile={isMobile}
@@ -113,7 +110,7 @@ const NAV_LABELS = { prev: "Previous slide", next: "Next slide" } as const;
 const NAV_PATHS = { prev: "M15 18l-6-6 6-6", next: "M9 18l6-6-6-6" } as const;
 
 const NAV_BTN_CLASSES =
-	"flex items-center justify-center w-14 h-14 bg-surface-container border border-[rgba(100,105,115,0.4)] rounded-full cursor-pointer transition-[color,border-color,background] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high disabled:opacity-30 disabled:cursor-default";
+	"flex items-center justify-center w-14 h-14 bg-surface-container border border-border-ghost rounded-full cursor-pointer transition-[color,border-color,background,box-shadow,transform] duration-fast ease-default hover:enabled:border-primary hover:enabled:bg-surface-container-high hover:enabled:shadow-[0_0_20px_var(--color-primary-glow-strong)] hover:enabled:scale-[1.04] active:enabled:scale-[0.97] disabled:opacity-30 disabled:cursor-default";
 
 function NavButton({
 	direction,

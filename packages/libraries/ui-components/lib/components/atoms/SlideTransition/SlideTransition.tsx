@@ -11,7 +11,7 @@ const SlideTransition: FunctionalComponent<SlideTransitionProps> = ({
 	transitionKey,
 	children,
 }) => {
-	const [entering, setEntering] = useState(false);
+	const [entering, setEntering] = useState(true);
 	const prevKeyRef = useRef(transitionKey);
 
 	useEffect(() => {
@@ -30,7 +30,7 @@ const SlideTransition: FunctionalComponent<SlideTransitionProps> = ({
 	return (
 		<div
 			class={cn(
-				"will-change-[opacity,transform]",
+				"will-change-[opacity,transform] h-full",
 				entering && "animate-slide-enter motion-reduce:animate-none",
 			)}
 			aria-atomic="true"

@@ -8,11 +8,16 @@ const Header: FunctionalComponent<HeaderProps> = ({
 	showMenuButton,
 	onMenuToggle,
 }) => (
-	<header class="flex justify-center items-center relative px-4 py-3 bg-surface-container-low z-header">
+	<header class="flex justify-center items-center relative px-4 py-3 bg-surface-container-low z-header border-b border-border-ghost overflow-hidden">
+		{/* Gradient accent line */}
+		<span
+			class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+			aria-hidden="true"
+		/>
 		{showMenuButton && (
 			<button
 				type="button"
-				class="absolute left-4 flex items-center justify-center w-10 h-10 bg-transparent border-none cursor-pointer text-fg-primary"
+				class="absolute left-4 flex items-center justify-center w-10 h-10 bg-transparent border-none cursor-pointer text-fg-primary transition-colors duration-fast ease-default hover:text-primary"
 				onClick={onMenuToggle}
 				aria-label="Toggle menu"
 			>

@@ -23,21 +23,15 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 	return (
 		<footer
 			class={cn(
-				"flex flex-col items-center gap-1 px-4 py-2 bg-surface-container-highest/40 backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)] rounded-[--radius] z-controls",
-				isMobileLayout && "fixed bottom-0 inset-x-0",
+				"flex flex-col items-center gap-1 px-4 py-2 bg-surface-container-highest/40 backdrop-blur-[12px] [-webkit-backdrop-filter:blur(12px)] border border-border-ghost/60 shadow-[0_-1px_20px_rgba(0,0,0,0.3)] z-controls",
+				isMobileLayout ? "fixed bottom-0 inset-x-0 rounded-t-[--radius-lg]" : "rounded-[--radius]",
 			)}
 		>
-			<div class="flex items-center gap-2 font-label text-label-sm text-fg-muted uppercase">
-				<span class="inline-flex gap-1">
-					<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">
-						←
-					</span>
-					<span class="inline-flex items-center justify-center w-6 h-6 rounded bg-surface-container border border-border-ghost font-mono text-label-sm">
-						→
-					</span>
-				</span>
-				<span>{showSwipeHint ? "or SWIPE TO NAVIGATE" : "TO NAVIGATE"}</span>
-			</div>
+			{isMobileLayout && (
+				<div class="font-label text-label-sm text-fg-muted uppercase">
+					<span>{showSwipeHint ? "SWIPE TO NAVIGATE" : "USE ARROWS TO NAVIGATE"}</span>
+				</div>
+			)}
 			{totalSlides > 0 && (
 				<span
 					class="flex gap-[6px] justify-center"
@@ -48,8 +42,8 @@ const BottomBar: FunctionalComponent<BottomBarProps> = ({
 						<span
 							key={`dot-${i}`}
 							class={cn(
-								"w-2 h-2 rounded-full",
-								i === currentSlideIndex ? "bg-primary" : "bg-fg-muted",
+								"h-2 rounded-full transition-all duration-normal ease-default",
+								i === currentSlideIndex ? "w-4 bg-primary" : "w-2 bg-fg-muted/50",
 							)}
 						/>
 					))}
