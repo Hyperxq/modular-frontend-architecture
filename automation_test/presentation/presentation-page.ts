@@ -144,4 +144,69 @@ export class PresentationPage extends BasePage {
 		await this.page.keyboard.press("ArrowLeft");
 		await this.page.waitForLoadState("domcontentloaded");
 	}
+
+	// ── Swipe helpers ──
+
+	/**
+	 * Simulates a horizontal swipe gesture on the center panel.
+	 *
+	 * Playwright's `dispatchEvent` creates plain Events, not real TouchEvents,
+	 * so `e.touches[0]` is undefined. We use `page.evaluate` to construct
+	 * native TouchEvents inside the browser via `new Touch()` + `new TouchEvent()`.
+	 *
+	 * The useSwipe hook thresholds:
+	 *  - Direction lock: dx > 10 && dx > dy * 1.5
+	 *  - Commit threshold: |dx| >= 50 (default)
+	 *
+	 * We swipe 100px (well above 50) in 5 steps to guarantee detection.
+	 */
+	private async swipe(deltaX: number, deltaY = 0, steps = 5): Promise<void> {
+		await this.centerPanel.evaluate(
+			(el, { deltaX, deltaY, steps }) => {
+				const rect = el.getBoundingClientRect();
+				const startX = rect.left + rect.width / 2;
+				const startY = rect.top + rect.height / 2;
+
+				function fireTouch(type: string, x: number, y: number) {
+					const touch = new Touch({
+						identifier: 0,
+						target: el,
+						clientX: x,
+						clientY: y,
+					});
+					const isEnd = type === "touchend";
+					el.dispatchEvent(
+						new TouchEvent(type, {
+							bubbles: true,
+							cancelable: true,
+							touches: isEnd ? [] : [touch],
+							changedTouches: [touch],
+							targetTouches: isEnd ? [] : [touch],
+						}),
+					);
+				}
+
+				fireTouch("touchstart", startX, startY);
+
+				for (let i = 1; i <= steps; i++) {
+					fireTouch("touchmove", startX + (deltaX * i) / steps, startY + (deltaY * i) / steps);
+				}
+
+				fireTouch("touchend", startX + deltaX, startY + deltaY);
+			},
+			{ deltaX, deltaY, steps },
+		);
+
+		await this.page.waitForLoadState("domcontentloaded");
+	}
+
+	/** Swipe left on the center panel → navigates to next slide */
+	async swipeLeft(): Promise<void> {
+		await this.swipe(-100);
+	}
+
+	/** Swipe right on the center panel → navigates to previous slide */
+	async swipeRight(): Promise<void> {
+		await this.swipe(100);
+	}
 }
