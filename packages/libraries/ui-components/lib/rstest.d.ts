@@ -1,7 +1,7 @@
 import "@rstest/core";
 
 declare module "@rstest/core" {
-	interface Assertion<T = any> {
+	interface Assertion<_T = unknown> {
 		toBeInTheDocument(): void;
 		toBeDisabled(): void;
 		toBeEnabled(): void;

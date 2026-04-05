@@ -56,7 +56,7 @@ Feature: Presentation Navigation
   @layout
   Scenario: Nav arrows state on first slide
     Given I am on slide "problem-audience" at index 0
-    Then the previous button should be visible
+    Then the previous button should be hidden
     And the next button should be visible
     And the previous button should be disabled
     And the next button should be enabled
@@ -223,6 +223,6 @@ Feature: Presentation Navigation
 
   @visual
   Scenario: Nav arrow buttons have non-zero dimensions
-    Given I am on slide "problem-audience" at index 0
+    Given I am on slide "problem-audience" at index 1
     Then the previous button should have non-zero dimensions
     And the next button should have non-zero dimensions

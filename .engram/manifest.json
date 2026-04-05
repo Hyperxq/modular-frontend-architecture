@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "chunks": [
-    {
-      "id": "e15b574c",
-      "created_by": "barri",
-      "created_at": "2026-04-03T01:38:51Z",
-      "sessions": 3,
-      "memories": 15,
-      "prompts": 1
-    }
-  ]
+	"version": 1,
+	"chunks": [
+		{
+			"id": "e15b574c",
+			"created_by": "barri",
+			"created_at": "2026-04-03T01:38:51Z",
+			"sessions": 3,
+			"memories": 15,
+			"prompts": 1
+		}
+	]
 }

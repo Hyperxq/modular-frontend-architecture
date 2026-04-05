@@ -1,4 +1,3 @@
-import type { Section } from "./types";
 import { claudeCodeSection } from "./claude-code/claude-code.section";
 import { getStartedSection } from "./get-started/get-started.section";
 import { infrastructureSection } from "./infrastructure/infrastructure.section";
@@ -10,6 +9,7 @@ import { problemAudienceSection } from "./problem-audience/problem-audience.sect
 import { shellSection } from "./shell/shell.section";
 import { stackSection } from "./stack/stack.section";
 import { testingSection } from "./testing/testing.section";
+import type { Section } from "./types";
 import { uiComponentsSection } from "./ui-components/ui-components.section";
 
 const sections: Section[] = [
@@ -28,8 +28,6 @@ const sections: Section[] = [
 ];
 
 export { sections };
-export { SLIDE_TYPE } from "./types";
-export type { Section, Slide, SlideType } from "./types";
 export {
 	getGlobalSlideIndex,
 	getSectionById,
@@ -39,3 +37,5 @@ export {
 	isFirstSlide,
 	isLastSlide,
 } from "./helpers";
+export type { Section, Slide, SlideType } from "./types";
+export { SLIDE_TYPE } from "./types";
