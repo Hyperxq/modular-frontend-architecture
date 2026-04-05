@@ -7,7 +7,10 @@ const CenterPanel: FunctionalComponent<CenterPanelProps> = ({
 	slideBody,
 	children,
 }) => (
-	<main class="bg-surface-container-low p-8 overflow-y-auto min-h-0" aria-label="Slide content">
+	<main
+		class="bg-surface-container-low p-8 overflow-y-auto min-h-0 touch-pan-y"
+		aria-label="Slide content"
+	>
 		<div class="max-w-3xl stagger-children">
 			{sectionLabel && (
 				<span class="block font-label text-label-md text-primary uppercase mb-3">
