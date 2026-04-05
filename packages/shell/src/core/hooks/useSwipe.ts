@@ -14,6 +14,11 @@ interface SwipeOptions {
  * Uses `touchmove` with `passive: false` so we can call `preventDefault()`
  * once a horizontal swipe is detected — this stops the browser's native
  * scroll from hijacking the gesture. Vertical scrolling is left untouched.
+ *
+ * **Important:** the target element (`ref.current`) must exist in the DOM
+ * when the effect runs.  If it lives inside `<Suspense>`, wrap the swipe
+ * target in a div that is **outside** the Suspense boundary so the ref
+ * is available on mount.
  */
 export function useSwipe(ref: RefObject<HTMLElement>, options: SwipeOptions): void {
 	const { onSwipeLeft, onSwipeRight, threshold = 50, enabled = true } = options;

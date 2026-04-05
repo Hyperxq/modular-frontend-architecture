@@ -75,57 +75,61 @@ const PresentationContainer: FunctionalComponent = () => {
 		version: data.sidebarVersion,
 	};
 
+	// The swipe target div wraps the Suspense boundary so that contentRef
+	// is available immediately on mount — not deferred until lazy children
+	// resolve.  Touch events on nested content bubble up to this div where
+	// the useSwipe listeners are attached.
 	return (
-		<Suspense fallback={<PresentationSkeleton />}>
-			<PresentationLayout
-				showDiagram={data.showDiagram}
-				isMobile={isMobile}
-				navPrev={navPrevBtn}
-				navNext={navNextBtn}
-				header={
-					<Header
-						title={data.appTitle}
-						linkText={data.githubLinkText}
-						linkUrl={data.githubLinkUrl}
-						showMenuButton={isMobile}
-						onMenuToggle={toggleSidebar}
-					/>
-				}
-				sidebar={<Sidebar {...sidebarProps} />}
-				sidebarDrawer={
-					<div ref={drawerRef}>
-						<Sidebar {...sidebarProps} isDrawer isOpen={isSidebarOpen} onClose={closeSidebar} />
-					</div>
-				}
-				center={
-					<div ref={contentRef} class="h-full touch-pan-y">
+		<div ref={contentRef} class="h-full touch-pan-y">
+			<Suspense fallback={<PresentationSkeleton />}>
+				<PresentationLayout
+					showDiagram={data.showDiagram}
+					isMobile={isMobile}
+					navPrev={navPrevBtn}
+					navNext={navNextBtn}
+					header={
+						<Header
+							title={data.appTitle}
+							linkText={data.githubLinkText}
+							linkUrl={data.githubLinkUrl}
+							showMenuButton={isMobile}
+							onMenuToggle={toggleSidebar}
+						/>
+					}
+					sidebar={<Sidebar {...sidebarProps} />}
+					sidebarDrawer={
+						<div ref={drawerRef}>
+							<Sidebar {...sidebarProps} isDrawer isOpen={isSidebarOpen} onClose={closeSidebar} />
+						</div>
+					}
+					center={
 						<SlideTransition transitionKey={data.transitionKey}>
 							<CenterPanel sectionLabel={data.sectionLabel} slideTitle={data.slideTitle}>
 								{SlideContent && <SlideContent />}
 							</CenterPanel>
 						</SlideTransition>
-					</div>
-				}
-				diagram={
-					data.showDiagram ? (
-						<DiagramPanel panelTitle={data.diagramTitle}>
-							<p>{data.currentSlide?.diagram ?? ""}</p>
-						</DiagramPanel>
-					) : null
-				}
-				bottom={
-					<BottomBar
-						currentSlideIndex={data.currentSlideIndex}
-						totalSlides={data.sectionSlideCount}
-						currentSectionIndex={data.sectionIndex}
-						totalSections={data.totalSections}
-						navPrev={isMobile ? navPrevBtn : undefined}
-						navNext={isMobile ? navNextBtn : undefined}
-						showSwipeHint={isMobile}
-					/>
-				}
-			/>
-		</Suspense>
+					}
+					diagram={
+						data.showDiagram ? (
+							<DiagramPanel panelTitle={data.diagramTitle}>
+								<p>{data.currentSlide?.diagram ?? ""}</p>
+							</DiagramPanel>
+						) : null
+					}
+					bottom={
+						<BottomBar
+							currentSlideIndex={data.currentSlideIndex}
+							totalSlides={data.sectionSlideCount}
+							currentSectionIndex={data.sectionIndex}
+							totalSections={data.totalSections}
+							navPrev={isMobile ? navPrevBtn : undefined}
+							navNext={isMobile ? navNextBtn : undefined}
+							showSwipeHint={isMobile}
+						/>
+					}
+				/>
+			</Suspense>
+		</div>
 	);
 };
 
