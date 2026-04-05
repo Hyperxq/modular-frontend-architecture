@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -91,3 +92,41 @@ jobs:
           publish_dir: ./e2e-report
           destination_dir: e2e
           keep_files: true
+
+      - name: Find merged PR and comment E2E results
+        if: always() && github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          MERGE_SHA="${{ github.event.workflow_run.head_sha }}"
+
+          # Find the PR that produced this merge commit
+          PR_NUMBER=$(gh api "repos/${REPO}/commits/${MERGE_SHA}/pulls" --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found for commit ${MERGE_SHA}, skipping comment."
+            exit 0
+          fi
+
+          # Determine E2E outcome
+          RUN_URL="${{ github.server_url }}/${REPO}/actions/runs/${{ github.run_id }}"
+          PAGES_URL="https://$(echo ${REPO} | tr '/' '.').github.io/e2e/"
+
+          if [ "${{ job.status }}" = "success" ]; then
+            STATUS="✅ **E2E tests passed**"
+          else
+            STATUS="❌ **E2E tests failed**"
+          fi
+
+          BODY="${STATUS}
+
+          | Report | Link |
+          |--------|------|
+          | Playwright | [GitHub Pages](${PAGES_URL}playwright/index.html) |
+          | Cucumber | [GitHub Pages](${PAGES_URL}cucumber/index.html) |
+          | Workflow run | [Actions](${RUN_URL}) |
+          | Artifacts | [Download](${RUN_URL}#artifacts) |"
+
+          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$BODY"
+          echo "Commented on PR #${PR_NUMBER}"
