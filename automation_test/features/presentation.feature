@@ -56,8 +56,7 @@ Feature: Presentation Navigation
   @layout
   Scenario: Nav arrows state on first slide
     Given I am on slide "problem-audience" at index 0
-    Then the previous button should be visible
-    And the previous button should be disabled
+    Then the previous button should be hidden
     And the next button should be visible
     And the next button should be enabled
 
@@ -141,16 +140,24 @@ Feature: Presentation Navigation
     Then the URL should contain "/problem-audience/0"
 
   @navigation @keyboard
-  Scenario: ArrowLeft is no-op on first slide
+  Scenario: ArrowLeft flashes disabled prev on first slide
     Given I am on slide "problem-audience" at index 0
     When I press ArrowLeft
     Then the URL should contain "/problem-audience/0"
+    And the previous button should be visible
+    And the previous button should be disabled
+    And the previous button should have attribute "data-flash"
+    And the previous button should become hidden within 3 seconds
 
   @navigation @keyboard
-  Scenario: ArrowRight is no-op on last slide
+  Scenario: ArrowRight flashes disabled next on last slide
     Given I am on slide "get-started" at index 2
     When I press ArrowRight
     Then the URL should contain "/get-started/2"
+    And the next button should be visible
+    And the next button should be disabled
+    And the next button should have attribute "data-flash"
+    And the next button should become hidden within 3 seconds
 
   @navigation @keyboard
   Scenario: ArrowLeft crosses section boundary backwards
@@ -163,14 +170,17 @@ Feature: Presentation Navigation
   @navigation @boundary
   Scenario: Nav arrows state on last slide
     Given I am on slide "get-started" at index 2
-    Then the next button should be disabled
+    Then the next button should be hidden
+    And the previous button should be visible
     And the previous button should be enabled
 
   @navigation @boundary
-  Scenario: Clicking next is no-op on last slide
-    Given I am on slide "get-started" at index 2
-    When I force click the next arrow
-    Then the URL should contain "/get-started/2"
+  Scenario: Nav arrows state on middle slide
+    Given I am on slide "overview" at index 1
+    Then the previous button should be visible
+    And the previous button should be enabled
+    And the next button should be visible
+    And the next button should be enabled
 
   # ─── Route Validation ──────────────────────────────────────────────
 

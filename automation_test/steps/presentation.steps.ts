@@ -228,6 +228,35 @@ Then("the next button should have non-zero dimensions", async ({ presentation })
 });
 
 // ---------------------------------------------------------------------------
+// Assertions — Then steps (flash behavior / data attributes)
+// ---------------------------------------------------------------------------
+
+Then(
+	"the previous button should have attribute {string}",
+	async ({ presentation }, attr: string) => {
+		await expect(presentation.prevButton).toHaveAttribute(attr, /.*/);
+	},
+);
+
+Then("the next button should have attribute {string}", async ({ presentation }, attr: string) => {
+	await expect(presentation.nextButton).toHaveAttribute(attr, /.*/);
+});
+
+Then(
+	"the previous button should become hidden within {int} seconds",
+	async ({ presentation }, seconds: number) => {
+		await expect(presentation.prevButton).toBeHidden({ timeout: seconds * 1_000 });
+	},
+);
+
+Then(
+	"the next button should become hidden within {int} seconds",
+	async ({ presentation }, seconds: number) => {
+		await expect(presentation.nextButton).toBeHidden({ timeout: seconds * 1_000 });
+	},
+);
+
+// ---------------------------------------------------------------------------
 // Assertions — Then steps (console errors)
 // ---------------------------------------------------------------------------
 
