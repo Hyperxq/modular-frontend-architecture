@@ -15,6 +15,7 @@
 		"format:fix": "bunx biome format --write ."
 	},
 	"dependencies": {
+		"mermaid": "^11.14.0",
 		"react-router": "7.11.0",
 		"zustand": "5.0.9"
 	},

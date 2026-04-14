@@ -9,6 +9,7 @@ import { useSwipe } from "../../core/hooks/useSwipe";
 import { useSidebarDrawer } from "../../core/store/app.store";
 import { usePresentationData } from "./usePresentationData";
 
+const Diagram = lazy(() => import("ui_components/atoms/Diagram/Diagram"));
 const BottomBar = lazy(() => import("ui_components/atoms/BottomBar/BottomBar"));
 const SlideTransition = lazy(() => import("ui_components/atoms/SlideTransition/SlideTransition"));
 const CenterPanel = lazy(() => import("ui_components/molecules/CenterPanel/CenterPanel"));
@@ -112,7 +113,7 @@ const PresentationContainer: FunctionalComponent = () => {
 					diagram={
 						data.showDiagram ? (
 							<DiagramPanel panelTitle={data.diagramTitle}>
-								<p>{data.currentSlide?.diagram ?? ""}</p>
+								<Diagram chart={data.currentSlide?.diagram ?? ""} />
 							</DiagramPanel>
 						) : null
 					}

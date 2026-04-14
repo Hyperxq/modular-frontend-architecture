@@ -5,11 +5,24 @@ import type { Slide } from "../types";
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
-			Shell is the MF host, UI-Components is the MF remote — loaded at runtime via PUBLIC_BUCKET_URL
+			The host asks for a component. The remote serves it. The browser does the rest.
 		</p>
 		<p class="text-fg-secondary text-base leading-relaxed">
-			The remote URL is injected at runtime from an env variable. In dev it points to :3001. In
-			production it points to the CDN bucket
+			Module Federation works on a simple mental model: one application (the host) declares that it
+			needs components from another application (the remote). At runtime — not at build time — the
+			host fetches those components over HTTP and renders them as if they were local.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			In this architecture: Shell is the host (port 3002), declaring ui_components as its remote and
+			lazy-loading components from it. UI-Components is the remote (port 3001), exposing every
+			auto-discovered component via an mf-manifest.json that tells the host where each chunk lives.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			The real use case isn't mixing frameworks — it's decoupling parts of your application so they
+			can be developed, versioned, and deployed independently. The reference implementation uses two
+			MFEs because that's the minimum viable setup to demonstrate the pattern end to end. Add a new
+			remote, declare it in the host's remotes config, lazy-load its components — no structural
+			changes required.
 		</p>
 		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
@@ -19,21 +32,17 @@ const Content: FunctionalComponent = () => (
 				REMOTE
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				RUNTIME URL
+				MODULE FEDERATION
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				RUNTIME LOADING
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				MF-MANIFEST
 			</li>
 		</ul>
-		<dl class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Dev remote URL</dt>
-				<dd class="text-2xl font-bold text-primary m-0">:3001</dd>
-			</div>
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Prod remote URL</dt>
-				<dd class="text-2xl font-bold text-primary m-0">PUBLIC_BUCKET_URL</dd>
-			</div>
-		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
-			URL injection is the only coupling between host and remote at runtime
+			Two MFEs to teach the pattern. N MFEs to scale it.
 		</p>
 	</div>
 );
@@ -41,6 +50,25 @@ const Content: FunctionalComponent = () => (
 export const hostAndRemote: Slide = {
 	title: "Host And Remote",
 	type: "diagram",
-	diagram: "Shell (:3002) --[runtime fetch]--> ui_components (:3001 | CDN)",
+	diagram: `sequenceDiagram
+    participant Dev as Developer
+    participant Shell as Shell :3002
+    participant Manifest as mf-manifest.json<br/>(:3001)
+    participant Chunk as Component chunk<br/>(:3001/chunks/...)
+    participant Browser as Browser DOM
+
+    Note over Dev,Chunk: BUILD TIME
+    Dev->>Shell: rslib build (ui-components first)
+    Dev->>Manifest: generates mf-manifest.json
+
+    Note over Shell,Browser: RUNTIME
+    Browser->>Shell: loads app
+    Shell->>Manifest: fetch mf-manifest.json
+    Manifest-->>Shell: { exposes: { "./atoms/Button": "/chunks/Button.abc123.js" } }
+    Shell->>Chunk: fetch chunk on demand<br/>(only when component is needed)
+    Chunk-->>Shell: component module
+    Shell->>Browser: render as if local import
+
+    Note over Shell,Browser: Shell never bundled the remote.<br/>It fetched it.`,
 	Content,
 };

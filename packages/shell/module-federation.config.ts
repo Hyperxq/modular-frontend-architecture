@@ -29,6 +29,7 @@ export const getMFConfig = (remoteUrl: string, _isLocalEnv: boolean) => {
 			"preact/hooks": { singleton: true, eager: true, requiredVersion: "^10.0.0" },
 			"preact/compat": { singleton: true, eager: true, requiredVersion: "^10.0.0" },
 			"preact/jsx-runtime": { singleton: true, eager: true, requiredVersion: "^10.0.0" },
+			mermaid: { singleton: true, requiredVersion: "^11.0.0" },
 		},
 	});
 };

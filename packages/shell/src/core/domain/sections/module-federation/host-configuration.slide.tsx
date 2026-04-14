@@ -5,43 +5,51 @@ import type { Slide } from "../types";
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
-			Shell's module-federation.config.ts declares 1 remote and 4 shared singletons: preact,
-			preact/compat, preact/hooks, zustand
+			One remote. Four shared singletons. That's the entire host configuration.
 		</p>
 		<p class="text-fg-secondary text-base leading-relaxed">
-			The remote entry URL is resolved from env. Shared config ensures Preact and Zustand are never
-			duplicated across the MF boundary
+			The host configuration lives in shell/module-federation.config.ts and declares two things:
+		</p>
+		<ul class="flex flex-col gap-2 pl-4 text-fg-secondary text-sm list-disc">
+			<li>
+				<strong>Where to find the remote:</strong> remotes: {"{ ui_components: `ui_components@$"}
+				{"{" + "remoteUrl}/mf-manifest.json` }"}. The remote URL is resolved from environment
+				variables — localhost:3001 in development, a CDN path in production. The host doesn't care
+				where the remote lives physically.
+			</li>
+			<li>
+				<strong>What to share as singletons:</strong> preact, preact/hooks, preact/compat, and
+				preact/jsx-runtime — all with singleton: true, eager: true. This guarantees a single Preact
+				instance across the Module Federation boundary.
+			</li>
+		</ul>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			That's the entire host-side configuration. One remote declaration, four shared singletons, and
+			a URL that changes per environment. Everything else — how components are discovered, how
+			they're bundled, how they're exposed — is the remote's responsibility.
 		</p>
 		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				1 REMOTE
+				HOST CONFIGURATION
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				4 SHARED
+				REMOTES
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				SINGLETON CONFIG
+				SHARED SINGLETONS
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				MF-MANIFEST
 			</li>
 		</ul>
-		<dl class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Remote declared</dt>
-				<dd class="text-2xl font-bold text-primary m-0">1</dd>
-			</div>
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Shared singletons</dt>
-				<dd class="text-2xl font-bold text-primary m-0">4</dd>
-			</div>
-		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
-			Adding a shared dep without singleton: true is a silent runtime bug
+			The host's job is to declare what it needs and trust the remote to provide it.
 		</p>
 	</div>
 );
 
 export const hostConfiguration: Slide = {
 	title: "Host Configuration",
-	type: "diagram",
-	diagram: "remotes: { ui_components } + shared: { preact, preact/compat, preact/hooks, zustand }",
+	type: "concept",
 	Content,
 };

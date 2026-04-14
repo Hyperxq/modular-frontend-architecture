@@ -5,35 +5,57 @@ import type { Slide } from "../types";
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
-			Five non-negotiable rules govern all code in this repo — enforced by Biome and architecture
+			Five rules. Memorize them. Every architecture decision in this project traces back to one of
+			these.
 		</p>
+		<ol class="flex flex-col gap-3 list-decimal pl-4 text-fg-secondary text-sm">
+			<li>
+				<strong>UI-Components NEVER imports from Shell.</strong> No store imports, no hook imports,
+				no route access. The dependency arrow points one way: Shell → UI-Components. Never the
+				reverse.
+			</li>
+			<li>
+				<strong>UI-Components NEVER creates Zustand stores.</strong> All global state lives in
+				Shell. If a component needs data, Shell passes it as a prop. If a component needs to trigger
+				a state change, Shell passes a callback.
+			</li>
+			<li>
+				<strong>UI-Components NEVER accesses routing directly.</strong> No useNavigate(), no
+				useParams(), no route guards. Navigation is Shell's responsibility. Components receive the
+				current state and render accordingly.
+			</li>
+			<li>
+				<strong>All event handlers are callback props from Shell.</strong> onClick, onSubmit,
+				onSelect — these are functions that Shell defines and passes down. UI-Components calls them
+				without knowing what they do.
+			</li>
+			<li>
+				<strong>All data is serializable props — no store references.</strong> What crosses the
+				Module Federation boundary must be plain data: strings, numbers, arrays, objects, and
+				functions. Never store instances, never observables, never framework-specific references.
+			</li>
+		</ol>
 		<p class="text-fg-secondary text-base leading-relaxed">
-			1) No upward imports. 2) No Zustand stores in ui-components. 3) All data via props. 4)
-			Callbacks as event props. 5) State must be serializable
+			These aren't guidelines — they're constraints enforced by the architecture. Break any one of
+			them and you've coupled the display layer to the business layer. That's the one thing this
+			architecture exists to prevent.
 		</p>
 		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				NO UPWARD IMPORTS
+				RULES
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				PROPS ONLY
+				BOUNDARIES
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				SERIALIZABLE STATE
+				CONSTRAINTS
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				SEPARATION OF CONCERNS
 			</li>
 		</ul>
-		<dl class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Enforced rules</dt>
-				<dd class="text-2xl font-bold text-primary m-0">5</dd>
-			</div>
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Exceptions allowed</dt>
-				<dd class="text-2xl font-bold text-primary m-0">0</dd>
-			</div>
-		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
-			Rules without enforcement are suggestions — Biome makes them errors
+			Constraints aren't limitations — they're the architecture.
 		</p>
 	</div>
 );
