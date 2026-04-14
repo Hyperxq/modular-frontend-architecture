@@ -5,35 +5,68 @@ import type { Slide } from "../types";
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
-			Nx is used ONLY as a task runner — no generators, no Nx plugins, no framework coupling
+			Nx runs your tasks. It doesn't own your project.
 		</p>
 		<p class="text-fg-secondary text-base leading-relaxed">
-			nx.json defines task dependencies and caching. project.json defines targets. That is the
-			entire Nx surface area used
+			Nx is used strictly as a task orchestrator — no generators, no plugins for code scaffolding,
+			no framework-specific wrappers. It does three things:
+		</p>
+		<ol class="flex flex-col gap-3 list-decimal pl-4 text-fg-secondary text-sm">
+			<li>
+				<strong class="text-fg-primary">Dependency-aware ordering</strong> —{" "}
+				<code class="font-mono text-primary">bun run dev</code> starts UI-Components first (port
+				3001), then Shell (port 3002), because the host needs the remote running to resolve Module
+				Federation manifests.
+			</li>
+			<li>
+				<strong class="text-fg-primary">Parallel execution</strong> — lint, format, and test
+				commands run across all packages simultaneously, with a configurable concurrency limit.
+			</li>
+			<li>
+				<strong class="text-fg-primary">Build caching</strong> — tasks that haven't changed since
+				the last run are skipped. This matters as the number of packages grows.
+			</li>
+		</ol>
+		<div class="flex flex-col gap-1">
+			<h4 class="text-sm font-semibold text-fg-primary">Key commands</h4>
+			<ul class="flex flex-col gap-1 pl-4 text-fg-secondary text-sm list-disc">
+				<li>
+					<code class="font-mono text-primary">bun run dev</code> → starts both dev servers in
+					order, streaming output
+				</li>
+				<li>
+					<code class="font-mono text-primary">bun run test</code> → runs Rstest across all packages
+				</li>
+				<li>
+					<code class="font-mono text-primary">bun run lint:fix</code> → lints all packages in
+					parallel via Biome
+				</li>
+				<li>
+					<code class="font-mono text-primary">bun run e2e</code> → starts servers, generates BDD
+					steps, runs Playwright
+				</li>
+			</ul>
+		</div>
+		<p class="text-fg-secondary text-sm leading-relaxed">
+			The intentional constraint is important: Nx is a task runner, not a framework. The moment you
+			let a tool own your project structure, you're locked into its opinions.
 		</p>
 		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				TASK RUNNER ONLY
+				NX
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				NO GENERATORS
+				TASK RUNNER
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				ORCHESTRATION
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
 				CACHING
 			</li>
 		</ul>
-		<dl class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Config files used</dt>
-				<dd class="text-2xl font-bold text-primary m-0">2</dd>
-			</div>
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Generators ignored</dt>
-				<dd class="text-2xl font-bold text-primary m-0">∞</dd>
-			</div>
-		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
-			Escape hatch always available — Bun scripts work without Nx
+			Tools should serve your architecture, not the other way around.
 		</p>
 	</div>
 );

@@ -7,9 +7,9 @@ const LazyTheProblemItSolves = lazy(() =>
 	})),
 );
 
-const LazyThreeScenarios = lazy(() =>
-	import(/* webpackChunkName: "section-mock" */ "./three-scenarios.slide").then((m) => ({
-		default: m.threeScenarios.Content,
+const LazyFourScenarios = lazy(() =>
+	import(/* webpackChunkName: "section-mock" */ "./four-scenarios.slide").then((m) => ({
+		default: m.fourScenarios.Content,
 	})),
 );
 
@@ -37,7 +37,7 @@ export const mockSection: Section = {
 	description: "MSW-powered API mocking",
 	slides: [
 		{ title: "The Problem It Solves", type: "concept", Content: LazyTheProblemItSolves },
-		{ title: "Three Scenarios", type: "concept", Content: LazyThreeScenarios },
+		{ title: "Four Scenarios", type: "concept", Content: LazyFourScenarios },
 		{ title: "Hybrid Mode", type: "concept", Content: LazyHybridMode },
 		{ title: "Zero Cost In Production", type: "concept", Content: LazyZeroCostInProduction },
 		{ title: "Live Toggle And CI/CD", type: "interactive", Content: LazyLiveToggleAndCiCd },

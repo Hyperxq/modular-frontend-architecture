@@ -5,35 +5,51 @@ import type { Slide } from "../types";
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
-			Preact MUST be singleton: true AND eager: true in BOTH the host and remote MF config
+			If Preact isn't a singleton, everything breaks — silently.
 		</p>
 		<p class="text-fg-secondary text-base leading-relaxed">
-			If singleton is false, two Preact instances load. Hooks silently fail. There is no runtime
-			error — components just stop updating
+			This is the single most important configuration detail in the entire architecture. Get it
+			wrong and you won't get an error message — you'll get behavior that makes no sense.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			When Module Federation loads a remote component, it needs to decide: should this remote use
+			its own copy of Preact, or should it share the host's copy? The answer must be: always share
+			the host's copy. One Preact instance. One hook state tree. One context chain.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			Without singleton: true — two Preact instances load, hooks maintain separate state trees,
+			useState in a remote component creates state in the wrong Preact instance, useContext returns
+			undefined across the MF boundary, and event handlers silently fail.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			The fix is declarative — both host and remote must declare the same shared config: preact,
+			preact/hooks, preact/compat, preact/jsx-runtime — all with singleton: true, eager: true. The
+			eager flag means the host loads Preact immediately instead of waiting for the first remote to
+			request it, preventing a race condition at render time.
+		</p>
+		<p class="text-fg-secondary text-base leading-relaxed">
+			This is non-negotiable. There's no workaround, no alternative configuration. If you're using
+			Module Federation with any UI framework, the framework MUST be a singleton.
 		</p>
 		<ul class="flex flex-wrap gap-2 list-none m-0 p-0" aria-label="Key concepts">
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				SINGLETON: TRUE
+				SINGLETON
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				EAGER: TRUE
+				MODULE FEDERATION
 			</li>
 			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
-				BOTH SIDES
+				PREACT
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				SHARED DEPENDENCIES
+			</li>
+			<li class="px-3 py-1 rounded-full text-xs font-mono bg-surface-container text-fg-secondary border border-outline-variant">
+				CRITICAL
 			</li>
 		</ul>
-		<dl class="grid grid-cols-2 gap-4">
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Sides that need config</dt>
-				<dd class="text-2xl font-bold text-primary m-0">2</dd>
-			</div>
-			<div class="flex flex-col">
-				<dt class="text-xs text-fg-secondary">Tolerable Preact instances</dt>
-				<dd class="text-2xl font-bold text-primary m-0">0</dd>
-			</div>
-		</dl>
 		<p class="text-xs text-fg-secondary italic border-t border-outline-variant pt-3">
-			This is the most common MF + Preact failure mode — it is silent and hard to debug
+			Singleton sharing isn't an optimization — it's a correctness requirement.
 		</p>
 	</div>
 );

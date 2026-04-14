@@ -29,18 +29,15 @@
 		"format": "bunx biome format .",
 		"format:fix": "bunx biome format --write .",
 		"test": "rstest",
-
 		"/* --- Base build ---*/": "",
 		"build": "rslib build",
 		"build:wc": "rslib build --config rslib.config.wc.ts",
 		"build:dev": "cross-env rslib build --env-mode development",
 		"build:prod": "cross-env rslib build --env-mode qa",
-
 		"/* --- Target: Local ---*/": "",
 		"build:l1": "cross-env LEVEL_MODE=1 rslib build --env-mode development",
 		"build:l2": "cross-env LEVEL_MODE=2 rslib build --env-mode development",
 		"build:l3": "cross-env LEVEL_MODE=3 rslib build --env-mode development",
-
 		"/* --- Target: PROD ---*/": "",
 		"build:l1:prod": "cross-env LEVEL_MODE=1 rslib build --env-mode production",
 		"build:l2:prod": "cross-env LEVEL_MODE=2 rslib build --env-mode production",
@@ -59,6 +56,7 @@
 	},
 	"peerDependencies": {
 		"clsx": "^2.1.1",
+		"mermaid": "^11.14.0",
 		"preact": "^10.0.0",
 		"tailwind-merge": "^3.3.0"
 	},
