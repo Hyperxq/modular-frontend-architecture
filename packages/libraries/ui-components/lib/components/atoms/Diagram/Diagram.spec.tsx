@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@rstest/core";
-import { render, screen } from "@testing-library/preact";
+import { render } from "@testing-library/preact";
 import Diagram from "./Diagram";
 
 describe("Diagram", () => {
