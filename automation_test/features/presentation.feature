@@ -236,3 +236,13 @@ Feature: Presentation Navigation
     Given I am on slide "problem-audience" at index 1
     Then the previous button should have non-zero dimensions
     And the next button should have non-zero dimensions
+
+  # ─── Scroll Behavior ───────────────────────────────────────────────
+  # Regression guard for mobile scroll bug: CenterPanel must scroll internally
+  # when slide content overflows (e.g. long-form technical slides on narrow viewports).
+
+  @visual @scroll
+  Scenario: Center panel scrolls when slide content overflows
+    Given I am on slide "shell" at index 0
+    Then the center panel content should overflow its container
+    And scrolling the center panel should move its scroll position

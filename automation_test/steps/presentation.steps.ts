@@ -257,6 +257,32 @@ Then(
 );
 
 // ---------------------------------------------------------------------------
+// Assertions — Then steps (scroll behavior)
+// ---------------------------------------------------------------------------
+
+Then("the center panel content should overflow its container", async ({ presentation }) => {
+	// Regression guard: the mobile scroll bug manifested as scrollHeight == clientHeight
+	// because `main` lacked `h-full`, so it expanded to content height and its parent
+	// grid row clipped anything below the fold. A healthy scrollable panel has
+	// scrollHeight > clientHeight when the slide is content-heavy.
+	const metrics = await presentation.centerPanel.evaluate((el) => ({
+		scrollHeight: el.scrollHeight,
+		clientHeight: el.clientHeight,
+	}));
+	expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
+});
+
+Then("scrolling the center panel should move its scroll position", async ({ presentation }) => {
+	const result = await presentation.centerPanel.evaluate((el) => {
+		const before = el.scrollTop;
+		el.scrollTop = 200;
+		return { before, after: el.scrollTop };
+	});
+	expect(result.before).toBe(0);
+	expect(result.after).toBeGreaterThan(0);
+});
+
+// ---------------------------------------------------------------------------
 // Assertions — Then steps (console errors)
 // ---------------------------------------------------------------------------
 

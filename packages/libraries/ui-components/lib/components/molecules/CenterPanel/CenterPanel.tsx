@@ -8,7 +8,7 @@ const CenterPanel: FunctionalComponent<CenterPanelProps> = ({
 	children,
 }) => (
 	<main
-		class="bg-surface-container-low p-8 overflow-y-auto min-h-0 touch-pan-y"
+		class="bg-surface-container-low p-8 overflow-y-auto h-full min-h-0 touch-pan-y"
 		aria-label="Slide content"
 	>
 		<div class="max-w-3xl stagger-children">
