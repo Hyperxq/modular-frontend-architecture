@@ -34,4 +34,17 @@ describe("CenterPanel", () => {
 		expect(container.querySelector("h2")).toBeNull();
 		expect(container.querySelector("p")).toBeNull();
 	});
+
+	it("applies full-height overflow classes so long content scrolls internally", () => {
+		// Regression guard: without `h-full`, `main` expands to its content height,
+		// and `overflow-y-auto` becomes a no-op — long slides overflow the grid row
+		// silently on mobile, hiding content below the fold.
+		const { container } = render(<CenterPanel slideTitle="t" />);
+		const main = container.querySelector("main");
+		expect(main).not.toBeNull();
+		const classes = main?.className ?? "";
+		expect(classes).toContain("h-full");
+		expect(classes).toContain("overflow-y-auto");
+		expect(classes).toContain("min-h-0");
+	});
 });
