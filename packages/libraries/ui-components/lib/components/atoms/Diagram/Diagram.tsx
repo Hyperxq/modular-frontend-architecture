@@ -26,6 +26,9 @@ const Diagram: FunctionalComponent<DiagramProps> = ({ chart }) => {
 				if (containerRef.current) {
 					containerRef.current.innerHTML = svg;
 				}
+			})
+			.catch((err) => {
+				console.error("[Diagram] render FAILED:", err);
 			});
 	}, [chart]);
 

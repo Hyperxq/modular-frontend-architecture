@@ -20,6 +20,8 @@ interface Slide {
 	notes?: string;
 }
 
+type SlideMeta = Omit<Slide, "Content">;
+
 interface Section {
 	id: string;
 	title: string;
@@ -28,4 +30,4 @@ interface Section {
 }
 
 export { SLIDE_TYPE };
-export type { Section, Slide, SlideType };
+export type { Section, Slide, SlideMeta, SlideType };

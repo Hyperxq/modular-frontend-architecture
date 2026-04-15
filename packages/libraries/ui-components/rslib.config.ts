@@ -22,6 +22,13 @@ export default defineConfig(({ envMode = "development.local" }) => {
 
 		dev: {
 			writeToDisk: true,
+			// Disable lazy compilation for dynamic imports: across the MF boundary
+			// (host :3002 → remote :3001) the lazy-compile round-trip does not complete,
+			// so `import("mermaid")` inside Diagram hangs silently. Entries stay lazy-compiled
+			// for fast startup; only on-demand dynamic imports are eagerly built.
+			lazyCompilation: {
+				imports: false,
+			},
 		},
 
 		tools: {
