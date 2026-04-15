@@ -1,7 +1,5 @@
 import type { FunctionalComponent } from "preact";
-import type { Slide } from "../types";
 
-// biome-ignore lint/style/useComponentExportOnlyModules: slide pattern — Content is co-located with its Slide data object by design
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
@@ -48,8 +46,4 @@ const Content: FunctionalComponent = () => (
 	</div>
 );
 
-export const hostConfiguration: Slide = {
-	title: "Host Configuration",
-	type: "concept",
-	Content,
-};
+export default Content;

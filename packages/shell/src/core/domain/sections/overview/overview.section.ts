@@ -1,5 +1,6 @@
 import { lazy } from "preact/compat";
 import type { Section } from "../types";
+import { dataFlowMeta } from "./data-flow.slide.meta";
 
 const LazyTheBigPicture = lazy(() =>
 	import(/* webpackChunkName: "section-overview" */ "./the-big-picture.slide").then((m) => ({
@@ -13,10 +14,8 @@ const LazyThisWebsiteIsTheExample = lazy(() =>
 	),
 );
 
-const LazyDataFlow = lazy(() =>
-	import(/* webpackChunkName: "section-overview" */ "./data-flow.slide").then((m) => ({
-		default: m.dataFlow.Content,
-	})),
+const LazyDataFlow = lazy(
+	() => import(/* webpackChunkName: "section-overview" */ "./data-flow.slide"),
 );
 
 export const overviewSection: Section = {
@@ -30,11 +29,6 @@ export const overviewSection: Section = {
 			type: "concept",
 			Content: LazyThisWebsiteIsTheExample,
 		},
-		{
-			title: "Data Flow",
-			type: "diagram",
-			diagram: "Shell [Zustand] → props → UI-Components [render only]",
-			Content: LazyDataFlow,
-		},
+		{ ...dataFlowMeta, Content: LazyDataFlow },
 	],
 };

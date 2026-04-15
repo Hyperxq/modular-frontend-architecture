@@ -1,10 +1,9 @@
 import { lazy } from "preact/compat";
 import type { Section } from "../types";
+import { cleanArchitectureInTheShellMeta } from "./clean-architecture-in-the-shell.slide.meta";
 
-const LazyCleanArchitectureInTheShell = lazy(() =>
-	import(/* webpackChunkName: "section-shell" */ "./clean-architecture-in-the-shell.slide").then(
-		(m) => ({ default: m.cleanArchitectureInTheShell.Content }),
-	),
+const LazyCleanArchitectureInTheShell = lazy(
+	() => import(/* webpackChunkName: "section-shell" */ "./clean-architecture-in-the-shell.slide"),
 );
 
 const LazyHowShellTalksToUiComponents = lazy(() =>
@@ -30,12 +29,7 @@ export const shellSection: Section = {
 	title: "Shell & Communication",
 	description: "Shell architecture and communication patterns",
 	slides: [
-		{
-			title: "Clean Architecture In The Shell",
-			type: "diagram",
-			diagram: "features → hooks → store → domain",
-			Content: LazyCleanArchitectureInTheShell,
-		},
+		{ ...cleanArchitectureInTheShellMeta, Content: LazyCleanArchitectureInTheShell },
 		{
 			title: "How Shell Talks To UI-Components",
 			type: "concept",

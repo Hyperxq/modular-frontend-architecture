@@ -1,7 +1,5 @@
 import type { FunctionalComponent } from "preact";
-import type { Slide } from "../types";
 
-// biome-ignore lint/style/useComponentExportOnlyModules: slide pattern — Content is co-located with its Slide data object by design
 const Content: FunctionalComponent = () => (
 	<div class="flex flex-col gap-5 animate-slide-enter">
 		<p class="text-lg font-semibold text-primary border-l-4 border-primary pl-4">
@@ -61,27 +59,4 @@ const Content: FunctionalComponent = () => (
 	</div>
 );
 
-export const cleanArchitectureInTheShell: Slide = {
-	title: "Clean Architecture In The Shell",
-	type: "diagram",
-	diagram: `graph TD
-    subgraph SHELL["Shell — Clean Architecture"]
-        F["features/\\nVertical slices\\nPresentationContainer · MockDemoContainer\\n(composition layer)"]
-        ST["core/store/\\nZustand stores\\nAppStore · ProgressStore · MockStore\\n(state ports)"]
-        H["core/hooks/\\nuseNavigation · useKeyboard · useSwipe\\n(framework adapters)"]
-        D["core/domain/\\nSection definitions · Slide models\\nPure functions — zero framework imports\\n(business logic)"]
-
-        F --> ST
-        F --> H
-        ST --> D
-        H --> D
-    end
-
-    NOTE["✅ domain/ has zero imports from\\nPreact · Zustand · React Router\\nSwap the framework → domain survives"]
-
-    D --- NOTE
-
-    style D fill:#1a3d2b,color:#fff
-    style NOTE fill:#1e3a5f,color:#fff`,
-	Content,
-};
+export default Content;
