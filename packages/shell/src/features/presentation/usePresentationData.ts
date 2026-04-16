@@ -28,7 +28,9 @@ function usePresentationData() {
 		: undefined;
 	const sectionIndex = getSectionIndex(sections, nav.currentSectionId);
 	const sectionSlideCount = currentSection?.slides.length ?? 0;
-	const showDiagram = currentSlide?.type === "diagram";
+	// TEMP: diagrams hidden site-wide — content-only view.
+	// Restore by reverting to: currentSlide?.type === "diagram"
+	const showDiagram = false;
 	const transitionKey = `${nav.currentSectionId}-${nav.currentSlideIndex}`;
 
 	const sidebarSections: SidebarSectionData[] = sections.map((section) => ({
