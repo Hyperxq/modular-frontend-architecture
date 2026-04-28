@@ -4,7 +4,7 @@ A Preact micro-frontend monorepo using Module Federation, Rspack toolchain, Atom
 
 ## Prerequisites
 
-- **Node.js >= 22** — use a version manager:
+- **Node.js >= 24** — use a version manager:
   - `nvm use` (if using [nvm](https://github.com/nvm-sh/nvm))
   - `fnm use` (if using [fnm](https://github.com/Schniz/fnm))
 - **Bun >= 1.3.11** — install from [bun.sh](https://bun.sh)
